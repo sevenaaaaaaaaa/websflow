@@ -1,0 +1,5 @@
+{
+  "delegate": true,
+  "minPayoutCents": 10000,
+  "allowFileFallback": false
+}

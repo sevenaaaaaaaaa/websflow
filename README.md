@@ -3,6 +3,20 @@
 > 面向更多人群的快速建站 / H5 / 线上 PPT / 互动页面工具。
 > 零依赖、零构建、零注册 —— 双击 `index.html` 即可使用,数据存在本机浏览器。
 
+**当前版本 1.8.0** · 在线使用: https://nownexts.com/webflow/ · 后台: /webflow/#/console
+
+## 功能总览
+
+- **四种形态**:官网(site)/ H5(h5)/ 线上 PPT(ppt)/ 互动故事(story)
+- **28 个内容模块**:结构、表单、展示、互动、幻灯五大分类
+- **8 套场景模板**:产品官网、活动邀请函、商业路演、品牌故事、电商店铺、教育机构、餐饮品牌、个人作品集
+- **AI 助手**:文案生成、行业配色建议、布局优化
+- **组件市场**:模块导入导出(.websflow-block.json)、社区模块、收藏
+- **SEO 完备**:Meta / Open Graph / Twitter Card / JSON-LD 结构化数据
+- **性能**:图片懒加载、占位渐变、缓存与 gzip
+- **云端能力(可选)**:注册登录、项目云同步、版本历史、分享链接、**托管发布**(`/p/<token>` 独立投放 URL,SSR 直出)
+- **国际化**:中/英文界面切换,RTL 机制预留
+
 ## 一分钟上手
 
 ```bash
@@ -44,7 +58,21 @@ websflow/
     ├── templates.js    场景模板 —— Base44:说清场景即得成品
     ├── store.js        存储层 —— OpenFlow:自动保存心跳、版本快照、撤销重做
     ├── exporter.js     导出器 —— MFlow 适配器:内容包 → 单文件 HTML 可部署产物
+    ├── ai.js           AI 助手 —— 文案生成 / 行业配色 / 布局优化
+    ├── marketplace.js  组件市场 —— 模块导入导出 / 社区模块 / 收藏
+    ├── api.js          API 客户端 —— 云端同步(可选)
+    ├── i18n.js         国际化 —— 中/英文切换 + RTL 机制
     └── editor.js       编辑器 —— Elementor 三栏工作台(模块库 / 画布 / 检查器)
+```
+
+后端(可选,云端能力):
+
+```
+api/
+├── server.js          Express 入口(:3001)
+├── auth.js            JWT 认证
+├── db.js              SQLite(sql.js,纯 JS 免编译)
+└── routes/            users / projects 路由
 ```
 
 设计要点:
