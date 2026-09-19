@@ -1,2 +1,7 @@
 .DS_Store
 .preview/
+node_modules/
+api/websflow.db
+api/websflow.db.journal
+*.log
+.well-known/

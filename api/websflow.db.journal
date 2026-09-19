@@ -1,1 +1,0 @@
-{"seq":4920,"sql":"UPDATE alert_rules SET last_fired_at = datetime('now'), last_value = ? WHERE id = ?","params":[0,"ca51878c-4975-44d9-a8c9-603fdd4f510a"]}
