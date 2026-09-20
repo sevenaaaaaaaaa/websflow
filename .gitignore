@@ -11,3 +11,4 @@ api/mail-config.json
 data/
 *.bak*
 api/*-config.json
+.sync.conf
