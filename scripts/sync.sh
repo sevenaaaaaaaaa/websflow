@@ -45,8 +45,9 @@ preview_to_server() {
   local out
   out="$(${RSH[@]} -n --itemize-changes "${EXCL[@]}" ./ "$SERVER:$SPATH/" 2>/dev/null || true)"
   local content
-  content="$(printf '%s\n' "$out" | awk '{f=substr($1,1,11); n=$2; sub(/^\.\//,"",n);
-      if (f ~ /^>f\+/) { printf "[新] %s\n", n }
+  content="$(printf '%s\n' "$out" | awk '{f=$1; n=$2; sub(/^\.\//,"",n);
+      if (f ~ /^[<>]d/) next;                                   # 目录项跳过
+      else if (f ~ /^[<>]f\+/) { printf "[新] %s\n", n }
       else if (substr(f,3,1)=="c" || substr(f,4,1)=="s") { printf "[改] %s\n", n } }')"
   if [ -z "$content" ]; then say "  (无内容变化)"; return 1; fi
   say "=== 预演:将要写入服务器($SERVER:$SPATH)的文件 ==="
@@ -56,8 +57,8 @@ preview_to_server() {
 }
 
 needs_restart() {  # 只有「内容变化(checksum 或 size 变)且落在 api/」才需要重启
-  awk '{f=substr($1,1,11); n=$2;
-        if ((f ~ /^>f\+/ || substr(f,3,1)=="c" || substr(f,4,1)=="s") && n ~ /(^|\/)api\//) found=1}
+  awk '{f=$1; n=$2;
+        if ((f ~ /^[<>]f\+/ || substr(f,3,1)=="c" || substr(f,4,1)=="s") && n ~ /(^|\/)api\//) found=1}
        END{exit !found}' <<<"$1"
 }
 
@@ -88,7 +89,7 @@ do_server() {
   local prev
   prev="$(preview_to_server)" || { say "服务器无变化"; return 0; }
   if ! confirm "写入 $SERVER:$SPATH ?(只增改,不删除)"; then say "· 已跳过服务器"; return 0; fi
-  ${RSH[@]} --itemize-changes "${EXCL[@]}" ./ "$SERVER:$SPATH/" | awk '{f=substr($1,1,11); if (f ~ /^>f\+/ || substr(f,3,1)=="c") print "  ✓", $2}' | head -20
+  ${RSH[@]} --itemize-changes "${EXCL[@]}" ./ "$SERVER:$SPATH/" | awk '{f=$1; if (f ~ /^[<>]d/) next; if (f ~ /^[<>]f\+/ || substr(f,3,1)=="c" || substr(f,4,1)=="s") print "  ✓", $2}' | head -20
   say "✓ 服务器已更新"
   if needs_restart "$prev"; then restart_node; else
     say "· 本次未触及 api/ 代码,无需重启(如改了前端 js/css,浏览器带 ?v= 版本号即时生效)"
@@ -113,8 +114,9 @@ case "$MODE" in
 
   from-server)
     say "=== 服务器 → 本地(预演)==="
-    ${RSH[@]} -n --itemize-changes "${EXCL[@]}" "$SERVER:$SPATH/" ./ | awk '{f=substr($1,1,11);n=$2;sub(/^\.\//,"",n);
-      if (f ~ /^>f\+/) printf "  [新] %s\n", n; else if (substr(f,3,1)=="c" || substr(f,4,1)=="s") printf "  [改] %s\n", n}' | head -60
+    ${RSH[@]} -n --itemize-changes "${EXCL[@]}" "$SERVER:$SPATH/" ./ | awk '{f=$1;n=$2;sub(/^\.\//,"",n);
+      if (f ~ /^[<>]d/) next;
+      if (f ~ /^[<>]f\+/) printf "  [新] %s\n", n; else if (substr(f,3,1)=="c" || substr(f,4,1)=="s") printf "  [改] %s\n", n}' | head -60
     confirm "以上改动写入本地?会覆盖本地同名文件" || { say "已取消"; exit 0; }
     ${RSH[@]} --itemize-changes "${EXCL[@]}" "$SERVER:$SPATH/" ./ | tail -3
     say "✓ 本地已与服务器对齐(v$(cat VERSION))"
