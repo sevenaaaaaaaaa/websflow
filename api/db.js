@@ -1226,9 +1226,9 @@ function getUserPayflowOrders(userId) {
 function applyPayflowOrder(orderNo) {
   const row = queryOne('SELECT * FROM payflow_orders WHERE order_no = ?', [orderNo]);
   if (!row) return { ok: false, error: '订单映射不存在' };
-  if (row.status === 'paid') return { ok: true, already: true, userId: row.user_id, kind: row.kind, amount_cents: row.amount_cents };
+  if (row.status === 'paid') return { ok: true, already: true, userId: row.user_id, kind: row.kind, product_id: row.product_id, amount_cents: row.amount_cents };
   run("UPDATE payflow_orders SET status = 'paid', applied_at = datetime('now') WHERE order_no = ?", [orderNo]);
-  return { ok: true, already: false, userId: row.user_id, kind: row.kind, amount_cents: row.amount_cents };
+  return { ok: true, already: false, userId: row.user_id, kind: row.kind, product_id: row.product_id, amount_cents: row.amount_cents };
 }
 
 function markPayflowRefunded(orderNo) {

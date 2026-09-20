@@ -10,6 +10,7 @@ const router = express.Router();
 const db = require('../db');
 const { authMiddleware } = require('../auth');
 const payflow = require('../lib/payflow');
+const { PRODUCTS, findByPayflowId } = require('../lib/products');
 const { applyPaidOrder } = require('../lib/billing-apply');
 const reconcile = require('../lib/reconcile');
 const commerce = require('../lib/commerce');
@@ -46,15 +47,12 @@ router.post('/redeem', authMiddleware, (req, res) => {
   }
 });
 
-// 在线支付:商品目录(Pro 订阅 + 余额档位)
+// 在线支付:商品目录(Pro 订阅 + 余额档位;定义单一真源在 lib/products.js)
 router.get('/catalog', authMiddleware, (req, res) => {
   const map = payflow.productMap();
-  const items = [
-    { id: map.pro_monthly, kind: 'pro', name: '专业版 · 月付', amount_cents: 3900, days: 30, note: '无限云端项目 · 去角标 · AI 200 次/日' },
-    { id: map.balance_1000, kind: 'balance', name: '余额充值 ¥10', amount_cents: 1000 },
-    { id: map.balance_5000, kind: 'balance', name: '余额充值 ¥50', amount_cents: 5000 },
-    { id: map.balance_10000, kind: 'balance', name: '余额充值 ¥100', amount_cents: 10000 },
-  ].filter((x) => x.id);
+  const items = Object.keys(PRODUCTS)
+    .map((key) => ({ key, id: map[key] || null, ...PRODUCTS[key] }))
+    .filter((x) => x.id); // PayFlow 未映射的商品不出现在目录(灰度开关)
   const ch = payflow.readChannels();
   res.json({ catalog: items, configured: !!payflow.loadConfig(), channels: ch.enabled, auto: ch.auto });
 });
@@ -68,6 +66,9 @@ router.post('/checkout', authMiddleware, async (req, res) => {
     const map = payflow.productMap();
     const productId = product_id || (kind === 'pro' ? map.pro_monthly : null);
     if (!productId) return res.status(400).json({ error: '缺少商品' });
+    // 商品白名单:只允许购买本地目录收录的商品,拒绝任意 PayFlow 商品ID
+    const def = findByPayflowId(productId, map);
+    if (!def) return res.status(400).json({ error: '未知商品' });
     const user = db.findUserById(req.user.id);
     // 委派模式:把买家的邀请人 PayFlow 推荐码传给 PayFlow,佣金由其原生计提
     let referralCode = '';
@@ -81,7 +82,7 @@ router.post('/checkout', authMiddleware, async (req, res) => {
       }
     }
     const r = await payflow.createCheckout(productId, user.email, user.display_name || user.username, 'manual', referralCode);
-    const kindResolved = kind || (productId === map.pro_monthly ? 'pro' : 'balance');
+    const kindResolved = kind || def.kind;
     db.createPayflowOrder(r.order_no, req.user.id, kindResolved, productId, r.amount_cents, r.pay_url);
     res.json({ order_no: r.order_no, pay_url: r.pay_url, amount_cents: r.amount_cents, kind: kindResolved });
   } catch (e) {
