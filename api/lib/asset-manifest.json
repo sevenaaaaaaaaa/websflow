@@ -1,0 +1,1917 @@
+{
+ "industries": {
+  "saas": {
+   "label": "软件与科技",
+   "tags": [
+    "saas",
+    "软件",
+    "科技",
+    "系统",
+    "后台",
+    "平台",
+    "数据",
+    "dashboard",
+    "工具",
+    "app"
+   ],
+   "assets": [
+    {
+     "id": "saas.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/saas/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "saas",
+      "saas",
+      "软件",
+      "科技",
+      "系统",
+      "后台",
+      "平台",
+      "数据",
+      "dashboard",
+      "工具",
+      "app"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "saas.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/saas/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "saas",
+      "saas",
+      "软件",
+      "科技",
+      "系统",
+      "后台",
+      "平台",
+      "数据",
+      "dashboard",
+      "工具",
+      "app"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "saas.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/saas/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "saas",
+      "saas",
+      "软件",
+      "科技",
+      "系统",
+      "后台",
+      "平台",
+      "数据",
+      "dashboard",
+      "工具",
+      "app"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "saas.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/saas/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "saas",
+      "saas",
+      "软件",
+      "科技",
+      "系统",
+      "后台",
+      "平台",
+      "数据",
+      "dashboard",
+      "工具",
+      "app"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "saas.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/saas/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "saas",
+      "saas",
+      "软件",
+      "科技",
+      "系统",
+      "后台",
+      "平台",
+      "数据",
+      "dashboard",
+      "工具",
+      "app"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "saas.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/saas/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "saas",
+      "saas",
+      "软件",
+      "科技",
+      "系统",
+      "后台",
+      "平台",
+      "数据",
+      "dashboard",
+      "工具",
+      "app"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "ecommerce": {
+   "label": "电商与零售",
+   "tags": [
+    "电商",
+    "店铺",
+    "零售",
+    "商城",
+    "跨境",
+    "购物",
+    "配送",
+    "产品"
+   ],
+   "assets": [
+    {
+     "id": "ecommerce.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/ecommerce/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "ecommerce",
+      "电商",
+      "店铺",
+      "零售",
+      "商城",
+      "跨境",
+      "购物",
+      "配送",
+      "产品"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "ecommerce.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/ecommerce/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "ecommerce",
+      "电商",
+      "店铺",
+      "零售",
+      "商城",
+      "跨境",
+      "购物",
+      "配送",
+      "产品"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "ecommerce.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/ecommerce/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "ecommerce",
+      "电商",
+      "店铺",
+      "零售",
+      "商城",
+      "跨境",
+      "购物",
+      "配送",
+      "产品"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "ecommerce.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/ecommerce/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "ecommerce",
+      "电商",
+      "店铺",
+      "零售",
+      "商城",
+      "跨境",
+      "购物",
+      "配送",
+      "产品"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "ecommerce.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/ecommerce/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "ecommerce",
+      "电商",
+      "店铺",
+      "零售",
+      "商城",
+      "跨境",
+      "购物",
+      "配送",
+      "产品"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "ecommerce.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/ecommerce/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "ecommerce",
+      "电商",
+      "店铺",
+      "零售",
+      "商城",
+      "跨境",
+      "购物",
+      "配送",
+      "产品"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "education": {
+   "label": "教育与培训",
+   "tags": [
+    "教育",
+    "培训",
+    "课程",
+    "学习",
+    "学校",
+    "训练营",
+    "学员",
+    "考试"
+   ],
+   "assets": [
+    {
+     "id": "education.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/education/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "education",
+      "教育",
+      "培训",
+      "课程",
+      "学习",
+      "学校",
+      "训练营",
+      "学员",
+      "考试"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "education.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/education/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "education",
+      "教育",
+      "培训",
+      "课程",
+      "学习",
+      "学校",
+      "训练营",
+      "学员",
+      "考试"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "education.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/education/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "education",
+      "教育",
+      "培训",
+      "课程",
+      "学习",
+      "学校",
+      "训练营",
+      "学员",
+      "考试"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "education.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/education/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "education",
+      "教育",
+      "培训",
+      "课程",
+      "学习",
+      "学校",
+      "训练营",
+      "学员",
+      "考试"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "education.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/education/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "education",
+      "教育",
+      "培训",
+      "课程",
+      "学习",
+      "学校",
+      "训练营",
+      "学员",
+      "考试"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "education.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/education/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "education",
+      "教育",
+      "培训",
+      "课程",
+      "学习",
+      "学校",
+      "训练营",
+      "学员",
+      "考试"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "finance": {
+   "label": "金融与保险",
+   "tags": [
+    "金融",
+    "保险",
+    "理财",
+    "银行",
+    "支付",
+    "投资",
+    "贷款",
+    "财务"
+   ],
+   "assets": [
+    {
+     "id": "finance.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/finance/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "finance",
+      "金融",
+      "保险",
+      "理财",
+      "银行",
+      "支付",
+      "投资",
+      "贷款",
+      "财务"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "finance.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/finance/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "finance",
+      "金融",
+      "保险",
+      "理财",
+      "银行",
+      "支付",
+      "投资",
+      "贷款",
+      "财务"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "finance.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/finance/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "finance",
+      "金融",
+      "保险",
+      "理财",
+      "银行",
+      "支付",
+      "投资",
+      "贷款",
+      "财务"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "finance.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/finance/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "finance",
+      "金融",
+      "保险",
+      "理财",
+      "银行",
+      "支付",
+      "投资",
+      "贷款",
+      "财务"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "finance.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/finance/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "finance",
+      "金融",
+      "保险",
+      "理财",
+      "银行",
+      "支付",
+      "投资",
+      "贷款",
+      "财务"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "finance.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/finance/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "finance",
+      "金融",
+      "保险",
+      "理财",
+      "银行",
+      "支付",
+      "投资",
+      "贷款",
+      "财务"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "healthcare": {
+   "label": "医疗与健康",
+   "tags": [
+    "医疗",
+    "健康",
+    "诊所",
+    "医院",
+    "护理",
+    "康复",
+    "体检"
+   ],
+   "assets": [
+    {
+     "id": "healthcare.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/healthcare/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "healthcare",
+      "医疗",
+      "健康",
+      "诊所",
+      "医院",
+      "护理",
+      "康复",
+      "体检"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "healthcare.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/healthcare/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "healthcare",
+      "医疗",
+      "健康",
+      "诊所",
+      "医院",
+      "护理",
+      "康复",
+      "体检"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "healthcare.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/healthcare/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "healthcare",
+      "医疗",
+      "健康",
+      "诊所",
+      "医院",
+      "护理",
+      "康复",
+      "体检"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "healthcare.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/healthcare/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "healthcare",
+      "医疗",
+      "健康",
+      "诊所",
+      "医院",
+      "护理",
+      "康复",
+      "体检"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "healthcare.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/healthcare/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "healthcare",
+      "医疗",
+      "健康",
+      "诊所",
+      "医院",
+      "护理",
+      "康复",
+      "体检"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "healthcare.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/healthcare/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "healthcare",
+      "医疗",
+      "健康",
+      "诊所",
+      "医院",
+      "护理",
+      "康复",
+      "体检"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "realestate": {
+   "label": "房产与家装",
+   "tags": [
+    "房产",
+    "地产",
+    "家装",
+    "装修",
+    "公寓",
+    "住宅",
+    "楼盘",
+    "民宿"
+   ],
+   "assets": [
+    {
+     "id": "realestate.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/realestate/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "realestate",
+      "房产",
+      "地产",
+      "家装",
+      "装修",
+      "公寓",
+      "住宅",
+      "楼盘",
+      "民宿"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "realestate.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/realestate/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "realestate",
+      "房产",
+      "地产",
+      "家装",
+      "装修",
+      "公寓",
+      "住宅",
+      "楼盘",
+      "民宿"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "realestate.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/realestate/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "realestate",
+      "房产",
+      "地产",
+      "家装",
+      "装修",
+      "公寓",
+      "住宅",
+      "楼盘",
+      "民宿"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "realestate.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/realestate/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "realestate",
+      "房产",
+      "地产",
+      "家装",
+      "装修",
+      "公寓",
+      "住宅",
+      "楼盘",
+      "民宿"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "realestate.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/realestate/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "realestate",
+      "房产",
+      "地产",
+      "家装",
+      "装修",
+      "公寓",
+      "住宅",
+      "楼盘",
+      "民宿"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "realestate.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/realestate/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "realestate",
+      "房产",
+      "地产",
+      "家装",
+      "装修",
+      "公寓",
+      "住宅",
+      "楼盘",
+      "民宿"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "food": {
+   "label": "餐饮与食品",
+   "tags": [
+    "餐饮",
+    "食品",
+    "餐厅",
+    "咖啡",
+    "烘焙",
+    "饮品",
+    "外卖",
+    "食材"
+   ],
+   "assets": [
+    {
+     "id": "food.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/food/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "food",
+      "餐饮",
+      "食品",
+      "餐厅",
+      "咖啡",
+      "烘焙",
+      "饮品",
+      "外卖",
+      "食材"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "food.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/food/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "food",
+      "餐饮",
+      "食品",
+      "餐厅",
+      "咖啡",
+      "烘焙",
+      "饮品",
+      "外卖",
+      "食材"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "food.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/food/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "food",
+      "餐饮",
+      "食品",
+      "餐厅",
+      "咖啡",
+      "烘焙",
+      "饮品",
+      "外卖",
+      "食材"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "food.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/food/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "food",
+      "餐饮",
+      "食品",
+      "餐厅",
+      "咖啡",
+      "烘焙",
+      "饮品",
+      "外卖",
+      "食材"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "food.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/food/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "food",
+      "餐饮",
+      "食品",
+      "餐厅",
+      "咖啡",
+      "烘焙",
+      "饮品",
+      "外卖",
+      "食材"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "food.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/food/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "food",
+      "餐饮",
+      "食品",
+      "餐厅",
+      "咖啡",
+      "烘焙",
+      "饮品",
+      "外卖",
+      "食材"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "travel": {
+   "label": "旅游与酒店",
+   "tags": [
+    "旅游",
+    "旅行",
+    "酒店",
+    "民宿",
+    "景区",
+    "度假",
+    "行程",
+    "露营"
+   ],
+   "assets": [
+    {
+     "id": "travel.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/travel/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "travel",
+      "旅游",
+      "旅行",
+      "酒店",
+      "民宿",
+      "景区",
+      "度假",
+      "行程",
+      "露营"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "travel.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/travel/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "travel",
+      "旅游",
+      "旅行",
+      "酒店",
+      "民宿",
+      "景区",
+      "度假",
+      "行程",
+      "露营"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "travel.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/travel/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "travel",
+      "旅游",
+      "旅行",
+      "酒店",
+      "民宿",
+      "景区",
+      "度假",
+      "行程",
+      "露营"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "travel.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/travel/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "travel",
+      "旅游",
+      "旅行",
+      "酒店",
+      "民宿",
+      "景区",
+      "度假",
+      "行程",
+      "露营"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "travel.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/travel/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "travel",
+      "旅游",
+      "旅行",
+      "酒店",
+      "民宿",
+      "景区",
+      "度假",
+      "行程",
+      "露营"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "travel.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/travel/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "travel",
+      "旅游",
+      "旅行",
+      "酒店",
+      "民宿",
+      "景区",
+      "度假",
+      "行程",
+      "露营"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "event": {
+   "label": "活动与演出",
+   "tags": [
+    "活动",
+    "演出",
+    "音乐节",
+    "发布会",
+    "市集",
+    "展会",
+    "演唱会",
+    "峰会"
+   ],
+   "assets": [
+    {
+     "id": "event.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/event/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "event",
+      "活动",
+      "演出",
+      "音乐节",
+      "发布会",
+      "市集",
+      "展会",
+      "演唱会",
+      "峰会"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "event.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/event/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "event",
+      "活动",
+      "演出",
+      "音乐节",
+      "发布会",
+      "市集",
+      "展会",
+      "演唱会",
+      "峰会"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "event.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/event/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "event",
+      "活动",
+      "演出",
+      "音乐节",
+      "发布会",
+      "市集",
+      "展会",
+      "演唱会",
+      "峰会"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "event.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/event/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "event",
+      "活动",
+      "演出",
+      "音乐节",
+      "发布会",
+      "市集",
+      "展会",
+      "演唱会",
+      "峰会"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "event.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/event/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "event",
+      "活动",
+      "演出",
+      "音乐节",
+      "发布会",
+      "市集",
+      "展会",
+      "演唱会",
+      "峰会"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "event.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/event/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "event",
+      "活动",
+      "演出",
+      "音乐节",
+      "发布会",
+      "市集",
+      "展会",
+      "演唱会",
+      "峰会"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "fitness": {
+   "label": "健身与运动",
+   "tags": [
+    "健身",
+    "运动",
+    "瑜伽",
+    "教练",
+    "训练",
+    "体能",
+    "跑团",
+    "球馆"
+   ],
+   "assets": [
+    {
+     "id": "fitness.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/fitness/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "fitness",
+      "健身",
+      "运动",
+      "瑜伽",
+      "教练",
+      "训练",
+      "体能",
+      "跑团",
+      "球馆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "fitness.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/fitness/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "fitness",
+      "健身",
+      "运动",
+      "瑜伽",
+      "教练",
+      "训练",
+      "体能",
+      "跑团",
+      "球馆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "fitness.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/fitness/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "fitness",
+      "健身",
+      "运动",
+      "瑜伽",
+      "教练",
+      "训练",
+      "体能",
+      "跑团",
+      "球馆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "fitness.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/fitness/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "fitness",
+      "健身",
+      "运动",
+      "瑜伽",
+      "教练",
+      "训练",
+      "体能",
+      "跑团",
+      "球馆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "fitness.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/fitness/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "fitness",
+      "健身",
+      "运动",
+      "瑜伽",
+      "教练",
+      "训练",
+      "体能",
+      "跑团",
+      "球馆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "fitness.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/fitness/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "fitness",
+      "健身",
+      "运动",
+      "瑜伽",
+      "教练",
+      "训练",
+      "体能",
+      "跑团",
+      "球馆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "beauty": {
+   "label": "美业与美妆",
+   "tags": [
+    "美业",
+    "美容",
+    "美妆",
+    "护肤",
+    "医美",
+    "美发",
+    "皮肤",
+    "化妆"
+   ],
+   "assets": [
+    {
+     "id": "beauty.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/beauty/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "beauty",
+      "美业",
+      "美容",
+      "美妆",
+      "护肤",
+      "医美",
+      "美发",
+      "皮肤",
+      "化妆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "beauty.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/beauty/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "beauty",
+      "美业",
+      "美容",
+      "美妆",
+      "护肤",
+      "医美",
+      "美发",
+      "皮肤",
+      "化妆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "beauty.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/beauty/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "beauty",
+      "美业",
+      "美容",
+      "美妆",
+      "护肤",
+      "医美",
+      "美发",
+      "皮肤",
+      "化妆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "beauty.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/beauty/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "beauty",
+      "美业",
+      "美容",
+      "美妆",
+      "护肤",
+      "医美",
+      "美发",
+      "皮肤",
+      "化妆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "beauty.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/beauty/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "beauty",
+      "美业",
+      "美容",
+      "美妆",
+      "护肤",
+      "医美",
+      "美发",
+      "皮肤",
+      "化妆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "beauty.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/beauty/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "beauty",
+      "美业",
+      "美容",
+      "美妆",
+      "护肤",
+      "医美",
+      "美发",
+      "皮肤",
+      "化妆"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "manufacturing": {
+   "label": "制造与工业",
+   "tags": [
+    "制造",
+    "工业",
+    "工厂",
+    "机械",
+    "设备",
+    "产线",
+    "供应",
+    "工程"
+   ],
+   "assets": [
+    {
+     "id": "manufacturing.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/manufacturing/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "manufacturing",
+      "制造",
+      "工业",
+      "工厂",
+      "机械",
+      "设备",
+      "产线",
+      "供应",
+      "工程"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "manufacturing.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/manufacturing/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "manufacturing",
+      "制造",
+      "工业",
+      "工厂",
+      "机械",
+      "设备",
+      "产线",
+      "供应",
+      "工程"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "manufacturing.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/manufacturing/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "manufacturing",
+      "制造",
+      "工业",
+      "工厂",
+      "机械",
+      "设备",
+      "产线",
+      "供应",
+      "工程"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "manufacturing.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/manufacturing/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "manufacturing",
+      "制造",
+      "工业",
+      "工厂",
+      "机械",
+      "设备",
+      "产线",
+      "供应",
+      "工程"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "manufacturing.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/manufacturing/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "manufacturing",
+      "制造",
+      "工业",
+      "工厂",
+      "机械",
+      "设备",
+      "产线",
+      "供应",
+      "工程"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "manufacturing.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/manufacturing/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "manufacturing",
+      "制造",
+      "工业",
+      "工厂",
+      "机械",
+      "设备",
+      "产线",
+      "供应",
+      "工程"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "consulting": {
+   "label": "咨询与企业服务",
+   "tags": [
+    "咨询",
+    "顾问",
+    "企业服务",
+    "战略",
+    "代运营",
+    "方案",
+    "服务商"
+   ],
+   "assets": [
+    {
+     "id": "consulting.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/consulting/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "consulting",
+      "咨询",
+      "顾问",
+      "企业服务",
+      "战略",
+      "代运营",
+      "方案",
+      "服务商"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "consulting.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/consulting/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "consulting",
+      "咨询",
+      "顾问",
+      "企业服务",
+      "战略",
+      "代运营",
+      "方案",
+      "服务商"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "consulting.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/consulting/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "consulting",
+      "咨询",
+      "顾问",
+      "企业服务",
+      "战略",
+      "代运营",
+      "方案",
+      "服务商"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "consulting.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/consulting/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "consulting",
+      "咨询",
+      "顾问",
+      "企业服务",
+      "战略",
+      "代运营",
+      "方案",
+      "服务商"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "consulting.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/consulting/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "consulting",
+      "咨询",
+      "顾问",
+      "企业服务",
+      "战略",
+      "代运营",
+      "方案",
+      "服务商"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "consulting.06",
+     "url": "https://nownexts.com/webflow/assets/media/ind/consulting/6.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "consulting",
+      "咨询",
+      "顾问",
+      "企业服务",
+      "战略",
+      "代运营",
+      "方案",
+      "服务商"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  },
+  "media": {
+   "label": "媒体与创作",
+   "tags": [
+    "媒体",
+    "内容",
+    "创作",
+    "播客",
+    "视频",
+    "拍摄",
+    "自媒体",
+    "工作室"
+   ],
+   "assets": [
+    {
+     "id": "media.01",
+     "url": "https://nownexts.com/webflow/assets/media/ind/media/1.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "hero",
+      "gallery"
+     ],
+     "tags": [
+      "media",
+      "媒体",
+      "内容",
+      "创作",
+      "播客",
+      "视频",
+      "拍摄",
+      "自媒体",
+      "工作室"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "media.02",
+     "url": "https://nownexts.com/webflow/assets/media/ind/media/2.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "media",
+      "媒体",
+      "内容",
+      "创作",
+      "播客",
+      "视频",
+      "拍摄",
+      "自媒体",
+      "工作室"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "media.03",
+     "url": "https://nownexts.com/webflow/assets/media/ind/media/3.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "gallery"
+     ],
+     "tags": [
+      "media",
+      "媒体",
+      "内容",
+      "创作",
+      "播客",
+      "视频",
+      "拍摄",
+      "自媒体",
+      "工作室"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "media.04",
+     "url": "https://nownexts.com/webflow/assets/media/ind/media/4.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "media",
+      "媒体",
+      "内容",
+      "创作",
+      "播客",
+      "视频",
+      "拍摄",
+      "自媒体",
+      "工作室"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    },
+    {
+     "id": "media.05",
+     "url": "https://nownexts.com/webflow/assets/media/ind/media/5.jpg?v=1",
+     "kind": "photo",
+     "roles": [
+      "proof",
+      "gallery"
+     ],
+     "tags": [
+      "media",
+      "媒体",
+      "内容",
+      "创作",
+      "播客",
+      "视频",
+      "拍摄",
+      "自媒体",
+      "工作室"
+     ],
+     "credit": "Unsplash(unsplash.com/license)"
+    }
+   ]
+  }
+ },
+ "roles": {}
+}

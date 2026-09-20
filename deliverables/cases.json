@@ -1,0 +1,24 @@
+{
+  "cases": [
+    {
+      "id": "landing-growth",
+      "title": "增长线上 · 落地页",
+      "industry": "咨询与企业服务",
+      "mode": "site",
+      "url": "https://nownexts.com/webflow/p/2a94240d8a58",
+      "modules": 12,
+      "note": "内部交付。信任 → 痛点 → 方法 → 证明 → 行动。",
+      "metric": "预约诊断 CTA"
+    },
+    {
+      "id": "h5-shanhai",
+      "title": "山海音乐节 · H5 邀请",
+      "industry": "活动与演出",
+      "mode": "h5",
+      "url": "https://nownexts.com/webflow/p/e427779dc0c5",
+      "modules": 9,
+      "note": "内部交付。倒计时 + 底部悬浮抢票。",
+      "metric": "报名 / 抢票"
+    }
+  ]
+}

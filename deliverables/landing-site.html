@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="scroll-behavior:smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="投放落地页诊断与优化:5 分钟出页、千人千面、实时转化、A/B 自动择优。">
+
+<meta property="og:title" content="让每一分投放预算,都看得见回报 | 增长线上">
+    <meta property="og:description" content="投放落地页诊断与优化:5 分钟出页、千人千面、实时转化、A/B 自动择优。">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="增长线上">
+<meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="让每一分投放预算,都看得见回报 | 增长线上">
+    <meta name="twitter:description" content="投放落地页诊断与优化:5 分钟出页、千人千面、实时转化、A/B 自动择优。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-size='16' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'%3EW%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"让每一分投放预算,都看得见回报 | 增长线上","description":"投放落地页诊断与优化:5 分钟出页、千人千面、实时转化、A/B 自动择优。","author":{"@type":"Organization","name":"增长线上"}}</script>
+<script src="/assets/cdp-track.js" data-api="/api/cdp.php" data-autotrack="1"></script>
+<script>window.addEventListener('load',function(){try{if(window.CDP&&CDP.pageView)CDP.pageView({page:'websflow'});}catch(e){}});</script>
+<title>让每一分投放预算,都看得见回报 | 增长线上</title>
+<style>
+/* ---------- 主题变量(由主题预设经 CSS 变量注入) ---------- */
+.wf-root {
+  --wf-primary: #4f46e5;
+  --wf-primary-soft: #eef2ff;
+  --wf-bg: #ffffff;
+  --wf-surface: #f8fafc;
+  --wf-text: #111827;
+  --wf-muted: #64748b;
+  --wf-border: #e2e8f0;
+  --wf-radius: 16px;
+  --wf-font: -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
+  --wf-heading-font: var(--wf-font);
+  --wf-font-scale: 1;
+
+  font-family: var(--wf-font);
+  color: var(--wf-text);
+  background: var(--wf-bg);
+  font-size: calc(16px * var(--wf-font-scale));
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.wf-root * { box-sizing: border-box; }
+.wf-root h1, .wf-root h2, .wf-root h3, .wf-root h4 {
+  font-family: var(--wf-heading-font);
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.wf-root p { margin: 0; }
+.wf-root img { max-width: 100%; display: block; }
+.wf-root a { color: inherit; text-decoration: none; }
+.wf-page { min-height: 40vh; }
+
+/* 模块通用容器 */
+.wf-block { position: relative; }
+.wb-inner { max-width: 1120px; margin: 0 auto; padding: 72px 24px; }
+.wb-inner.is-tight { padding: 40px 24px; }
+.wb-inner.is-loose { padding: 104px 24px; }
+.wf-block[data-pad="tight"] .wb-inner { padding: 40px 24px; }
+.wf-block[data-pad="loose"] .wb-inner { padding: 104px 24px; }
+
+/* 模块标题组合 */
+.wb-head { margin-bottom: 40px; max-width: 640px; }
+.wb-head.is-center { margin-left: auto; margin-right: auto; text-align: center; }
+.wb-eyebrow { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; color: var(--wf-primary); text-transform: uppercase; margin-bottom: 12px; }
+.wb-title { font-size: 2em; font-weight: 700; }
+.wb-subtitle { margin-top: 12px; color: var(--wf-muted); font-size: 1.05em; }
+
+/* 按钮 */
+.wf-btn {
+  display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+  padding: 12px 26px; border-radius: calc(var(--wf-radius) * 0.75);
+  font-weight: 600; font-size: 0.95em; border: 1px solid transparent;
+  cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  font-family: var(--wf-font);
+}
+.wf-btn:hover { transform: translateY(-1px); }
+.wf-btn.is-primary { background: var(--wf-primary); color: #fff; box-shadow: 0 8px 20px -8px var(--wf-primary); }
+.wf-btn.is-ghost { border-color: var(--wf-border); color: var(--wf-text); background: transparent; }
+.wf-btn.is-light { background: #fff; color: var(--wf-text); }
+.wf-btn.is-outline-light { border-color: rgba(255,255,255,.5); color: #fff; background: transparent; }
+.wf-btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* 占位图(未填图片时的兜底) */
+.wf-ph {
+  width: 100%; height: 100%; min-height: 120px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--wf-primary-soft), var(--wf-surface));
+  color: var(--wf-primary); font-weight: 700; letter-spacing: .08em; font-size: 15px;
+}
+.wf-ph::after { content: attr(data-label); opacity: .7; }
+
+/* ---------- 入场动画 ---------- */
+.wf-root [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); transition-delay: var(--wf-delay, 0ms); }
+.wf-root [data-reveal="left"] { transform: translateX(-32px); }
+.wf-root [data-reveal="right"] { transform: translateX(32px); }
+.wf-root [data-reveal="zoom"] { transform: scale(.92); }
+.wf-root [data-reveal="none"] { transform: none; }
+.wf-root [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* ---------- 图片懒加载 ---------- */
+img[data-src] { background: var(--wf-surface); transition: opacity .3s ease; }
+img[data-src].loaded { opacity: 1; }
+.wf-ph { background: linear-gradient(135deg, var(--wf-primary-soft), var(--wf-surface)); }
+
+/* ============ nav 导航栏 ============ */
+.b-nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--wf-bg) 88%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--wf-border); }
+.b-nav__inner { max-width: 1120px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.b-nav__brand { font-weight: 700; font-size: 1.1em; display: flex; align-items: center; gap: 10px; }
+.b-nav__logo { width: 30px; height: 30px; border-radius: 9px; background: var(--wf-primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
+.b-nav__links { display: flex; gap: 26px; font-size: .95em; color: var(--wf-muted); }
+.b-nav__links a:hover { color: var(--wf-primary); }
+.b-nav__cta { padding: 8px 18px; font-size: .9em; }
+
+/* ============ hero 主视觉 ============ */
+.b-hero { position: relative; overflow: hidden; }
+.b-hero__inner { max-width: 1120px; margin: 0 auto; padding: 108px 24px; position: relative; z-index: 1; }
+.b-hero.is-center .b-hero__inner { text-align: center; }
+.b-hero.is-center .wf-btn-group { justify-content: center; }
+.b-hero__title { font-size: 3em; font-weight: 800; letter-spacing: -0.02em; }
+.b-hero__subtitle { margin-top: 18px; font-size: 1.2em; color: var(--wf-muted); max-width: 620px; }
+.b-hero.is-center .b-hero__subtitle { margin-left: auto; margin-right: auto; }
+.b-hero__btns { margin-top: 34px; }
+.b-hero__badge { display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: color-mix(in srgb, var(--wf-bg) 75%, transparent); border: 1px solid var(--wf-border); font-size: .85em; font-weight: 600; margin-bottom: 20px; color: var(--wf-text); }
+.b-hero__bg { position: absolute; inset: 0; background: var(--wb-hero-bg, var(--wf-surface)); }
+.b-hero__bg.is-image { background-size: cover; background-position: center; }
+.b-hero__bg.is-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,.08)); }
+.b-hero.has-dark-bg { color: #fff; }
+.b-hero.has-dark-bg .b-hero__subtitle { color: rgba(255,255,255,.85); }
+.b-hero.has-dark-bg .b-hero__badge { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.3); color: #fff; }
+
+/* ============ text 文字段落 ============ */
+.b-text .wb-inner { max-width: 760px; }
+.b-text__title { font-size: 1.7em; font-weight: 700; margin-bottom: 18px; }
+.b-text__body { color: var(--wf-muted); font-size: 1.08em; white-space: pre-line; }
+.b-text.is-center { text-align: center; }
+
+/* ============ split 图文分栏 ============ */
+.b-split__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.b-split__media { aspect-ratio: 4 / 3; border-radius: var(--wf-radius); overflow: hidden; box-shadow: 0 24px 48px -24px rgba(15,23,42,.25); }
+.b-split__media img { width: 100%; height: 100%; object-fit: cover; }
+.b-split__title { font-size: 1.9em; font-weight: 700; }
+.b-split__body { margin-top: 16px; color: var(--wf-muted); white-space: pre-line; }
+.b-split__btn { margin-top: 26px; }
+.b-split.is-flip .b-split__grid > :first-child { order: 2; }
+.b-split.is-flip .b-split__grid > :last-child { order: 1; }
+
+/* ============ features 特性网格 ============ */
+.b-features__grid { display: grid; gap: 20px; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); }
+.b-feature { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 26px; transition: transform .2s ease, box-shadow .2s ease; }
+.b-feature:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -20px rgba(15,23,42,.25); }
+.b-feature__icon { width: 46px; height: 46px; border-radius: 12px; background: var(--wf-primary-soft); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+.b-feature__title { font-size: 1.08em; font-weight: 700; }
+.b-feature__desc { margin-top: 8px; color: var(--wf-muted); font-size: .95em; }
+
+/* ============ gallery 图片墙 ============ */
+.b-gallery__grid { display: grid; gap: 14px; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); }
+.b-gallery__item { border-radius: var(--wf-radius); overflow: hidden; aspect-ratio: 4 / 3; position: relative; background: var(--wf-surface); }
+.b-gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+.b-gallery__item:hover img { transform: scale(1.04); }
+.b-gallery__cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 12px; font-size: .88em; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,.55)); }
+
+/* ============ stats 数据统计 ============ */
+.b-stats__grid { display: grid; gap: 20px; grid-template-columns: repeat(var(--wb-cols, 4), 1fr); text-align: center; }
+.b-stat__value { font-size: 2.6em; font-weight: 800; font-family: var(--wf-heading-font); color: var(--wf-primary); letter-spacing: -0.02em; }
+.b-stat__label { margin-top: 6px; color: var(--wf-muted); font-size: .95em; }
+
+/* ============ timeline 时间线 ============ */
+.b-timeline__list { position: relative; max-width: 680px; margin: 0 auto; }
+.b-timeline__list::before { content: ""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: var(--wf-border); }
+.b-tl__item { position: relative; padding: 0 0 34px 44px; }
+.b-tl__item:last-child { padding-bottom: 0; }
+.b-tl__dot { position: absolute; left: 0; top: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--wf-primary); border: 4px solid var(--wf-primary-soft); }
+.b-tl__time { font-size: .85em; font-weight: 600; color: var(--wf-primary); letter-spacing: .04em; }
+.b-tl__title { font-size: 1.15em; font-weight: 700; margin-top: 4px; }
+.b-tl__desc { color: var(--wf-muted); margin-top: 6px; }
+
+/* ============ pricing 价格表 ============ */
+.b-pricing__grid { display: grid; gap: 20px; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); align-items: stretch; }
+.b-price { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 30px; display: flex; flex-direction: column; position: relative; }
+.b-price.is-featured { border-color: var(--wf-primary); box-shadow: 0 24px 48px -24px var(--wf-primary); background: var(--wf-bg); transform: scale(1.02); }
+.b-price__badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--wf-primary); color: #fff; font-size: .78em; font-weight: 600; padding: 4px 14px; border-radius: 999px; white-space: nowrap; }
+.b-price__name { font-weight: 700; font-size: 1.1em; }
+.b-price__amount { margin-top: 12px; font-size: 2.2em; font-weight: 800; font-family: var(--wf-heading-font); }
+.b-price__unit { font-size: .45em; font-weight: 500; color: var(--wf-muted); margin-left: 4px; }
+.b-price__desc { color: var(--wf-muted); font-size: .92em; margin-top: 8px; }
+.b-price__feats { list-style: none; margin: 20px 0; padding: 0; display: grid; gap: 10px; font-size: .95em; flex: 1; align-content: start; }
+.b-price__feats li { display: flex; gap: 8px; align-items: flex-start; }
+.b-price__feats li::before { content: "✓"; color: var(--wf-primary); font-weight: 700; }
+.b-price__btn { width: 100%; }
+
+/* ============ testimonials 用户评价 ============ */
+.b-testi__grid { display: grid; gap: 20px; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); }
+.b-testi { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 26px; display: flex; flex-direction: column; gap: 16px; }
+.b-testi__quote { flex: 1; font-size: 1em; }
+.b-testi__quote::before { content: "\201C"; color: var(--wf-primary); font-size: 1.6em; font-weight: 700; line-height: 0; margin-right: 2px; }
+.b-testi__who { display: flex; align-items: center; gap: 12px; }
+.b-testi__avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--wf-primary-soft); color: var(--wf-primary); display: flex; align-items: center; justify-content: center; font-weight: 700; overflow: hidden; flex: none; }
+.b-testi__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.b-testi__name { font-weight: 700; font-size: .95em; }
+.b-testi__role { color: var(--wf-muted); font-size: .82em; }
+
+/* ============ faq 常见问题 ============ */
+.b-faq__list { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+.b-faq__item { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * 0.8); overflow: hidden; }
+.b-faq__q { width: 100%; text-align: left; background: none; border: none; font: inherit; font-weight: 600; padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; color: var(--wf-text); }
+.b-faq__q::after { content: "+"; font-size: 1.3em; color: var(--wf-primary); transition: transform .25s ease; flex: none; }
+.b-faq__item.is-open .b-faq__q::after { transform: rotate(45deg); }
+.b-faq__a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.b-faq__a-inner { padding: 0 20px 18px; color: var(--wf-muted); white-space: pre-line; }
+
+/* ============ cta 行动号召 ============ */
+.b-cta__panel { border-radius: var(--wf-radius); padding: 56px 40px; text-align: center; background: var(--wf-primary); color: #fff; position: relative; overflow: hidden; }
+.b-cta__panel.is-gradient { background: linear-gradient(120deg, var(--wf-primary), color-mix(in srgb, var(--wf-primary) 55%, #9333ea)); }
+.b-cta__panel.is-surface { background: var(--wf-surface); color: var(--wf-text); border: 1px solid var(--wf-border); }
+.b-cta__title { font-size: 1.9em; font-weight: 800; }
+.b-cta__subtitle { margin-top: 12px; opacity: .85; }
+.b-cta__btns { margin-top: 28px; }
+
+/* ============ video 视频 ============ */
+.b-video__frame { aspect-ratio: 16 / 9; border-radius: var(--wf-radius); overflow: hidden; background: #0f172a; box-shadow: 0 24px 48px -24px rgba(15,23,42,.4); }
+.b-video__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.b-video__frame > .b-video__tip { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #94a3b8; gap: 10px; font-size: .95em; }
+
+/* ============ tabs 选项卡 ============ */
+.b-tabs__bar { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
+.b-tabs__tab { padding: 9px 20px; border-radius: 999px; border: 1px solid var(--wf-border); background: var(--wf-bg); font: inherit; font-size: .95em; font-weight: 600; cursor: pointer; color: var(--wf-muted); }
+.b-tabs__tab.is-active { background: var(--wf-primary); border-color: var(--wf-primary); color: #fff; }
+.b-tabs__panel { display: none; }
+.b-tabs__panel.is-active { display: block; animation: wf-fadein .35s ease; }
+.b-tabs__media { aspect-ratio: 16 / 8; border-radius: var(--wf-radius); overflow: hidden; margin-bottom: 20px; }
+.b-tabs__media img { width: 100%; height: 100%; object-fit: cover; }
+.b-tabs__title { font-size: 1.3em; font-weight: 700; margin-bottom: 10px; text-align: center; }
+.b-tabs__body { color: var(--wf-muted); max-width: 680px; margin: 0 auto; text-align: center; white-space: pre-line; }
+@keyframes wf-fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ============ countdown 倒计时 ============ */
+.b-countdown__panel { text-align: center; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 44px 24px; }
+.b-countdown__title { font-size: 1.4em; font-weight: 700; }
+.b-countdown__note { color: var(--wf-muted); margin-top: 10px; font-size: .95em; }
+.b-countdown__digits { display: flex; justify-content: center; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
+.b-countdown__cell { min-width: 86px; padding: 14px 10px; background: var(--wf-bg); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); }
+.b-countdown__num { font-size: 2.1em; font-weight: 800; font-family: var(--wf-heading-font); color: var(--wf-primary); font-variant-numeric: tabular-nums; }
+.b-countdown__unit { font-size: .8em; color: var(--wf-muted); margin-top: 2px; }
+
+/* ============ quiz 互动问答 ============ */
+.b-quiz__panel { max-width: 640px; margin: 0 auto; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 34px; }
+.b-quiz__q { font-size: 1.25em; font-weight: 700; white-space: pre-line; }
+.b-quiz__opts { display: grid; gap: 12px; margin-top: 22px; }
+.b-quiz__opt { text-align: left; padding: 14px 18px; border-radius: calc(var(--wf-radius) * 0.7); border: 1px solid var(--wf-border); background: var(--wf-bg); font: inherit; cursor: pointer; transition: border-color .15s ease, transform .15s ease; display: flex; gap: 10px; align-items: center; }
+.b-quiz__opt:hover { border-color: var(--wf-primary); transform: translateX(3px); }
+.b-quiz__opt .b-quiz__key { width: 26px; height: 26px; border-radius: 50%; background: var(--wf-primary-soft); color: var(--wf-primary); display: inline-flex; align-items: center; justify-content: center; font-size: .8em; font-weight: 700; flex: none; }
+.b-quiz.is-done .b-quiz__opt { cursor: default; pointer-events: none; opacity: .55; }
+.b-quiz__opt.is-right { border-color: #16a34a; background: #f0fdf4; opacity: 1 !important; }
+.b-quiz__opt.is-right .b-quiz__key { background: #16a34a; color: #fff; }
+.b-quiz__opt.is-wrong { border-color: #dc2626; background: #fef2f2; }
+.b-quiz__opt.is-wrong .b-quiz__key { background: #dc2626; color: #fff; }
+.b-quiz__explain { display: none; margin-top: 18px; padding: 14px 16px; border-radius: 10px; background: var(--wf-primary-soft); color: var(--wf-text); font-size: .95em; }
+.b-quiz.is-done .b-quiz__explain { display: block; animation: wf-fadein .3s ease; }
+
+/* ============ hotspot 图片热点 ============ */
+.b-hotspot__stage { position: relative; border-radius: var(--wf-radius); overflow: hidden; aspect-ratio: 16 / 9; background: var(--wf-surface); }
+.b-hotspot__stage > img { width: 100%; height: 100%; object-fit: cover; }
+.b-hotspot__dot { position: absolute; width: 26px; height: 26px; transform: translate(-50%, -50%); border-radius: 50%; background: rgba(255,255,255,.94); border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.3); font: inherit; font-weight: 700; color: var(--wf-primary); z-index: 4; }
+.b-hotspot__dot::before { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 2px solid rgba(255,255,255,.75); animation: wf-pulse 2s ease-out infinite; }
+@keyframes wf-pulse { 0% { transform: scale(.7); opacity: 1; } 100% { transform: scale(1.35); opacity: 0; } }
+.b-hotspot__tip { position: absolute; left: 50%; bottom: 36px; transform: translateX(-50%); width: 230px; background: rgba(15,23,42,.94); color: #fff; border-radius: 12px; padding: 12px 14px; font-size: .85em; opacity: 0; pointer-events: none; transition: opacity .2s ease, bottom .2s ease; text-align: left; z-index: 5; }
+.b-hotspot__tip strong { display: block; margin-bottom: 4px; font-size: 1.02em; }
+.b-hotspot__dot.is-open + .b-hotspot__tip { opacity: 1; bottom: 42px; }
+
+/* ============ form 联系表单 ============ */
+.b-form { max-width: 640px; margin: 0 auto; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 36px; }
+.b-form__fields { display: grid; gap: 20px; }
+.b-form__field { display: flex; flex-direction: column; gap: 6px; }
+.b-form__label { font-size: .92em; font-weight: 600; color: var(--wf-text); }
+.b-form__req { color: #dc2626; margin-left: 2px; }
+.b-form__input { padding: 10px 14px; border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * 0.6); font: inherit; font-size: .95em; background: var(--wf-bg); color: var(--wf-text); transition: border-color .15s ease, box-shadow .15s ease; }
+.b-form__input:focus { outline: none; border-color: var(--wf-primary); box-shadow: 0 0 0 3px var(--wf-primary-soft); }
+.b-form__input[type="textarea"], .b-form__input textarea { min-height: 100px; resize: vertical; }
+.b-form__submit { margin-top: 24px; width: 100%; }
+
+/* ============ map 地图 ============ */
+.b-map__container { border-radius: var(--wf-radius); overflow: hidden; background: var(--wf-surface); }
+.b-map__placeholder { aspect-ratio: 16 / 7; }
+.b-map__markers { display: grid; gap: 12px; padding: 20px; }
+.b-map__marker { padding: 12px 16px; background: var(--wf-bg); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * 0.6); font-size: .92em; }
+.b-map__marker strong { display: block; margin-bottom: 4px; }
+
+/* ============ social 社交链接 ============ */
+.b-social__grid { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+.b-social__item { position: relative; }
+.b-social__link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * 0.75); transition: all .2s ease; }
+.b-social__link:hover { border-color: var(--wf-primary); background: var(--wf-primary-soft); transform: translateY(-2px); }
+.b-social__icon { font-size: 1.3em; }
+.b-social__label { font-weight: 600; font-size: .95em; }
+.b-social__qr { display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 12px; padding: 8px; background: var(--wf-bg); border: 1px solid var(--wf-border); border-radius: 12px; box-shadow: 0 12px 32px rgba(15,23,42,.2); z-index: 10; }
+.b-social__qr img { width: 160px; height: 160px; display: block; }
+.b-social__item:hover .b-social__qr { display: block; animation: wf-fadein .2s ease; }
+
+/* ============ blog 博客文章 ============ */
+.b-blog__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 24px; }
+.b-blog__card { background: var(--wf-bg); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.b-blog__card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(15,23,42,.2); }
+.b-blog__cover { aspect-ratio: 16 / 10; overflow: hidden; }
+.b-blog__cover img { width: 100%; height: 100%; object-fit: cover; }
+.b-blog__body { padding: 20px; }
+.b-blog__meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.b-blog__cat { padding: 3px 10px; background: var(--wf-primary-soft); color: var(--wf-primary); border-radius: 999px; font-size: .78em; font-weight: 600; }
+.b-blog__date { color: var(--wf-muted); font-size: .84em; }
+.b-blog__title { font-size: 1.1em; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.b-blog__excerpt { color: var(--wf-muted); font-size: .92em; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ============ product-showcase 产品展示 ============ */
+.b-product__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 24px; }
+.b-product__card { background: var(--wf-bg); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); overflow: hidden; transition: transform .2s ease, box-shadow .2s ease; }
+.b-product__card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -20px rgba(15,23,42,.2); }
+.b-product__image { position: relative; aspect-ratio: 1; overflow: hidden; }
+.b-product__image img { width: 100%; height: 100%; object-fit: cover; }
+.b-product__badge { position: absolute; top: 12px; left: 12px; padding: 4px 12px; background: #dc2626; color: #fff; border-radius: 999px; font-size: .78em; font-weight: 600; z-index: 2; }
+.b-product__body { padding: 16px 20px 20px; }
+.b-product__name { font-size: 1.05em; font-weight: 700; margin-bottom: 6px; }
+.b-product__desc { color: var(--wf-muted); font-size: .88em; margin-bottom: 12px; line-height: 1.5; }
+.b-product__price { display: flex; align-items: baseline; gap: 8px; }
+.b-product__current-price { font-size: 1.25em; font-weight: 800; color: #dc2626; }
+.b-product__orig-price { font-size: .9em; color: var(--wf-muted); text-decoration: line-through; }
+.b-product__cta { text-align: center; margin-top: 32px; }
+
+/* ============ team 团队成员 ============ */
+.b-team__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 4), 1fr); gap: 28px; }
+.b-team__member { text-align: center; }
+.b-team__avatar { width: 100px; height: 100px; margin: 0 auto 16px; border-radius: 50%; overflow: hidden; background: var(--wf-surface); }
+.b-team__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.b-team__avatar .wf-ph { width: 100%; height: 100%; min-height: unset; font-size: 2em; }
+.b-team__name { font-size: 1.05em; font-weight: 700; }
+.b-team__role { color: var(--wf-primary); font-size: .88em; font-weight: 600; margin-top: 4px; }
+.b-team__bio { color: var(--wf-muted); font-size: .88em; margin-top: 8px; line-height: 1.5; }
+
+/* ============ proof 信任数字条 ============ */
+.b-proof__bar { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 16px; text-align: center; }
+.b-proof__cell { padding: 22px 12px; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); }
+.b-proof__num { font-size: 1.9em; font-weight: 800; color: var(--wf-primary); font-variant-numeric: tabular-nums; font-family: var(--wf-heading-font); }
+.b-proof__label { color: var(--wf-muted); font-size: .9em; margin-top: 6px; }
+.b-proof__note { text-align: center; color: var(--wf-muted); font-size: .84em; margin-top: 14px; }
+
+/* ============ logo-wall 品牌背书墙 ============ */
+.b-logowall__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 6), 1fr); gap: 12px; }
+.b-logowall__chip { padding: 16px 10px; text-align: center; font-weight: 800; letter-spacing: .05em; color: var(--wf-muted); background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * .7); font-size: 1.02em; transition: color .15s ease, border-color .15s ease; }
+.b-logowall__chip:hover { color: var(--wf-primary); border-color: var(--wf-primary); }
+
+/* ============ journey 步骤旅程 ============ */
+.b-journey__list { display: grid; gap: 18px; max-width: 760px; margin: 0 auto; }
+.b-journey__step { display: flex; gap: 18px; align-items: flex-start; }
+.b-journey__no { width: 46px; height: 46px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; background: var(--wf-primary-soft); color: var(--wf-primary); font-weight: 800; font-size: .95em; font-variant-numeric: tabular-nums; border: 1px solid color-mix(in srgb, var(--wf-primary) 25%, transparent); }
+.b-journey__t { font-weight: 700; font-size: 1.08em; }
+.b-journey__d { color: var(--wf-muted); font-size: .94em; margin-top: 5px; line-height: 1.65; }
+
+/* ============ cluster 痛点小卡 ============ */
+.b-cluster__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 14px; }
+.b-cluster__card { padding: 20px; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * .8); }
+.b-cluster__icon { font-size: 1.5em; }
+.b-cluster__t { font-weight: 700; margin-top: 10px; }
+.b-cluster__d { color: var(--wf-muted); font-size: .9em; margin-top: 7px; line-height: 1.65; }
+
+/* ============ marquee 滚动横幅 ============ */
+.b-marquee { overflow: hidden; border-top: 1px solid var(--wf-border); border-bottom: 1px solid var(--wf-border); background: var(--wf-surface); }
+.b-marquee__mask { max-width: 1120px; margin: 0 auto; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.b-marquee__track { display: flex; gap: 56px; width: max-content; padding: 14px 0; animation: wf-marquee 26s linear infinite; }
+.b-marquee:hover .b-marquee__track { animation-play-state: paused; }
+.b-marquee__item { font-weight: 700; color: var(--wf-muted); font-size: 1.05em; white-space: nowrap; letter-spacing: .02em; }
+@keyframes wf-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ============ banner 公告横条 ============ */
+.b-banner__bar { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; background: var(--wf-primary); color: #fff; padding: 12px 20px; font-size: .95em; }
+.b-banner__link { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============ bento Bento 网格 ============ */
+.b-bento__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 14px; }
+.b-bento__cell { padding: 22px; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); display: flex; flex-direction: column; }
+.b-bento__cell.is-wide { grid-column: span 2; }
+.b-bento__img { aspect-ratio: 16 / 8; border-radius: calc(var(--wf-radius) * .6); overflow: hidden; margin-bottom: 14px; }
+.b-bento__img img { width: 100%; height: 100%; object-fit: cover; }
+.b-bento__icon { font-size: 1.6em; }
+.b-bento__t { font-weight: 700; font-size: 1.08em; margin-top: 10px; }
+.b-bento__d { color: var(--wf-muted); font-size: .92em; margin-top: 6px; line-height: 1.65; }
+
+/* ============ comparison 对比表 ============ */
+.b-comparison__wrap { overflow-x: auto; border: 1px solid var(--wf-border); border-radius: var(--wf-radius); }
+.b-comparison { width: 100%; border-collapse: collapse; background: var(--wf-bg); font-size: .95em; }
+.b-comparison th, .b-comparison td { padding: 14px 18px; text-align: left; border-top: 1px solid var(--wf-border); vertical-align: top; }
+.b-comparison thead th { font-weight: 800; background: var(--wf-surface); border-top: none; font-size: 1em; }
+.b-comparison tbody th { font-weight: 600; color: var(--wf-muted); white-space: nowrap; }
+.b-comparison .is-a { color: var(--wf-text); font-weight: 600; background: color-mix(in srgb, var(--wf-primary-soft) 55%, transparent); min-width: 180px; }
+.b-comparison .is-b { color: var(--wf-muted); }
+
+/* ============ before-after 前后对比 ============ */
+.b-ba__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.b-ba__side { text-align: center; }
+.b-ba__img { aspect-ratio: 16 / 10; border-radius: var(--wf-radius); overflow: hidden; border: 1px solid var(--wf-border); }
+.b-ba__img img, .b-ba__img .wf-ph { width: 100%; height: 100%; }
+.b-ba__label { display: inline-block; margin-top: 10px; padding: 4px 14px; border-radius: 999px; background: var(--wf-surface); border: 1px solid var(--wf-border); font-size: .85em; font-weight: 600; color: var(--wf-muted); }
+.b-ba__note { text-align: center; color: var(--wf-muted); font-size: .88em; margin-top: 14px; }
+
+/* ============ prompt 提示词启动器 ============ */
+.b-prompt__panel { max-width: 760px; margin: 0 auto; background: linear-gradient(135deg, #0f172a, #1e1b4b); color: #f1f5f9; border-radius: var(--wf-radius); padding: 32px 34px; }
+.b-prompt__kicker { font-size: .8em; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #a5b4fc; margin-bottom: 14px; }
+.b-prompt__text { font-size: 1.12em; line-height: 1.75; white-space: pre-line; }
+.b-prompt__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.b-prompt__chip { padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); font-size: .85em; color: #cbd5e1; }
+.b-prompt__btn { margin-top: 22px; background: #fff; color: #0f172a; box-shadow: none; }
+
+/* ============ tool-grid 工具网格 ============ */
+.b-tool__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 16px; }
+.b-tool__card { position: relative; padding: 22px; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); transition: transform .18s ease, box-shadow .18s ease; }
+.b-tool__card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px -18px rgba(15,23,42,.25); }
+.b-tool__tag { position: absolute; top: 14px; right: 14px; padding: 3px 10px; border-radius: 999px; background: var(--wf-primary-soft); color: var(--wf-primary); font-size: .75em; font-weight: 700; }
+.b-tool__icon { font-size: 1.6em; }
+.b-tool__t { font-weight: 700; font-size: 1.05em; margin-top: 10px; }
+.b-tool__d { color: var(--wf-muted); font-size: .9em; margin-top: 6px; line-height: 1.6; }
+.b-tool__rating { margin-top: 12px; font-size: .85em; font-weight: 700; color: var(--wf-primary); }
+
+/* ============ accordion 折叠面板(原生 details,零 JS) ============ */
+.b-acc__list { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+.b-acc__item { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * .8); overflow: hidden; }
+.b-acc__head { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 16px 20px; cursor: pointer; list-style: none; font-weight: 700; }
+.b-acc__head::-webkit-details-marker { display: none; }
+.b-acc__chev { transition: transform .2s ease; color: var(--wf-muted); flex: none; }
+.b-acc__item[open] .b-acc__chev { transform: rotate(180deg); }
+.b-acc__body { padding: 0 20px 18px; color: var(--wf-muted); line-height: 1.7; white-space: pre-line; font-size: .95em; }
+
+/* ============ portrait 竖版卡片 ============ */
+.b-portrait__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 4), 1fr); gap: 18px; }
+.b-portrait__card { background: var(--wf-bg); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; }
+.b-portrait__card:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -18px rgba(15,23,42,.22); }
+.b-portrait__img { aspect-ratio: 3 / 4; overflow: hidden; }
+.b-portrait__img img, .b-portrait__img .wf-ph { width: 100%; height: 100%; }
+.b-portrait__t { font-weight: 700; padding: 14px 16px 0; }
+.b-portrait__d { color: var(--wf-muted); font-size: .88em; padding: 6px 16px 16px; line-height: 1.55; }
+
+/* ============ showcase 编号展示 ============ */
+.b-showcase__list { display: grid; gap: 22px; max-width: 900px; margin: 0 auto; }
+.b-showcase__row { display: grid; grid-template-columns: 64px 1fr 1fr; gap: 22px; align-items: center; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 22px; }
+.b-showcase__row.is-flip .b-showcase__img { order: -1; }
+.b-showcase__no { font-size: 2em; font-weight: 800; color: var(--wf-primary); font-variant-numeric: tabular-nums; opacity: .55; font-family: var(--wf-heading-font); }
+.b-showcase__t { font-weight: 700; font-size: 1.1em; }
+.b-showcase__d { color: var(--wf-muted); font-size: .92em; margin-top: 6px; line-height: 1.65; }
+.b-showcase__img { aspect-ratio: 16 / 10; border-radius: calc(var(--wf-radius) * .7); overflow: hidden; }
+.b-showcase__img img, .b-showcase__img .wf-ph { width: 100%; height: 100%; }
+
+/* ============ changelog 更新日志 ============ */
+.b-chlog__list { max-width: 760px; margin: 0 auto; display: grid; gap: 14px; }
+.b-chlog__item { background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * .8); padding: 18px 22px; }
+.b-chlog__head { display: flex; align-items: center; gap: 10px; }
+.b-chlog__tag { padding: 3px 12px; border-radius: 999px; background: var(--wf-primary-soft); color: var(--wf-primary); font-weight: 700; font-size: .82em; font-variant-numeric: tabular-nums; }
+.b-chlog__date { color: var(--wf-muted); font-size: .82em; }
+.b-chlog__t { font-weight: 700; margin-top: 10px; }
+.b-chlog__d { color: var(--wf-muted); font-size: .92em; margin-top: 5px; line-height: 1.6; }
+
+/* ============ 变体:hero ============ */
+.b-hero__inner.is-split { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; text-align: left; }
+.b-hero__inner.is-split .b-hero__title { font-size: 2.6em; }
+.b-hero__inner.is-split .b-hero__btns { justify-content: flex-start; }
+.b-hero__media { aspect-ratio: 4 / 3; border-radius: var(--wf-radius); overflow: hidden; box-shadow: 0 30px 60px -30px rgba(15,23,42,.35); }
+.b-hero__media img, .b-hero__media .wf-ph { width: 100%; height: 100%; }
+.b-hero__bg.is-cover { background-image: var(--wb-hero-bg); background-size: cover; background-position: center; }
+.b-hero__bg.is-cover::after { content: ""; position: absolute; inset: 0; background: rgba(15,23,42,.45); }
+.b-hero__inner.is-fullscreen { min-height: 68vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; }
+.b-hero__inner.is-fullscreen .b-hero__title { font-size: 3em; }
+.b-hero__inner.is-fullscreen .b-hero__subtitle { color: rgba(255,255,255,.85); }
+.b-hero__inner.is-fullscreen .wf-btn-group { justify-content: center; }
+
+/* ============ 变体:features ============ */
+.b-feat-list { display: grid; gap: 14px; }
+.b-feat-list__row { display: flex; gap: 16px; align-items: flex-start; padding: 18px 20px; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: calc(var(--wf-radius) * .8); }
+.b-feat-list__icon { font-size: 1.5em; flex: none; }
+.b-feat-list__t { font-weight: 700; }
+.b-feat-list__d { color: var(--wf-muted); font-size: .93em; margin-top: 4px; line-height: 1.6; }
+.b-feat-num__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 3), 1fr); gap: 18px; }
+.b-feat-num { padding: 22px; border-top: 3px solid var(--wf-primary); background: var(--wf-surface); border-radius: calc(var(--wf-radius) * .7); }
+.b-feat-num__no { font-size: 1.6em; font-weight: 800; color: var(--wf-primary); font-family: var(--wf-heading-font); }
+.b-feat-num__t { font-weight: 700; margin-top: 8px; }
+.b-feat-num__d { color: var(--wf-muted); font-size: .92em; margin-top: 6px; line-height: 1.6; }
+
+/* ============ 变体:cta ============ */
+.b-cta__banner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 26px 32px; background: var(--wf-primary); color: #fff; }
+.b-cta__banner.is-gradient { background: linear-gradient(135deg, var(--wf-primary), #7c3aed); }
+.b-cta__banner .b-cta__title { font-size: 1.3em; font-weight: 800; }
+.b-cta__banner .b-cta__subtitle { opacity: .88; font-size: .95em; margin-top: 4px; }
+.b-cta__panel.is-split { display: flex; align-items: center; justify-content: space-between; gap: 24px; text-align: left; flex-wrap: wrap; }
+
+/* ============ 变体:testimonials ============ */
+.b-testi-big { max-width: 780px; margin: 0 auto; text-align: center; }
+.b-testi-big blockquote { font-size: 1.6em; font-weight: 700; line-height: 1.5; margin: 0; white-space: pre-line; }
+.b-testi-big figcaption { margin-top: 18px; color: var(--wf-muted); font-size: .95em; }
+.b-testi-av__grid { display: grid; grid-template-columns: repeat(var(--wb-cols, 4), 1fr); gap: 18px; text-align: center; }
+.b-testi-av__name { margin-top: 8px; font-size: .9em; font-weight: 600; }
+.b-testi-av .b-testi__avatar { width: 64px; height: 64px; font-size: 1.2em; margin: 0 auto; }
+
+/* ============ 容器(分栏) ============ */
+.b-section { display: grid; gap: 24px; }
+.b-section--cols-1 { grid-template-columns: 1fr; }
+.b-section--cols-2 { grid-template-columns: 1fr 1fr; }
+.b-section--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.b-section--gap-tight { gap: 12px; }
+.b-section--gap-loose { gap: 40px; }
+.b-section__col { min-width: 0; display: flex; flex-direction: column; }
+.b-section__col > .wf-block { flex: none; }
+.b-section .wb-inner { padding: 0; max-width: none; }
+.b-section .b-hero__inner { padding: 0; }
+.wf-editing .b-section__col { outline: 1px dashed color-mix(in srgb, var(--wf-primary) 35%, transparent); outline-offset: 6px; border-radius: 8px; }
+
+/* ============ footer 页脚 ============ */
+.b-footer { background: var(--wf-surface); border-top: 1px solid var(--wf-border); }
+.b-footer__inner { max-width: 1120px; margin: 0 auto; padding: 48px 24px; }
+.b-footer__grid { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+.b-footer__brand { font-weight: 800; font-size: 1.15em; }
+.b-footer__desc { color: var(--wf-muted); font-size: .92em; margin-top: 10px; max-width: 320px; white-space: pre-line; }
+.b-footer__links { display: flex; gap: 22px; flex-wrap: wrap; font-size: .92em; color: var(--wf-muted); align-items: flex-start; }
+.b-footer__links a:hover { color: var(--wf-primary); }
+.b-footer__copy { margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--wf-border); color: var(--wf-muted); font-size: .84em; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+/* ============ PPT 幻灯 ============ */
+.wf-deck { container-type: inline-size; font-size: 2.083cqi; }
+.wf-slide {
+  width: 100%; aspect-ratio: 16 / 9; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 3.2em 4em; background: var(--wf-bg);
+}
+.wf-slide__kicker { font-size: .78em; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--wf-primary); margin-bottom: 1em; }
+.wf-slide__title { font-size: 2.4em; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.wf-slide__subtitle { font-size: 1.05em; color: var(--wf-muted); margin-top: .8em; }
+.b-s-title { background: linear-gradient(135deg, var(--wf-primary-soft), var(--wf-bg) 62%); }
+.b-s-title .wf-slide__title { font-size: 3em; }
+.b-s-title__meta { margin-top: 2.2em; display: flex; gap: 2em; color: var(--wf-muted); font-size: .9em; flex-wrap: wrap; }
+.b-s-title__badge { display: inline-block; align-self: flex-start; padding: .35em 1em; border-radius: 999px; background: var(--wf-primary); color: #fff; font-size: .78em; font-weight: 600; margin-bottom: 1.4em; letter-spacing: .08em; }
+.b-s-bullets__list { margin-top: 1.6em; display: grid; gap: 1em; }
+.b-s-bullet { display: flex; gap: 1em; align-items: flex-start; background: var(--wf-surface); border: 1px solid var(--wf-border); border-radius: var(--wf-radius); padding: 1em 1.2em; }
+.b-s-bullet__no { width: 1.7em; height: 1.7em; border-radius: 50%; background: var(--wf-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .85em; flex: none; }
+.b-s-bullet__t { font-weight: 700; font-size: 1.05em; }
+.b-s-bullet__d { color: var(--wf-muted); font-size: .9em; margin-top: .2em; }
+.b-s-quote { background: linear-gradient(135deg, var(--wf-primary), color-mix(in srgb, var(--wf-primary) 60%, #1e1b4b)); color: #fff; text-align: center; align-items: center; }
+.b-s-quote__mark { font-size: 4em; line-height: .6; opacity: .4; font-family: Georgia, serif; }
+.b-s-quote__text { font-size: 1.9em; font-weight: 700; line-height: 1.5; max-width: 20em; margin: .6em auto 0; white-space: pre-line; }
+.b-s-quote__author { margin-top: 1.6em; opacity: .8; font-size: .95em; }
+.b-s-end { text-align: center; align-items: center; }
+.b-s-end__contact { margin-top: 2em; color: var(--wf-muted); font-size: .95em; white-space: pre-line; }
+.b-s-end__qr { margin: 1.6em auto 0; width: 8em; height: 8em; border-radius: 1em; overflow: hidden; box-shadow: 0 1em 2em -1em rgba(15,23,42,.4); }
+.b-s-end__qr img { width: 100%; height: 100%; object-fit: cover; }
+.wf-slide__pageno { position: absolute; bottom: 1em; right: 1.6em; font-size: .7em; color: var(--wf-muted); font-variant-numeric: tabular-nums; }
+
+/* PPT 放映态(导出/预览) */
+.wf-deck.is-live { height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b1020; }
+.wf-deck.is-live .wf-slide-stage { width: min(100vw, 177.78vh); position: relative; box-shadow: 0 40px 120px rgba(0,0,0,.5); border-radius: 6px; overflow: hidden; }
+.wf-deck.is-live .wf-slide { position: absolute; inset: 0; width: 100%; aspect-ratio: auto; height: 100%; opacity: 0; visibility: hidden; transform: translateX(24px); transition: opacity .4s ease, transform .4s ease, visibility .4s; }
+.wf-deck.is-live .wf-slide.is-active { position: relative; opacity: 1; visibility: visible; transform: none; }
+.wf-deck__bar { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; background: rgba(15,23,42,.8); backdrop-filter: blur(8px); color: #cbd5e1; padding: 8px 16px; border-radius: 999px; z-index: 60; font-size: 14px; font-family: -apple-system, "PingFang SC", sans-serif; }
+.wf-deck__bar button { background: none; border: none; color: #fff; font-size: 16px; cursor: pointer; padding: 2px 8px; border-radius: 6px; }
+.wf-deck__bar button:hover { background: rgba(255,255,255,.15); }
+.wf-deck__dots { display: flex; gap: 6px; }
+.wf-deck__dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.3); cursor: pointer; border: none; padding: 0; }
+.wf-deck__dot.is-active { background: #fff; }
+.wf-deck__hint { position: fixed; top: 16px; right: 18px; color: rgba(255,255,255,.4); font-size: 12px; z-index: 60; font-family: -apple-system, "PingFang SC", sans-serif; }
+
+/* ============ 形态:H5 ============ */
+.wf-mode-h5 { background: #e2e8f0; }
+.wf-mode-h5 .wf-page { max-width: 480px; margin: 0 auto; background: var(--wf-bg); min-height: 100vh; box-shadow: 0 0 60px rgba(15,23,42,.15); }
+.wf-mode-h5 .b-hero__inner { padding: 72px 22px; }
+.wf-mode-h5 .b-hero__title { font-size: 2.1em; }
+.wf-mode-h5 .b-hero__subtitle { font-size: 1.02em; }
+.wf-mode-h5 .wb-inner { padding: 48px 20px; }
+.wf-mode-h5 .b-features__grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+.wf-mode-h5 .b-feature { padding: 18px; }
+.wf-mode-h5 .b-stats__grid { grid-template-columns: repeat(2, 1fr) !important; }
+.wf-mode-h5 .b-pricing__grid, .wf-mode-h5 .b-testi__grid { grid-template-columns: 1fr !important; }
+.wf-mode-h5 .b-price.is-featured { transform: none; }
+.wf-mode-h5 .b-split__grid { grid-template-columns: 1fr !important; gap: 24px; }
+.wf-mode-h5 .b-split.is-flip .b-split__grid > :first-child { order: 1; }
+.wf-mode-h5 .b-split.is-flip .b-split__grid > :last-child { order: 2; }
+.wf-mode-h5 .b-gallery__grid { grid-template-columns: repeat(2, 1fr) !important; }
+.wf-mode-h5 .b-nav__links { display: none; }
+.wf-mode-h5 .b-footer__grid { flex-direction: column; gap: 20px; }
+.wf-h5-ctabar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--wf-bg) 92%, transparent); backdrop-filter: blur(12px); border-top: 1px solid var(--wf-border); z-index: 55; }
+.wf-h5-ctabar .wf-btn { width: 100%; }
+.wf-page.has-ctabar { padding-bottom: 84px; }
+
+/* ============ 形态:story 互动叙事 ============ */
+.wf-mode-story .wf-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--wf-primary); z-index: 80; width: 0; transition: width .1s linear; }
+.wf-mode-story.is-snap .wf-page { scroll-snap-type: y mandatory; height: 100vh; overflow-y: scroll; }
+.wf-mode-story.is-snap .wf-page > .wf-block { scroll-snap-align: start; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+.wf-mode-story.is-snap .wb-inner { width: 100%; }
+.wf-mode-story.is-snap .b-nav { position: static; }
+
+/* 官网导出在真实手机上的响应式 */
+@media (max-width: 860px) {
+  .b-features__grid, .b-testi__grid, .b-pricing__grid { grid-template-columns: 1fr !important; }
+  .b-stats__grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .b-gallery__grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .b-split__grid { grid-template-columns: 1fr !important; gap: 28px; }
+  .b-split.is-flip .b-split__grid > :first-child { order: 1; }
+  .b-split.is-flip .b-split__grid > :last-child { order: 2; }
+  .b-hero__title { font-size: 2.2em; }
+  .b-nav__links { display: none; }
+  .wf-deck { font-size: 26px; }
+  .b-blog__grid, .b-product__grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .b-proof__bar { grid-template-columns: repeat(2, 1fr) !important; }
+  .b-cluster__grid, .b-logowall__grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .b-journey__step { gap: 12px; }
+  .b-team__grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .b-social__grid { justify-content: flex-start; }
+  .b-form { padding: 24px; }
+}
+
+@media (max-width: 560px) {
+  .b-blog__grid, .b-product__grid, .b-team__grid { grid-template-columns: 1fr !important; }
+  .b-social__grid { flex-direction: column; }
+  .b-proof__bar, .b-cluster__grid, .b-logowall__grid { grid-template-columns: 1fr !important; }
+  .b-tool__grid, .b-portrait__grid { grid-template-columns: 1fr !important; }
+  .b-social__link { width: 100%; justify-content: center; }
+}
+</style>
+<style>html,body{}</style>
+</head>
+<body style="margin:0;background:#fff;">
+<div class="wf-root wf-mode-site" style="--wf-primary:#4f46e5;--wf-primary-soft:#eef2ff;--wf-bg:#ffffff;--wf-surface:#f8fafc;--wf-text:#111827;--wf-muted:#64748b;--wf-border:#e2e8f0;--wf-radius:16px;--wf-font:-apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Segoe UI', sans-serif;--wf-heading-font:var(--wf-font);--wf-font-scale:1;">
+      
+      <div class="wf-page">
+      <section class="wf-block b-nav" id="sec-b67354566" data-wf-b="b67354566"><div class="b-nav__inner">
+        <span class="b-nav__brand"><span class="b-nav__logo">增</span>增长线上</span>
+        <nav class="b-nav__links"><a href="#">怎么做</a><a href="#">客户案例</a><a href="#">常见问题</a></nav>
+        <a class="wf-btn is-primary b-nav__cta" href="#cta">预约诊断</a>
+      </div></section>
+<section class="wf-block b-hero" id="sec-b87153619" data-pad="loose" data-reveal="up" data-wf-b="b87153619"><div class="b-hero__bg" style="--wb-hero-bg:linear-gradient(135deg, #eef2ff 0%, #e0e7ff 45%, #f8fafc 100%)"></div>
+          <div class="b-hero__inner is-split">
+            <div class="b-hero__col"><div class="b-hero__copy">
+        <span class="b-hero__badge">🧭 网站增长诊断</span>
+        <h1 class="b-hero__title" data-wf-f="title">让每一分投放预算,都看得见回报</h1>
+        <p class="b-hero__subtitle" data-wf-f="subtitle">我们帮投放操盘手把落地页变成增长引擎:5 分钟出页、千人对千面、实时看转化、A/B 自动择优。</p>
+        <div class="wf-btn-group b-hero__btns">
+          <a class="wf-btn is-primary" href="#cta">预约 30 分钟免费诊断</a>
+          <a class="wf-btn is-ghost" href="#journey">看看怎么做</a>
+        </div>
+      </div></div>
+            <div class="b-hero__col"><div class="b-hero__media"><div class="wf-ph" data-label="主视觉配图"></div></div></div>
+          </div></section>
+<section class="wf-block b-proof" id="sec-b39240138" data-reveal="up" data-wf-b="b39240138"><div class="wb-inner is-tight">
+        <div class="b-proof__bar" style="--wb-cols:3"><div class="b-proof__cell">
+        <div class="b-proof__num">1000+</div>
+        <div class="b-proof__label">服务网站与品牌</div>
+      </div><div class="b-proof__cell">
+        <div class="b-proof__num">3.5×</div>
+        <div class="b-proof__label">AI 搜索推荐流量增长</div>
+      </div><div class="b-proof__cell">
+        <div class="b-proof__num">30 分钟</div>
+        <div class="b-proof__label">免费增长诊断</div>
+      </div></div>
+        <div class="b-proof__note">数据来自近一年客户复盘与行业调研</div>
+      </div></section>
+<section class="wf-block b-cluster" id="sec-b91640354" data-reveal="up" data-wf-b="b91640354"><div class="wb-inner">
+        <div class="wb-head"><h2 class="wb-title">投放跑不动,通常卡在这三处</h2><p class="wb-subtitle">不是预算不够,是链路有洞</p></div>
+        <div class="b-cluster__grid" style="--wb-cols:3"><div class="b-cluster__card" style="--wf-delay:0ms">
+        <div class="b-cluster__icon">📉</div>
+        <div class="b-cluster__t">有流量,没线索</div>
+        <div class="b-cluster__d">61% 的企业网站拿到了流量,却没把访客变成线索 —— 问题不在内容,在链路。</div>
+      </div><div class="b-cluster__card" style="--wf-delay:70ms">
+        <div class="b-cluster__icon">🎯</div>
+        <div class="b-cluster__t">不知道哪版素材好</div>
+        <div class="b-cluster__d">手动改一版没有对照,预算在猜测中被烧掉。需要显著性检验与自动择优。</div>
+      </div><div class="b-cluster__card" style="--wf-delay:140ms">
+        <div class="b-cluster__icon">🔗</div>
+        <div class="b-cluster__t">触点各说各话</div>
+        <div class="b-cluster__d">官网、广告、社群口径不一致,用户每换一个触点就要重新建立信任。</div>
+      </div></div>
+      </div></section>
+<section class="wf-block b-journey" id="sec-b41749893" data-reveal="up" data-wf-b="b41749893"><div class="wb-inner">
+        <div class="wb-head is-center" data-reveal-child="1"><h2 class="wb-title">四步,把流量变成线索</h2></div>
+        <div class="b-journey__list"><div class="b-journey__step" data-reveal-child="1">
+        <span class="b-journey__no">01</span>
+        <div><div class="b-journey__t">诊断</div>
+        <div class="b-journey__d">30 分钟访谈,讲清内容、获客与转化的短板</div></div>
+      </div><div class="b-journey__step" data-reveal-child="1">
+        <span class="b-journey__no">02</span>
+        <div><div class="b-journey__t">开方</div>
+        <div class="b-journey__d">输出可落地的起步方案,按优先级排序</div></div>
+      </div><div class="b-journey__step" data-reveal-child="1">
+        <span class="b-journey__no">03</span>
+        <div><div class="b-journey__t">落地</div>
+        <div class="b-journey__d">我们用页面工场改,你只看数据</div></div>
+      </div><div class="b-journey__step" data-reveal-child="1">
+        <span class="b-journey__no">04</span>
+        <div><div class="b-journey__t">放大</div>
+        <div class="b-journey__d">把跑通的路子加预算复制,形成闭环</div></div>
+      </div></div>
+      </div></section>
+<section class="wf-block b-features" id="features" data-reveal="up" data-wf-b="b72527797"><div class="wb-inner"><div class="wb-head"><h2 class="wb-title">增长链路里的四件武器</h2><p class="wb-subtitle">每一环都有对应抓手</p></div>
+        <div class="b-features__grid" style="--wb-cols:3"><div class="b-feature" style="--wf-delay:0ms">
+        <div class="b-feature__icon">🧩</div>
+        <div class="b-feature__title">模块化页面工场</div>
+        <p class="b-feature__desc">43 个成品模块、分栏容器与布局变体,5 分钟产出可投放页面。</p>
+      </div><div class="b-feature" style="--wf-delay:70ms">
+        <div class="b-feature__icon">👥</div>
+        <div class="b-feature__title">千人千面</div>
+        <p class="b-feature__desc">按来源/设备/新老访客替换内容与卖点,同一链接对不同人讲不同话。</p>
+      </div><div class="b-feature" style="--wf-delay:140ms">
+        <div class="b-feature__icon">📈</div>
+        <div class="b-feature__title">实时转化与自动择优</div>
+        <p class="b-feature__desc">分钟级看曝光/点击/CVR,A/B 显著后自动下线落后版本。</p>
+      </div><div class="b-feature" style="--wf-delay:210ms">
+        <div class="b-feature__icon">⚡</div>
+        <div class="b-feature__title">页面侧自动化</div>
+        <p class="b-feature__desc">停留 30 秒未点击 → 自动发券;表单提交直达线索池。</p>
+      </div><div class="b-feature" style="--wf-delay:280ms">
+        <div class="b-feature__icon">🛡️</div>
+        <div class="b-feature__title">数据可回流</div>
+        <p class="b-feature__desc">曝光、点击、分群、订单统一回传,复盘有据可依。</p>
+      </div><div class="b-feature" style="--wf-delay:350ms">
+        <div class="b-feature__icon">🧾</div>
+        <div class="b-feature__title">收款与分账就绪</div>
+        <p class="b-feature__desc">对接 PayFlow:下单、订阅、优惠券、分账一条链路。</p>
+      </div></div>
+      </div></section>
+<section class="wf-block b-stats" id="sec-b92646139" data-reveal="up" data-wf-b="b92646139"><div class="wb-inner">
+        <div class="b-stats__grid" style="--wb-cols:4"><div class="b-stat" style="--wf-delay:0ms">
+        <div class="b-stat__value">61<span style="font-size:.55em">%</span></div>
+        <div class="b-stat__label">企业网站有流量无转化</div>
+      </div><div class="b-stat" style="--wf-delay:70ms">
+        <div class="b-stat__value">3.5<span style="font-size:.55em">×</span></div>
+        <div class="b-stat__label">GEO 相对传统 SEO 增长</div>
+      </div><div class="b-stat" style="--wf-delay:140ms">
+        <div class="b-stat__value">30<span style="font-size:.55em"> 分钟</span></div>
+        <div class="b-stat__label">免费诊断时长</div>
+      </div><div class="b-stat" style="--wf-delay:210ms">
+        <div class="b-stat__value">5<span style="font-size:.55em"> 分钟</span></div>
+        <div class="b-stat__label">搭好一个落地页</div>
+      </div></div>
+      </div></section>
+<section class="wf-block b-testimonials" id="testimonials" data-reveal="up" data-wf-b="b33285982"><div class="wb-inner"><div class="wb-head"><h2 class="wb-title">操盘手怎么说</h2></div>
+        <div class="b-testi__grid" style="--wb-cols:3"><div class="b-testi" style="--wf-delay:0ms">
+        <p class="b-testi__quote">第一周就把表单转化率从 0.8% 提到 2.4%,链路理顺之后,剩下都是复制。</p>
+        <div class="b-testi__who">
+          <span class="b-testi__avatar">L</span>
+          <div><div class="b-testi__name">Lena</div><div class="b-testi__role">创始人 · Glow Pantry</div></div>
+        </div>
+      </div><div class="b-testi" style="--wf-delay:70ms">
+        <p class="b-testi__quote">以前改版要排期等开发,现在我们自己每周都能上新活动页。</p>
+        <div class="b-testi__who">
+          <span class="b-testi__avatar">沈</span>
+          <div><div class="b-testi__name">沈之南</div><div class="b-testi__role">增长负责人 · 消费品牌</div></div>
+        </div>
+      </div><div class="b-testi" style="--wf-delay:140ms">
+        <p class="b-testi__quote">最意外的是 AI 搜索开始给我们带流量了,这是过去五年没发生过的事。</p>
+        <div class="b-testi__who">
+          <span class="b-testi__avatar">K</span>
+          <div><div class="b-testi__name">Kevin 王</div><div class="b-testi__role">SEO 顾问</div></div>
+        </div>
+      </div></div>
+      </div></section>
+<section class="wf-block b-faq" id="faq" data-reveal="up" data-wf-b="b80823909"><div class="wb-inner"><div class="wb-head"><h2 class="wb-title">你可能想问</h2></div>
+        <div class="b-faq__list"><div class="b-faq__item">
+        <button class="b-faq__q" type="button">这和普通建站工具有什么区别?</button>
+        <div class="b-faq__a"><div class="b-faq__a-inner">建站工具只管把页面做出来;我们沉淀的是被验证过的转化叙事:先信任、再痛点、再方法、最后行动,并配上实时数据与自动择优。</div></div>
+      </div><div class="b-faq__item">
+        <button class="b-faq__q" type="button">需要会写代码吗?</button>
+        <div class="b-faq__a"><div class="b-faq__a-inner">不需要。全程可视化编辑,导出的是零依赖单文件 HTML。</div></div>
+      </div><div class="b-faq__item">
+        <button class="b-faq__q" type="button">投放数据怎么看?</button>
+        <div class="b-faq__a"><div class="b-faq__a-inner">页面自带曝光与点击埋点,落地页内置实时看板与分群归因;可对接站点 CDP 做全站归因。</div></div>
+      </div><div class="b-faq__item">
+        <button class="b-faq__q" type="button">能承接收款吗?</button>
+        <div class="b-faq__a"><div class="b-faq__a-inner">可以,通过 PayFlow 收款/订阅/优惠券,页面侧只需展示与跳转。</div></div>
+      </div></div>
+      </div></section>
+<section class="wf-block b-cta" id="cta" data-reveal="up" data-wf-b="b74892711"><div class="wb-inner">
+        <div class="b-cta__panel is-gradient" data-goal="lp-diagnosis-cta">
+          <div class="b-cta__title">先做一次网站增长诊断</div>
+          <p class="b-cta__subtitle">留下联系方式,30 分钟讲清你在内容、获客与转化三个环节的短板</p>
+          <div class="wf-btn-group b-cta__btns" style="justify-content:center">
+            <a data-track-click="lp-diagnosis-cta" data-goal="lp-diagnosis-cta" class="wf-btn is-light" href="#form">预约免费诊断</a>
+          </div>
+        </div>
+      </div></section>
+<section class="wf-block b-form" id="sec-b6685385" data-reveal="up" data-wf-b="b6685385"><div class="wb-inner">
+        <div class="wb-head is-center" data-reveal-child="1"><h2 class="wb-title">预约增长诊断</h2><p class="wb-subtitle">我们会在 1 个工作日内与你联系</p></div>
+        <form class="b-form" data-wf-form="预约增长诊断" data-wf-success="提交成功,我们会在 1 个工作日内联系你。" onsubmit="event.preventDefault(); window.__wfSubmitForm && window.__wfSubmitForm(this)">
+          <div class="b-form__fields"><div class="b-form__field">
+          <label class="b-form__label">姓名<span class="b-form__req">*</span></label>
+          <input class="b-form__input" type="text" name="field_0" placeholder="请输入姓名" required>
+        </div><div class="b-form__field">
+          <label class="b-form__label">电话<span class="b-form__req">*</span></label>
+          <input class="b-form__input" type="tel" name="field_1" placeholder="请输入手机号" required>
+        </div><div class="b-form__field">
+          <label class="b-form__label">公司</label>
+          <input class="b-form__input" type="text" name="field_2" placeholder="公司/品牌名(可选)">
+        </div><div class="b-form__field">
+          <label class="b-form__label">每月投放预算</label>
+          <select class="b-form__input" name="field_3"><option value="">请选择</option></select>
+        </div><div class="b-form__field">
+          <label class="b-form__label">当前最大的问题</label>
+          <textarea class="b-form__input" name="field_4" placeholder="如:有流量但没线索 / 素材转化不稳定"></textarea>
+        </div></div>
+          <button type="submit" class="wf-btn is-primary b-form__submit">提交预约</button>
+        </form>
+      </div></section>
+<section class="wf-block b-footer" id="sec-b50799482" data-reveal="up" data-wf-b="b50799482"><div class="b-footer__inner">
+        <div class="b-footer__grid">
+          <div><div class="b-footer__brand">增长线上</div><p class="b-footer__desc">让每一分投放预算,都看得见回报。</p></div>
+          <nav class="b-footer__links"><a href="#">关于我们</a><a href="#">服务内容</a><a href="#">联系顾问</a></nav>
+        </div>
+        <div class="b-footer__copy"><span>© 2026 增长线上</span><span>由 WebsFlow 魔块搭建</span></div>
+      </div></section>
+      
+      </div>
+    </div>
+<script>window.__wfProjectId = "";</script>
+<script>window.__wfSegments = [];</script>
+<script>window.__wfPersonalize = [];</script>
+<script>window.__wfAutomation = [];</script>
+<script>window.__wfAudience = [];</script>
+<script>(function wfRuntime(root) {
+    root = root || document;
+
+    // 入场动画(滚动检测,不依赖 IntersectionObserver,兼容一切嵌入环境)
+    var revealEls = Array.prototype.slice.call(root.querySelectorAll("[data-reveal]"));
+    if (revealEls.length) {
+      var revealCheck = function () {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        revealEls = revealEls.filter(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < vh * 0.92 && r.bottom > 0) { el.classList.add("is-in"); return false; }
+          return true;
+        });
+      };
+      var revealTid = null;
+      var revealOnScroll = function () {
+        if (revealTid) return;
+        revealTid = setTimeout(function () { revealTid = null; revealCheck(); }, 60);
+      };
+      window.addEventListener("scroll", revealOnScroll, { passive: true });
+      window.addEventListener("resize", revealOnScroll);
+      var revealScroller = root.querySelector(".wf-mode-story.is-snap .wf-page");
+      if (revealScroller) revealScroller.addEventListener("scroll", revealOnScroll, { passive: true });
+      revealCheck();
+    }
+
+    // FAQ 手风琴
+    root.querySelectorAll(".b-faq__item").forEach(function (item) {
+      if (item.dataset.wfInit) return; item.dataset.wfInit = "1";
+      var q = item.querySelector(".b-faq__q"), a = item.querySelector(".b-faq__a");
+      if (!q || !a) return;
+      q.addEventListener("click", function () {
+        var open = item.classList.toggle("is-open");
+        a.style.maxHeight = open ? a.scrollHeight + "px" : "0px";
+      });
+    });
+
+    // 选项卡
+    root.querySelectorAll(".b-tabs").forEach(function (wrap) {
+      if (wrap.dataset.wfInit) return; wrap.dataset.wfInit = "1";
+      var bars = wrap.querySelectorAll(".b-tabs__tab"), panels = wrap.querySelectorAll(".b-tabs__panel");
+      bars.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var i = tab.getAttribute("data-tab");
+          bars.forEach(function (t) { t.classList.remove("is-active"); });
+          panels.forEach(function (p) { p.classList.remove("is-active"); });
+          tab.classList.add("is-active");
+          if (panels[i]) panels[i].classList.add("is-active");
+        });
+      });
+    });
+
+    // 互动问答
+    root.querySelectorAll(".b-quiz").forEach(function (quiz) {
+      if (quiz.dataset.wfInit) return; quiz.dataset.wfInit = "1";
+      quiz.querySelectorAll(".b-quiz__opt").forEach(function (opt) {
+        opt.addEventListener("click", function () {
+          if (quiz.classList.contains("is-done")) return;
+          quiz.classList.add("is-done");
+          opt.classList.add(opt.getAttribute("data-correct") === "1" ? "is-right" : "is-wrong");
+          quiz.querySelectorAll('.b-quiz__opt[data-correct="1"]').forEach(function (o) { o.classList.add("is-right"); });
+        });
+      });
+    });
+
+    // 图片热点
+    root.querySelectorAll(".b-hotspot__dot").forEach(function (dot) {
+      if (dot.dataset.wfInit) return; dot.dataset.wfInit = "1";
+      dot.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = dot.classList.contains("is-open");
+        dot.parentElement.querySelectorAll(".b-hotspot__dot").forEach(function (d) { d.classList.remove("is-open"); });
+        if (!open) dot.classList.add("is-open");
+      });
+    });
+
+    // 倒计时
+    root.querySelectorAll(".b-countdown__digits").forEach(function (box) {
+      if (box.dataset.wfInit) return; box.dataset.wfInit = "1";
+      var target = new Date(box.getAttribute("data-target") || "").getTime();
+      if (!target || isNaN(target)) return;
+      var nums = {
+        d: box.querySelector('[data-cd="d"]'), h: box.querySelector('[data-cd="h"]'),
+        m: box.querySelector('[data-cd="m"]'), s: box.querySelector('[data-cd="s"]'),
+      };
+      function pad(n) { return (n < 10 ? "0" : "") + n; }
+      function tick() {
+        var diff = Math.max(0, target - Date.now());
+        var s = Math.floor(diff / 1000);
+        nums.d.textContent = pad(Math.floor(s / 86400));
+        nums.h.textContent = pad(Math.floor(s % 86400 / 3600));
+        nums.m.textContent = pad(Math.floor(s % 3600 / 60));
+        nums.s.textContent = pad(s % 60);
+      }
+      tick();
+      root.__wfTimers = root.__wfTimers || [];
+      root.__wfTimers.push(setInterval(tick, 1000));
+    });
+
+    // 阅读进度条(互动故事)
+    var progress = root.querySelector(".wf-progress");
+    if (progress && !progress.dataset.wfInit) {
+      progress.dataset.wfInit = "1";
+      var scroller = root.querySelector(".wf-mode-story.is-snap .wf-page") || null;
+      var src = scroller || window;
+      src.addEventListener("scroll", function () {
+        var el = scroller || document.documentElement;
+        var max = (scroller ? el.scrollHeight - el.clientHeight : el.scrollHeight - window.innerHeight) || 1;
+        var pos = scroller ? el.scrollTop : window.scrollY;
+        progress.style.width = Math.min(100, pos / max * 100) + "%";
+      }, { passive: true });
+    }
+
+    // PPT 放映
+    var deck = root.querySelector(".wf-deck.is-live");
+    if (deck && !deck.dataset.wfInit) {
+      deck.dataset.wfInit = "1";
+      var slides = Array.prototype.slice.call(deck.querySelectorAll(".wf-slide"));
+      var dots = Array.prototype.slice.call(deck.querySelectorAll(".wf-deck__dot"));
+      var counter = deck.parentElement.querySelector("[data-deck=counter]") || document.querySelector("[data-deck=counter]");
+      var cur = 0;
+      function go(i) {
+        cur = Math.max(0, Math.min(slides.length - 1, i));
+        slides.forEach(function (s, j) { s.classList.toggle("is-active", j === cur); });
+        dots.forEach(function (d, j) { d.classList.toggle("is-active", j === cur); });
+        if (counter) counter.textContent = (cur + 1) + " / " + slides.length;
+        var hash = "#p" + (cur + 1);
+        if (location.hash !== hash) history.replaceState(null, "", hash);
+      }
+      deck.parentElement.querySelector('[data-deck="prev"]').addEventListener("click", function () { go(cur - 1); });
+      deck.parentElement.querySelector('[data-deck="next"]').addEventListener("click", function () { go(cur + 1); });
+      deck.parentElement.querySelector('[data-deck="full"]').addEventListener("click", function () {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+      });
+      dots.forEach(function (d) {
+        d.addEventListener("click", function () { go(parseInt(d.getAttribute("data-i"), 10)); });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " " || e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+        else if (e.key === "Home") go(0);
+        else if (e.key === "End") go(slides.length - 1);
+        else if (e.key === "f" || e.key === "F") deck.parentElement.querySelector('[data-deck="full"]').click();
+      });
+      var m = location.hash.match(/^#p(\d+)$/);
+      go(m ? parseInt(m[1], 10) - 1 : 0);
+    }
+
+    // 块级人群定向(访客新老 + UTM 匹配 + 登录态)
+    var audEls = Array.prototype.slice.call(root.querySelectorAll("[data-wf-audience]"));
+    if (audEls.length) {
+      var isReturn = false, isLoggedIn = false;
+      try {
+        isReturn = !!localStorage.getItem("websflow.visit");
+        localStorage.setItem("websflow.visit", "1");
+        isLoggedIn = !!localStorage.getItem("websflow.token");
+      } catch (e) {}
+      var qs = location.search || "";
+      audEls.forEach(function (el) {
+        try {
+          var a = JSON.parse(el.getAttribute("data-wf-audience") || "{}");
+          var hide = false;
+          if (a.visitor === "new" && isReturn) hide = true;
+          if (a.visitor === "return" && !isReturn) hide = true;
+          if (a.login === "in" && !isLoggedIn) hide = true;
+          if (a.login === "out" && isLoggedIn) hide = true;
+          if (a.utm && qs.indexOf(a.utm) === -1) hide = true;
+          if (hide) el.style.display = "none";
+        } catch (e) {}
+      });
+    }
+
+    // 表单提交(线索交 OpenFlow;失败时降级为本地提示)
+    window.__wfSubmitForm = function (form) {
+      try {
+        var fields = {};
+        Array.prototype.slice.call(form.querySelectorAll("input,textarea,select")).forEach(function (el, i) {
+          var label = el.getAttribute("placeholder") || el.getAttribute("name") || ("field" + i);
+          fields[label] = el.value;
+        });
+        var payload = JSON.stringify({
+          project_id: window.__wfProjectId || null,
+          project_name: document.title,
+          url: location.href.slice(0, 300),
+          seg: (typeof wfMatchedSegs !== "undefined" ? (wfMatchedSegs || []).join(",") : ""),
+          fields: fields,
+        });
+        var done = function () {
+          var msg = form.getAttribute("data-wf-success") || "提交成功!";
+          var box = form.querySelector(".b-form__fields");
+          if (box) box.innerHTML = '<div style="padding:24px;text-align:center;font-weight:600">' + msg + "</div>";
+          var btn = form.querySelector(".b-form__submit"); if (btn) btn.style.display = "none";
+        };
+        // 现有站点规则:表单提交 = form_submit 事件(CDP SDK)
+        try { if (window.CDP && window.CDP.track) window.CDP.track("form_submit", { form: form.getAttribute("data-wf-form") || document.title, fields: Object.keys(fields).length }); } catch (e) {}
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon("/webflow/api/automation/lead", new Blob([payload], { type: "application/json" }));
+          done();
+        } else {
+          fetch("/webflow/api/automation/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: payload })
+            .then(done).catch(done);
+        }
+      } catch (e) { alert("提交失败,请稍后再试"); }
+    };
+
+    // ---------- 页面自动化(触发-动作,页面侧) ----------
+    (function wfAutomation() {
+      var rules = (window.__wfAutomation || []).filter(function (r) { return r && r.enabled !== false; });
+      if (!rules.length) return;
+      var fired = {};
+      try { fired = JSON.parse(sessionStorage.getItem("wf_auto_fired") || "{}") || {}; } catch (e) { fired = {}; }
+      var state = { clicked: false, scrolled: 0, loadedAt: Date.now(), env: null };
+      try {
+        state.env = {
+          visitor: localStorage.getItem("websflow.visit") ? "return" : "new",
+          login: localStorage.getItem("websflow.token") ? "in" : "out",
+          device: /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "") ? "mobile" : "desktop",
+          utm: location.search || "",
+          hour: new Date().getHours(),
+        };
+      } catch (e) { state.env = { visitor: "new", login: "out", device: "desktop", utm: location.search || "", hour: new Date().getHours() }; }
+
+      function persistFired() { try { sessionStorage.setItem("wf_auto_fired", JSON.stringify(fired)); } catch (e) {} }
+      function matchConds(w) {
+        if (!w) return true;
+        if (w.device && w.device !== "any" && w.device !== state.env.device) return false;
+        if (w.utm && String(state.env.utm).indexOf(w.utm) === -1) return false;
+        if (w.visitor === "new" && state.env.visitor === "return") return false;
+        if (w.visitor === "return" && state.env.visitor !== "return") return false;
+        if (w.login === "in" && state.env.login !== "in") return false;
+        if (w.login === "out" && state.env.login === "in") return false;
+        if (w.requireNoClick && state.clicked) return false;
+        return true;
+      }
+      function markClicked() { state.clicked = true; }
+      document.addEventListener("click", function (e) {
+        var el = e.target && e.target.closest ? e.target.closest("[data-goal], .wf-btn, .b-form__submit") : null;
+        if (el) markClicked();
+      }, true);
+
+      function el(tag, style, html) {
+        var n = document.createElement(tag);
+        if (style) n.setAttribute("style", style);
+        if (html != null) n.innerHTML = html;
+        return n;
+      }
+      var POPUP_CSS = "position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px";
+      var CARD_CSS = "background:#fff;border-radius:18px;max-width:420px;width:100%;padding:26px;box-shadow:0 40px 90px -30px rgba(15,23,42,.5);font-family:-apple-system,'PingFang SC',sans-serif";
+      var BTN_CSS = "display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;border-radius:10px;background:#4f46e5;color:#fff;font-weight:600;text-decoration:none;cursor:pointer;border:none;font-size:14px";
+      var BAR_CSS = "position:fixed;left:0;right:0;bottom:0;z-index:9998;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;padding:12px 18px;background:#4f46e5;color:#fff;font-family:-apple-system,'PingFang SC',sans-serif;font-size:14px;box-shadow:0 -10px 30px rgba(15,23,42,.2)";
+
+      function runAction(a) {
+        if (!a || !a.type) return;
+        if (a.type === "popup") {
+          var wrap = el("div", POPUP_CSS);
+          var card = el("div", CARD_CSS);
+          card.innerHTML = '<div style="font-size:20px;font-weight:800;margin-bottom:8px">' + (a.title || "特别提示") + "</div>" +
+            (a.body ? '<p style="color:#64748b;line-height:1.7;margin:0 0 16px;white-space:pre-line">' + a.body + "</p>" : "") +
+            (a.coupon ? '<div style="background:#eef2ff;color:#4f46e5;font-weight:800;text-align:center;padding:12px;border-radius:10px;letter-spacing:.08em;margin-bottom:14px">' + a.coupon + "</div>" : "");
+          var row = el("div", "display:flex;gap:10px;justify-content:flex-end");
+          var close = el("button", "border:1px solid #e2e8f0;background:#fff;border-radius:10px;padding:10px 16px;cursor:pointer", "稍后再说");
+          close.onclick = function () { wrap.remove(); };
+          row.appendChild(close);
+          if (a.linkText) {
+            var go = el("a", BTN_CSS, a.linkText);
+            go.setAttribute("href", a.link || "#");
+            row.appendChild(go);
+          }
+          card.appendChild(row);
+          wrap.appendChild(card);
+          wrap.addEventListener("click", function (e) { if (e.target === wrap) wrap.remove(); });
+          document.body.appendChild(wrap);
+        } else if (a.type === "bar") {
+          if (document.getElementById("wfAutoBar")) document.getElementById("wfAutoBar").remove();
+          var bar = el("div", BAR_CSS);
+          bar.id = "wfAutoBar";
+          bar.innerHTML = "<span>" + (a.text || "") + "</span>" +
+            (a.coupon ? '<b style="background:rgba(255,255,255,.2);padding:3px 12px;border-radius:999px">' + a.coupon + "</b>" : "") +
+            (a.linkText ? '<a style="color:#fff;font-weight:700;text-decoration:underline" href="' + (a.link || "#") + '">' + a.linkText + "</a>" : "") +
+            '<button style="position:absolute;right:10px;top:8px;background:none;border:none;color:#fff;cursor:pointer;font-size:14px">✕</button>';
+          bar.querySelector("button").onclick = function () { bar.remove(); };
+          document.body.appendChild(bar);
+        } else if (a.type === "redirect" && a.link) {
+          window.location.href = a.link;
+        } else if (a.type === "form") {
+          var form = document.querySelector(".b-form");
+          if (form) { form.scrollIntoView({ behavior: "smooth", block: "center" }); var inp = form.querySelector("input,textarea"); if (inp) setTimeout(function () { inp.focus(); }, 600); }
+        }
+      }
+
+      function fire(rule) {
+        if (fired[rule.id] && !(rule.when && rule.when.repeat)) return;
+        fired[rule.id] = 1; persistFired();
+        (rule.then || []).forEach(runAction);
+      }
+      function check(triggerType) {
+        rules.forEach(function (rule) {
+          var w = rule.when || {};
+          if ((w.type || "time_on_page") !== triggerType) return;
+          if (!matchConds(w)) return;
+          fire(rule);
+        });
+      }
+      // 定时类触发
+      var timers = rules.filter(function (r) { return (r.when && r.when.type) === "time_on_page"; });
+      timers.forEach(function (r) {
+        var sec = Math.max(1, Number(r.when.value) || 30);
+        setTimeout(function () { if (matchConds(r.when)) fire(r); }, sec * 1000);
+      });
+      // 滚动深度
+      var scrollRules = rules.filter(function (r) { return r.when && r.when.type === "scroll_depth"; });
+      if (scrollRules.length) {
+        var onScroll = function () {
+          var h = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = h > 0 ? Math.round(window.scrollY / h * 100) : 100;
+          state.scrolled = Math.max(state.scrolled, pct);
+          scrollRules.forEach(function (r) {
+            if (state.scrolled >= (Number(r.when.value) || 60) && matchConds(r.when)) fire(r);
+          });
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+      }
+      // 退出意图
+      var exitRules = rules.filter(function (r) { return r.when && r.when.type === "exit_intent"; });
+      if (exitRules.length) {
+        document.addEventListener("mouseout", function (e) {
+          if (e.clientY <= 0 && !e.relatedTarget) exitRules.forEach(function (r) { if (matchConds(r.when)) fire(r); });
+        });
+      }
+      // UTM / 到站即触发
+      var nowRules = rules.filter(function (r) { return r.when && r.when.type === "utm"; });
+      if (nowRules.length) setTimeout(function () { check("utm"); }, 800);
+      // 无点击触发(在时长基础上判定)
+      var noClickRules = rules.filter(function (r) { return r.when && r.when.type === "no_click"; });
+      noClickRules.forEach(function (r) {
+        var sec = Math.max(1, Number(r.when.value) || 30);
+        setTimeout(function () { if (!state.clicked && matchConds(r.when)) fire(r); }, sec * 1000);
+      });
+    })();
+
+    // ---------- 千人千面(导出页运行时) ----------
+    var wfEnv = (function () {
+      var e = { visitor: "new", login: "out", device: "desktop", utm: location.search || "", country: "", hour: new Date().getHours() };
+      try { e.visitor = localStorage.getItem("websflow.visit") ? "return" : "new"; } catch (x) {}
+      try { e.login = localStorage.getItem("websflow.token") ? "in" : "out"; } catch (x) {}
+      e.device = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "") ? "mobile" : "desktop";
+      return e;
+    })();
+    var wfMatchedSegs = [];
+    if (window.__wfSegments && window.__wfSegments.length) {
+      window.__wfSegments.forEach(function (sg) {
+        var r = sg.rules || {};
+        var ok = true;
+        if (r.visitor === "new" && wfEnv.visitor === "return") ok = false;
+        if (r.visitor === "return" && wfEnv.visitor !== "return") ok = false;
+        if (r.login === "in" && wfEnv.login !== "in") ok = false;
+        if (r.login === "out" && wfEnv.login === "in") ok = false;
+        if (r.device && r.device !== "any" && r.device !== wfEnv.device) ok = false;
+        if (r.utm && String(wfEnv.utm).indexOf(r.utm) === -1) ok = false;
+        if (ok) wfMatchedSegs.push(sg.id);
+      });
+    }
+    // 可见性:按 audience(分群或自定义规则)隐藏;个性化:替换标题/副标题/按钮/图片
+    var segRules = {};
+    (window.__wfSegments || []).forEach(function (sg) { segRules[sg.id] = sg.rules || {}; });
+    function matchRules(r) {
+      if (!r) return true;
+      if (r.visitor === "new" && wfEnv.visitor === "return") return false;
+      if (r.visitor === "return" && wfEnv.visitor !== "return") return false;
+      if (r.login === "in" && wfEnv.login !== "in") return false;
+      if (r.login === "out" && wfEnv.login === "in") return false;
+      if (r.device && r.device !== "any" && r.device !== wfEnv.device) return false;
+      if (r.utm && String(wfEnv.utm).indexOf(r.utm) === -1) return false;
+      if (r.hours) {
+        var mm = String(r.hours).match(/^(\d{1,2})-(\d{1,2})$/);
+        if (mm) {
+          var h = wfEnv.hour, from = +mm[1], to = +mm[2];
+          var inRange = from <= to ? (h >= from && h < to) : (h >= from || h < to);
+          if (!inRange) return false;
+        }
+      }
+      return true;
+    }
+    (window.__wfAudience || []).forEach(function (item) {
+      var sec = root.querySelector('[data-wf-b="' + item.id + '"]');
+      if (!sec) return;
+      var rules = item.segmentId ? (segRules[item.segmentId] || {}) : (item.audience || {});
+      if (!matchRules(rules)) { sec.style.display = "none"; sec.setAttribute("data-wf-hidden", "1"); }
+    });
+    Array.prototype.slice.call(root.querySelectorAll("[data-wf-b]")).forEach(function (sec) {
+      var id = sec.getAttribute("data-wf-b");
+      if (sec.getAttribute("data-wf-hidden") === "1") return;
+      var rule = null;
+      (window.__wfPersonalize || []).forEach(function (item) {
+        if (item.id !== id) return;
+        (item.rules || []).forEach(function (r) { if (!rule && wfMatchedSegs.indexOf(r.segmentId) !== -1) rule = r; });
+      });
+      if (!rule || !rule.patch) return;
+      var patch = rule.patch;
+      Object.keys(patch).forEach(function (k) {
+        if (k === "image") {
+          var img = sec.querySelector("img");
+          if (img && patch[k]) img.setAttribute("src", patch[k]);
+          return;
+        }
+        var el = sec.querySelector('[data-wf-f="' + k + '"]');
+        if (el && patch[k] != null && patch[k] !== "") el.textContent = patch[k];
+      });
+      var btns = sec.querySelectorAll(".wf-btn");
+      if (patch.btnText && btns.length) btns[0].textContent = patch.btnText;
+    });
+
+    // 曝光上报(每会话一次,用于 A/B 转化率计算)
+    try {
+      var pvPid = window.__wfProjectId;
+      if (pvPid && navigator.sendBeacon && window.sessionStorage) {
+        var pvKey = "wf_pv_" + pvPid;
+        if (!sessionStorage.getItem(pvKey)) {
+          sessionStorage.setItem(pvKey, "1");
+          navigator.sendBeacon("/webflow/api/events", new Blob([JSON.stringify({
+            goal_id: "view:" + pvPid, type: "page_view", url: location.href.slice(0, 300),
+            seg: (wfMatchedSegs || []).join(","),
+          })], { type: "application/json" }));
+        }
+      }
+    } catch (pvErr) {}
+
+    // 转化目标上报:点击带 data-goal 的元素时 sendBeacon
+    root.addEventListener("click", function (e) {
+      var el = e.target && e.target.closest ? e.target.closest("[data-goal]") : null;
+      if (!el || !navigator.sendBeacon) return;
+      try {
+        var payload = JSON.stringify({
+          goal_id: el.getAttribute("data-goal"),
+          type: "cta_click",
+          url: location.href.slice(0, 300),
+          project_id: window.__wfProjectId || null,
+          seg: (wfMatchedSegs || []).join(","),
+          ts: Date.now(),
+        });
+        navigator.sendBeacon("/webflow/api/events", new Blob([payload], { type: "application/json" }));
+      } catch (err) {}
+    }, true);
+
+    // 锚点平滑滚动
+    root.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      if (a.dataset.wfInitAnchor) return; a.dataset.wfInitAnchor = "1";
+      a.addEventListener("click", function (e) {
+        var id = a.getAttribute("href").slice(1);
+        if (!id) return;
+        var t = document.getElementById(id);
+        if (t) {
+          e.preventDefault();
+          var scroller = root.querySelector(".wf-mode-story.is-snap .wf-page");
+          if (scroller && scroller.contains(t)) scroller.scrollTo({ top: t.offsetTop, behavior: "smooth" });
+          else t.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+  })(document);</script>
+<script>
+    // 图片懒加载
+    if ('IntersectionObserver' in window) {
+      const imgObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+              img.removeAttribute('data-src');
+            }
+            imgObserver.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+      document.querySelectorAll('img[data-src]').forEach(img => imgObserver.observe(img));
+    }</script>
+</body>
+</html>

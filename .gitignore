@@ -1,0 +1,13 @@
+.DS_Store
+.preview/
+node_modules/
+api/node_modules/
+api/websflow.db
+api/websflow.db.journal
+api/*.log
+api/payflow-config.json
+api/notify-config.json
+api/mail-config.json
+data/
+*.bak*
+api/*-config.json
