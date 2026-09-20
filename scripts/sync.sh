@@ -47,7 +47,7 @@ preview_to_server() {
   local content
   content="$(printf '%s\n' "$out" | awk '{f=substr($1,1,11); n=$2; sub(/^\.\//,"",n);
       if (f ~ /^>f\+/) { printf "[新] %s\n", n }
-      else if (substr(f,3,1)=="c") { printf "[改] %s\n", n } }')"
+      else if (substr(f,3,1)=="c" || substr(f,4,1)=="s") { printf "[改] %s\n", n } }')"
   if [ -z "$content" ]; then say "  (无内容变化)"; return 1; fi
   say "=== 预演:将要写入服务器($SERVER:$SPATH)的文件 ==="
   printf '%s\n' "$content" | head -60
@@ -55,8 +55,10 @@ preview_to_server() {
   printf '%s\n' "$out"
 }
 
-needs_restart() {  # 只有「内容变化且落在 api/」才需要重启
-  awk '{f=substr($1,1,11); n=$2; if ((f ~ /^>f\+/ || substr(f,3,1)=="c") && n ~ /(^|\/)api\//) found=1} END{exit !found}' <<<"$1"
+needs_restart() {  # 只有「内容变化(checksum 或 size 变)且落在 api/」才需要重启
+  awk '{f=substr($1,1,11); n=$2;
+        if ((f ~ /^>f\+/ || substr(f,3,1)=="c" || substr(f,4,1)=="s") && n ~ /(^|\/)api\//) found=1}
+       END{exit !found}' <<<"$1"
 }
 
 restart_node() {
@@ -112,7 +114,7 @@ case "$MODE" in
   from-server)
     say "=== 服务器 → 本地(预演)==="
     ${RSH[@]} -n --itemize-changes "${EXCL[@]}" "$SERVER:$SPATH/" ./ | awk '{f=substr($1,1,11);n=$2;sub(/^\.\//,"",n);
-      if (f ~ /^>f\+/) printf "  [新] %s\n", n; else if (substr(f,3,1)=="c") printf "  [改] %s\n", n}' | head -60
+      if (f ~ /^>f\+/) printf "  [新] %s\n", n; else if (substr(f,3,1)=="c" || substr(f,4,1)=="s") printf "  [改] %s\n", n}' | head -60
     confirm "以上改动写入本地?会覆盖本地同名文件" || { say "已取消"; exit 0; }
     ${RSH[@]} --itemize-changes "${EXCL[@]}" "$SERVER:$SPATH/" ./ | tail -3
     say "✓ 本地已与服务器对齐(v$(cat VERSION))"
