@@ -30,7 +30,7 @@ EXCL=(--exclude=.git --exclude=.gitignore --exclude=node_modules --exclude=.DS_S
       --exclude='*-config.json' --exclude='*.log' --exclude='*.bak*' --exclude=.sync.conf)
 
 SSH=(ssh -o ConnectTimeout=15 "$SERVER")
-RSH=(rsync -azc -e "ssh -o ConnectTimeout=15")   # -c:按 checksum 判断,避免只改时间也重传
+RSH=(rsync -azc -e ssh)   # -c:按 checksum 判断;ssh 选项交给下面的 SSH 数组(openrsync 不认 -e 里带选项)
 
 say()     { printf '%s\n' "$*"; }        # 屏幕
 say_err() { printf '%s\n' "$*" >&2; }    # 屏幕(被捕获时也能看到)
