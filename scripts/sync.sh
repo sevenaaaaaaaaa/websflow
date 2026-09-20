@@ -32,7 +32,8 @@ EXCL=(--exclude=.git --exclude=.gitignore --exclude=node_modules --exclude=.DS_S
 SSH=(ssh -o ConnectTimeout=15 "$SERVER")
 RSH=(rsync -azc -e "ssh -o ConnectTimeout=15")   # -c:按 checksum 判断,避免只改时间也重传
 
-say() { printf '%s\n' "$*"; }
+say()     { printf '%s\n' "$*"; }        # 屏幕
+say_err() { printf '%s\n' "$*" >&2; }    # 屏幕(被捕获时也能看到)
 
 confirm() {  # $1 = 提示
   read -rp "$1 [y/N] " ok
@@ -49,10 +50,10 @@ preview_to_server() {
       if (f ~ /^[<>]d/) next;                                   # 目录项跳过
       else if (f ~ /^[<>]f\+/) { printf "[新] %s\n", n }
       else if (substr(f,3,1)=="c" || substr(f,4,1)=="s") { printf "[改] %s\n", n } }')"
-  if [ -z "$content" ]; then say "  (无内容变化)"; return 1; fi
-  say "=== 预演:将要写入服务器($SERVER:$SPATH)的文件 ==="
-  printf '%s\n' "$content" | head -60
-  say "  共 $(printf '%s\n' "$content" | wc -l | tr -d ' ') 个"
+  if [ -z "$content" ]; then say_err "  (无内容变化)"; return 1; fi
+  say_err "=== 预演:将要写入服务器($SERVER:$SPATH)的文件 ==="
+  printf '%s\n' "$content" >&2 | head -60
+  say_err "  共 $(printf '%s\n' "$content" | wc -l | tr -d ' ') 个"
   printf '%s\n' "$out"
 }
 
