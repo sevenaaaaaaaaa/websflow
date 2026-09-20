@@ -1,8 +1,2 @@
 .DS_Store
 .preview/
-node_modules/
-api/websflow.db
-api/websflow.db.journal
-api/payflow-config.json
-*.log
-.well-known/

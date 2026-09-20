@@ -1,33 +1,19 @@
-# WebsFlow · 静态资源缓存与压缩(配合 Cloudflare)
-# 策略:所有本地资源都带 ?v= 版本号 → 可安全长缓存;HTML/JSON 不缓存,保证发版即时生效
+# WebsFlow · 静态资源缓存策略(配合 Cloudflare CDN)
 <IfModule mod_expires.c>
   ExpiresActive On
+  ExpiresByType text/css "access plus 1 hours"
+  ExpiresByType application/javascript "access plus 1 hours"
   ExpiresByType text/html "access plus 0 seconds"
   ExpiresByType application/json "access plus 0 seconds"
-  ExpiresByType text/css "access plus 1 years"
-  ExpiresByType application/javascript "access plus 1 years"
-  ExpiresByType image/svg+xml "access plus 1 years"
-  ExpiresByType image/png "access plus 1 years"
-  ExpiresByType image/jpeg "access plus 1 years"
-  ExpiresByType image/webp "access plus 1 years"
-  ExpiresByType font/woff2 "access plus 1 years"
 </IfModule>
 
-<IfModule mod_headers.c>
-  # 带版本号的资源:一年不可变
-  <FilesMatch "\.(js|css|woff2|png|jpe?g|webp|svg)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
-  # 入口 HTML 与接口响应:不缓存
-  <FilesMatch "\.(html|json)$">
-    Header set Cache-Control "no-cache"
-  </FilesMatch>
-</IfModule>
-
-# 压缩:Brotli 优先(需 mod_brotli),gzip 兜底
-<IfModule mod_brotli.c>
-  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript application/json image/svg+xml
-</IfModule>
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# API 目录不走缓存
+<IfModule mod_headers.c>
+  <FilesMatch "\.(json)$">
+    Header set Cache-Control "no-store"
+  </FilesMatch>
 </IfModule>
