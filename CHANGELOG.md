@@ -22,6 +22,15 @@
 - 新增 docs/DEPLOY.md:零安装 / Docker / 原生(systemd·宝塔·Nginx)/ NAS 四条路径 + 环境变量表 + 升级备份
 - 新增 MIT LICENSE(此前仓库缺失,与开源定位不符)
 
+**素材版权合规(公开仓库硬要求)**
+- 音乐节素材库 5 张 Wikimedia Commons 照片(CC BY 2.0 ×3 / CC BY-SA 4.0 ×1 / PD ×1,作者 Nenad Stojkovi 等)全部替换为 **WebsFlow 原创矢量插画**(夜场主舞台 / 落日舞台 / 现场演出 / 海边市集 / 星空露营),仓库内不再存在任何必须署名的第三方素材;行业图库为 Unsplash(无需署名)维持不变
+- `asset-library.js` 同步更新:URL 换 .svg、credit 改「WebsFlow 原创」、kind→visual、缓存串 v=2
+- 已知残留:git 历史对象中仍可检出旧照片;彻底抹除需改写历史 + force-push,须与服务器线协调后执行
+
+**与服务器线合流(merge origin/main)**
+- 吸收 `docs/USAGE-GUIDE.md`(核心定位 / Features / 三条实战用例 / FAQ);其中「在线版」表述按「Demo 仅预览」口径修正,部署指引统一改指 DEPLOY.md
+- README 冲突以本地 4.39.0 版为主,吸收对侧的工作流 ASCII 图、「适合谁来用」人群段;模板数口径统一为 **13 套场景模板**(实测模板注册表:site 10 / h5 3 / ppt 2 / story 2,含各形态空白项)
+
 **顺手修出的产品问题(本地线已验证)**
 - 修 `Agent Copilot` 面板点 ✕ 关不掉:`.copilot__panel{display:flex}` 覆盖了 hidden 属性,补 `.copilot__panel[hidden]{display:none}`(css/editor.css)
 - 移除顶栏死按钮「协同」:`toggleCollab` 未定义,点击必抛 ReferenceError;多人协同未完成前不再渲染入口(js/editor.js)
