@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1030"/>
+      <stop offset=".55" stop-color="#1b1e4e"/>
+      <stop offset="1" stop-color="#33306e"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".42" r=".55">
+      <stop offset="0" stop-color="#7c6cff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#7c6cff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9db8ff" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#9db8ff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="beam2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8fb0" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#ff8fb0" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+
+  <!-- 星空 -->
+  <g fill="#dfe6ff">
+    <circle cx="120" cy="90" r="2.4" opacity=".9"/><circle cx="260" cy="170" r="1.6" opacity=".6"/>
+    <circle cx="410" cy="70" r="2" opacity=".8"/><circle cx="560" cy="150" r="1.4" opacity=".5"/>
+    <circle cx="700" cy="60" r="2.2" opacity=".85"/><circle cx="860" cy="130" r="1.5" opacity=".55"/>
+    <circle cx="1010" cy="80" r="2" opacity=".8"/><circle cx="1170" cy="160" r="1.6" opacity=".6"/>
+    <circle cx="1320" cy="70" r="2.4" opacity=".9"/><circle cx="1480" cy="150" r="1.5" opacity=".55"/>
+    <circle cx="90" cy="260" r="1.5" opacity=".5"/><circle cx="330" cy="300" r="1.8" opacity=".7"/>
+    <circle cx="640" cy="250" r="1.4" opacity=".5"/><circle cx="920" cy="290" r="1.7" opacity=".6"/>
+    <circle cx="1240" cy="260" r="1.5" opacity=".5"/><circle cx="1510" cy="310" r="1.8" opacity=".7"/>
+  </g>
+  <!-- 月亮 -->
+  <circle cx="1330" cy="170" r="58" fill="#eef1ff" opacity=".92"/>
+  <circle cx="1310" cy="150" r="12" fill="#c9d2f2" opacity=".55"/>
+  <circle cx="1348" cy="188" r="8" fill="#c9d2f2" opacity=".45"/>
+
+  <!-- 舞台辉光 -->
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+
+  <!-- 光束 -->
+  <g>
+    <polygon points="800,430 380,1000 620,1000" fill="url(#beam)" opacity=".5"/>
+    <polygon points="800,430 980,1000 1220,1000" fill="url(#beam2)" opacity=".5"/>
+    <polygon points="800,430 60,880 60,1000 560,1000" fill="url(#beam2)" opacity=".22"/>
+    <polygon points="800,430 1540,880 1540,1000 1040,1000" fill="url(#beam)" opacity=".22"/>
+  </g>
+
+  <!-- 舞台 -->
+  <g>
+    <rect x="560" y="430" width="480" height="34" rx="17" fill="#4b3f8f"/>
+    <rect x="600" y="464" width="400" height="150" rx="12" fill="#2a2461"/>
+    <rect x="628" y="492" width="344" height="10" rx="5" fill="#6f5cff" opacity=".8"/>
+    <rect x="628" y="516" width="240" height="10" rx="5" fill="#ff6f9c" opacity=".7"/>
+    <rect x="628" y="540" width="300" height="10" rx="5" fill="#41d6c3" opacity=".7"/>
+    <!-- DJ 台 -->
+    <rect x="740" y="560" width="120" height="54" rx="10" fill="#191543"/>
+    <circle cx="772" cy="587" r="9" fill="#8f7bff"/>
+    <circle cx="828" cy="587" r="9" fill="#ff7fae"/>
+    <!-- 音柱 -->
+    <g fill="#5a4fd8">
+      <rect x="612" y="576" width="14" height="38" rx="6" opacity=".9"/>
+      <rect x="636" y="584" width="14" height="30" rx="6" opacity=".8"/>
+      <rect x="950" y="584" width="14" height="30" rx="6" opacity=".8"/>
+      <rect x="974" y="576" width="14" height="38" rx="6" opacity=".9"/>
+    </g>
+  </g>
+
+  <!-- 人群剪影(三层) -->
+  <g fill="#14123a">
+    <circle cx="300" cy="900" r="46"/><rect x="254" y="900" width="92" height="100" rx="30"/>
+    <circle cx="470" cy="880" r="52"/><rect x="418" y="880" width="104" height="120" rx="34"/>
+    <circle cx="650" cy="905" r="44"/><rect x="606" y="905" width="88" height="95" rx="28"/>
+    <circle cx="880" cy="885" r="54"/><rect x="826" y="885" width="108" height="115" rx="36"/>
+    <circle cx="1080" cy="905" r="46"/><rect x="1034" y="905" width="92" height="95" rx="30"/>
+    <circle cx="1270" cy="885" r="52"/><rect x="1218" y="885" width="104" height="115" rx="34"/>
+    <circle cx="1450" cy="905" r="44"/><rect x="1406" y="905" width="88" height="95" rx="28"/>
+  </g>
+  <g fill="#1e1b4e">
+    <circle cx="380" cy="950" r="40"/><rect x="340" y="950" width="80" height="50" rx="24"/>
+    <circle cx="760" cy="960" r="44"/><rect x="716" y="960" width="88" height="40" rx="26"/>
+    <circle cx="1180" cy="955" r="42"/><rect x="1138" y="955" width="84" height="45" rx="25"/>
+  </g>
+  <!-- 荧光棒 -->
+  <g stroke-linecap="round" stroke-width="7">
+    <line x1="330" y1="800" x2="330" y2="856" stroke="#7ef0d4" opacity=".9"/>
+    <line x1="520" y1="780" x2="542" y2="830" stroke="#ffb2ce" opacity=".85"/>
+    <line x1="700" y1="812" x2="700" y2="868" stroke="#a9b8ff" opacity=".9"/>
+    <line x1="905" y1="786" x2="927" y2="836" stroke="#ffd88f" opacity=".85"/>
+    <line x1="1120" y1="808" x2="1120" y2="864" stroke="#7ef0d4" opacity=".9"/>
+    <line x1="1330" y1="784" x2="1352" y2="834" stroke="#ffb2ce" opacity=".85"/>
+  </g>
+</svg>

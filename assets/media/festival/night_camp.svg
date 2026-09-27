@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <defs>
+    <linearGradient id="nightsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#070b26"/>
+      <stop offset=".5" stop-color="#101740"/>
+      <stop offset="1" stop-color="#1e2a5e"/>
+    </linearGradient>
+    <linearGradient id="tentglow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffdf9e"/>
+      <stop offset="1" stop-color="#ff9e5e"/>
+    </linearGradient>
+    <radialGradient id="fire" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ffd66b" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#ff9e5e" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#nightsky)"/>
+
+  <!-- 银河带(柔化) -->
+  <ellipse cx="820" cy="260" rx="900" ry="150" fill="#4a5fc0" opacity=".2" filter="url(#soft)"/>
+  <ellipse cx="700" cy="310" rx="780" ry="80" fill="#8fa0e8" opacity=".16" filter="url(#soft)"/>
+
+  <!-- 星星 -->
+  <g fill="#e6ecff">
+    <circle cx="100" cy="80" r="2.2" opacity=".9"/><circle cx="240" cy="150" r="1.6" opacity=".6"/>
+    <circle cx="390" cy="60" r="2" opacity=".85"/><circle cx="520" cy="190" r="1.5" opacity=".55"/>
+    <circle cx="640" cy="90" r="2.2" opacity=".9"/><circle cx="780" cy="160" r="1.6" opacity=".6"/>
+    <circle cx="930" cy="70" r="2" opacity=".85"/><circle cx="1080" cy="180" r="1.5" opacity=".55"/>
+    <circle cx="1210" cy="90" r="2.2" opacity=".9"/><circle cx="1360" cy="160" r="1.6" opacity=".6"/>
+    <circle cx="1500" cy="70" r="2" opacity=".85"/><circle cx="180" cy="280" r="1.5" opacity=".5"/>
+    <circle cx="460" cy="320" r="1.7" opacity=".6"/><circle cx="760" cy="300" r="1.4" opacity=".5"/>
+    <circle cx="1060" cy="330" r="1.7" opacity=".6"/><circle cx="1420" cy="290" r="1.5" opacity=".5"/>
+  </g>
+  <!-- 流星 -->
+  <line x1="1180" y1="120" x2="1290" y2="180" stroke="#e6ecff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+
+  <!-- 山脊 -->
+  <path d="M0 640 L260 560 L520 650 L760 570 L1020 660 L1280 580 L1600 660 L1600 1000 L0 1000 z" fill="#0d1334"/>
+  <path d="M0 720 L340 660 L700 730 L1060 660 L1420 730 L1600 690 L1600 1000 L0 1000 z" fill="#131a44"/>
+
+  <!-- 帐篷 ×3(暖光) -->
+  <g>
+    <polygon points="300,880 430,660 560,880" fill="#31518f"/>
+    <polygon points="430,660 560,880 492,880" fill="#263f74"/>
+    <polygon points="402,880 430,806 458,880" fill="url(#tentglow)"/>
+    <line x1="430" y1="660" x2="430" y2="620" stroke="#31518f" stroke-width="8"/>
+    <polygon points="410,636 430,624 450,636 430,652" fill="#ffb56b"/>
+
+    <polygon points="700,900 810,720 920,900" fill="#3f5fa8"/>
+    <polygon points="810,720 920,900 866,900" fill="#2e4a86"/>
+    <polygon points="782,900 810,836 838,900" fill="url(#tentglow)"/>
+
+    <polygon points="1130,880 1240,716 1350,880" fill="#31518f"/>
+    <polygon points="1240,716 1350,880 1294,880" fill="#263f74"/>
+    <polygon points="1214,880 1240,824 1266,880" fill="url(#tentglow)"/>
+  </g>
+
+  <!-- 篝火 -->
+  <circle cx="760" cy="936" r="90" fill="url(#fire)"/>
+  <g fill="#0d1334">
+    <circle cx="722" cy="952" r="10"/><circle cx="798" cy="952" r="10"/><circle cx="760" cy="966" r="10"/>
+  </g>
+  <polygon points="760,880 780,928 760,948 742,926" fill="#ffb56b"/>
+  <polygon points="760,902 772,932 760,946 750,930" fill="#ffe3a8"/>
+
+  <!-- 地面暖光 -->
+  <ellipse cx="800" cy="970" rx="760" ry="60" fill="#1c2450"/>
+</svg>

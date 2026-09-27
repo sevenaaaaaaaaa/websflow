@@ -6,7 +6,8 @@
  *   - 按"场景角色 + 标签"检索,可被故事线步骤直接调用
  *   - 找不到合适素材时,用确定性渐变视觉兜底(不再是灰框)
  *
- * 版权:照片来自 Wikimedia Commons(CC/公有领域),credit 随交付包输出。
+ * 版权:内置活动素材为 WebsFlow 原创 SVG(零版权风险);行业图库来自 Unsplash
+ * (unsplash.com/license,无需署名);credit 随交付包输出。
  * ============================================================ */
 
 const BASE = 'https://nownexts.com/webflow/assets/media';
@@ -15,24 +16,24 @@ const BASE = 'https://nownexts.com/webflow/assets/media';
 let MANIFEST = { industries: {} };
 try { MANIFEST = require('./asset-manifest.json'); } catch (e) { /* 清单缺失时退回内置 */ }
 
-// 内置原创/活动素材(自托管)
+// 内置原创/活动素材(自托管,全部原创,可安全随开源仓库分发)
 const CURATED = [
-  { id: 'festival.stage_night', kind: 'photo', url: `${BASE}/festival/night_stage.jpg?v=1`, ratio: '16:9',
+  { id: 'festival.stage_night', kind: 'visual', url: `${BASE}/festival/night_stage.svg?v=2`, ratio: '16:9',
     roles: ['hero', 'gallery', 'proof'], industries: ['event'],
     tags: ['festival', 'music', 'stage', 'night', 'concert', '现场', '音乐节', '舞台', '夜'],
-    credit: 'Wikimedia Commons · CC BY 2.0' },
-  { id: 'festival.stage_sunset', kind: 'photo', url: `${BASE}/festival/sunset_stage.jpg?v=1`, ratio: '4:3',
+    credit: 'WebsFlow 原创' },
+  { id: 'festival.stage_sunset', kind: 'visual', url: `${BASE}/festival/sunset_stage.svg?v=2`, ratio: '4:3',
     roles: ['hero', 'gallery'], industries: ['event'], tags: ['festival', 'music', 'sunset', 'concert', '落日', '现场', '演出'],
-    credit: 'Wikimedia Commons · CC BY 2.0' },
-  { id: 'festival.crowd', kind: 'photo', url: `${BASE}/festival/live_stage.jpg?v=1`, ratio: '4:3',
+    credit: 'WebsFlow 原创' },
+  { id: 'festival.crowd', kind: 'visual', url: `${BASE}/festival/live_concert.svg?v=2`, ratio: '4:3',
     roles: ['gallery', 'testimonial'], industries: ['event'], tags: ['crowd', 'concert', 'live', '人群', '观众', '乐手'],
-    credit: 'Wikimedia Commons · CC BY 2.0' },
-  { id: 'festival.market', kind: 'photo', url: `${BASE}/festival/seaside_market.jpg?v=1`, ratio: '3:2',
+    credit: 'WebsFlow 原创' },
+  { id: 'festival.market', kind: 'visual', url: `${BASE}/festival/seaside_market.svg?v=2`, ratio: '3:2',
     roles: ['gallery'], industries: ['event', 'food'], tags: ['market', 'seaside', 'food', '市集', '海边', '摊位'],
-    credit: 'Wikimedia Commons · CC BY-SA 4.0' },
-  { id: 'festival.camp', kind: 'photo', url: `${BASE}/festival/night_camp.jpg?v=1`, ratio: '3:2',
+    credit: 'WebsFlow 原创' },
+  { id: 'festival.camp', kind: 'visual', url: `${BASE}/festival/night_camp.svg?v=2`, ratio: '3:2',
     roles: ['gallery'], industries: ['event', 'travel'], tags: ['camp', 'tent', 'night', 'stars', '露营', '帐篷', '星空'],
-    credit: 'Wikimedia Commons · Public domain' },
+    credit: 'WebsFlow 原创' },
   { id: 'product.dashboard', kind: 'visual', url: `${BASE}/product/hero-growth.svg?v=1`, ratio: '4:3',
     roles: ['hero', 'showcase'], industries: ['saas'],
     tags: ['saas', 'product', 'dashboard', 'analytics', 'growth', '增长', '数据', '看板', '后台', '工具'],
