@@ -840,7 +840,7 @@ function writePack(prodId, brief, storyline, result, pageA, pageB) {
   w('storyline.json', JSON.stringify({ brief, storyline, newModules: result.newModules }, null, 2));
   w('page-A.json', JSON.stringify(pageA.data, null, 2));
   w('page-B.json', JSON.stringify(pageB.data, null, 2));
-  w('assets.md', ['# 素材清单', '', '照片来自 Wikimedia Commons(CC/公有领域);视觉为 WebsFlow 原创。', '', ...assets.credits(result.assets)].join('\n'));
+  w('assets.md', ['# 素材清单', '', '活动素材为 WebsFlow 原创;行业图库来自 Unsplash(unsplash.com/license,无需署名)。', '', ...assets.credits(result.assets)].join('\n'));
   const vA = result.variants.find((v) => v.key === 'A'), vB = result.variants.find((v) => v.key === 'B');
   w('README.md', [
     `# 交付包 · ${brief.business || '页面'}`, '',
