@@ -1,0 +1,16 @@
+# 构建上下文瘦身:运行时数据与本地产物不进镜像
+.git
+.sync.conf
+.preview
+data
+docs
+scripts
+mcp
+deliverables
+api/node_modules
+api/websflow.db
+api/websflow.db.journal
+api/*-config.json
+api/*.log
+*.bak*
+.DS_Store

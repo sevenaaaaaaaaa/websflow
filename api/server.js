@@ -67,6 +67,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/static', express.static(path.join(__dirname, '..', 'public')));
 
 // ============================================================
+//  自托管(可选):单进程把编辑器挂在 /webflow/ 下,与云端反代约定一致
+//  /webflow/        → 编辑器(index.html + css/js/assets 白名单)
+//  /webflow/api/…   → 重写到 /api/…
+//  /webflow/p/…     → 重写到 /p/…(托管 SSR 页)
+//  同源部署下前端无需任何配置;反向代理部署也可直接复用这条约定。
+// ============================================================
+const SAFE_EDITOR_STATIC = /^\/(index\.html|share\.html|css\/|js\/|assets\/)/;
+app.use((req, res, next) => {
+  if (req.url === '/webflow' || req.url === '/webflow/') {
+    return res.sendFile(path.join(__dirname, '..', 'index.html'));
+  }
+  if (req.url.startsWith('/webflow/api/')) {
+    req.url = req.url.replace(/^\/webflow\/api/, '/api');
+    return next();
+  }
+  if (req.url.startsWith('/webflow/p/')) {
+    req.url = req.url.replace(/^\/webflow\/p/, '/p');
+    return next();
+  }
+  next();
+});
+app.use('/webflow', (req, res, next) => {
+  // 白名单外的路径一律 404,避免泄露 api/ 源码、数据库与配置
+  if (!SAFE_EDITOR_STATIC.test(req.url)) return res.status(404).end();
+  next();
+}, express.static(path.join(__dirname, '..'), { index: false, dotfiles: 'ignore' }));
+
+// ============================================================
 //  路由配置
 // ============================================================
 

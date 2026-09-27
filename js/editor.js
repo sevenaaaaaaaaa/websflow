@@ -396,7 +396,7 @@ window.WF = window.WF || {};
         <button class="ed-btn" data-act="export-html">${WF.t("exportHTML")}</button>
         <button class="ed-btn" data-act="export-json">{ } JSON</button>
         ${user ? `<button class="ed-btn" data-act="sync-to-cloud" title="${WF.t("syncCloud")}">${WF.t("syncCloud")}</button>
-        ${WF.collab.isActive() ? `<span class="ed-collab-badge">${WF.t("collabActive")}</span>` : `<button class="ed-btn" data-act="toggle-collab" title="${WF.t("collabBtn")}">${WF.t("collabBtn")}</button>`}` : ''}
+        ${WF.collab.isActive() ? `<span class="ed-collab-badge">${WF.t("collabActive")}</span>` : '' /* 多人协同未完成,不渲染入口,避免死按钮 */}` : ''}
         <button class="ed-btn is-primary" data-act="open-tab" data-tab="theme">${WF.t("themePublish")}</button>
         ${userHTML}
         ${WF.langHTML()}

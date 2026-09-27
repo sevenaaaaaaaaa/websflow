@@ -1,5 +1,32 @@
 # Changelog
 
+## 4.39.0 · 2026-09-27
+
+**开源定位批次:README 按 OpenFlow 表述逻辑重写 + 超详细功能总附录(74 张实截图)+ Docker/原生部署就绪 + 自托管单进程路由。**
+
+**README 重写(面向使用者,不再是内部备忘)**
+- 按 OpenFlow 的表述逻辑组织:定位叙事 → 界面证据(截图)→ 特色能力 → 用例 → 快速开始 → 开源开放 → 诚实边界
+- 「这是什么」讲清投放工作流(出页→上线→数据回流→放量)与建站/H5 工具的本质差异
+- 明确「无官方托管 SaaS」:nownexts.com/webflow/ 仅为 demo 预览,正式使用请自部署
+- 新增「开源开放」章:核心功能永久开源(MIT),商业化仅限市场付费模板与定制化开发服务,欢迎 fork/插件/矩阵集成
+- 移除内部开发纪律、规划真源等对使用者无意义的信息
+
+**功能总附录(docs/APPENDIX-FEATURES.md)**
+- 15 大板块:打开方式 / 工作台 / 左栏十面板 / 44 模块字段级清单 / 模板 / 主题 / 导出发布 / 千人千面 / 数据转化 / 生产流水线 / Console 11 页 / AI / 开放能力 / 配额商业化 / 快捷键
+- 每个内容模块配:插入后实截图 + 用途 + 适用形态 + 变体数 + 可编辑字段表(由 `scripts/gen-module-docs.js` 从 schema.js 生成,可复跑)
+- 74 张截图全部为本地真实运行截取,存于 docs/screenshots/
+
+**自托管与部署**
+- 新增 Dockerfile + docker-compose.yml + .dockerignore(node:22-alpine,纯 JS 依赖,数据卷 /data,带健康检查)
+- API 新增自托管路由:单进程把编辑器挂在 /webflow/ 下(白名单静态 + /webflow/api、/webflow/p 重写),与云端反代约定一致;敏感路径(api 源码/db/配置)一律 404
+- 新增 docs/DEPLOY.md:零安装 / Docker / 原生(systemd·宝塔·Nginx)/ NAS 四条路径 + 环境变量表 + 升级备份
+- 新增 MIT LICENSE(此前仓库缺失,与开源定位不符)
+
+**顺手修出的产品问题(本地线已验证)**
+- 修 `Agent Copilot` 面板点 ✕ 关不掉:`.copilot__panel{display:flex}` 覆盖了 hidden 属性,补 `.copilot__panel[hidden]{display:none}`(css/editor.css)
+- 移除顶栏死按钮「协同」:`toggleCollab` 未定义,点击必抛 ReferenceError;多人协同未完成前不再渲染入口(js/editor.js)
+- 模块数口径修正:44 个内容模块(schema.js)+ 插件通道,旧文案「43」
+
 ## 4.38.0 · 2026-09-20
 
 **收口批次:年付上架动线 + 10 套行业模板 + 案例墙 + 出页时长 + 文档对齐。不留半成品。**
