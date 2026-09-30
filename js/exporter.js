@@ -53,8 +53,11 @@ window.WF = window.WF || {};
       `<meta property="og:description" content="${esc(og.description || description)}">`,
       `<meta property="og:type" content="website">`,
       og.image ? `<meta property="og:image" content="${esc(og.image)}">` : "",
+      g.canonical ? `<meta property="og:url" content="${esc(g.canonical)}">` : "",
       `<meta property="og:site_name" content="${esc(g.brand || title)}">`,
     ].filter(Boolean).join("\n    ");
+
+    const canonicalTag = g.canonical ? `<link rel="canonical" href="${esc(g.canonical)}">` : "";
 
     // 构建 Twitter Card 标签
     const twitterTags = [
@@ -118,6 +121,7 @@ window.WF = window.WF || {};
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="${esc(description || title)}">
 ${keywords ? `<meta name="keywords" content="${esc(keywords)}">` : ""}
+${canonicalTag}
 ${ogTags}
 ${twitterTags}
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-size='16' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'%3EW%3C/text%3E%3C/svg%3E">

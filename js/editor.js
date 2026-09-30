@@ -668,6 +668,13 @@ window.WF = window.WF || {};
     if (!blocks.length) return `<div class="outline-empty">${WF.t("outlineEmpty")}</div>`;
     const row = (b, nested) => {
       const def = WF.Blocks[b.type];
+      if (!def) {
+        return `<div class="outline-item${state.sel === b.id ? " is-active" : ""}${nested ? " is-child" : ""}" data-act="select" data-id="${b.id}">
+          <span class="outline-item__icon">⚠️</span>
+          <span class="outline-item__name${b.hidden ? " is-hidden" : ""}">未知模块 · ${esc(b.type)}</span>
+          <button class="outline-item__act" data-act="del" data-id="${b.id}" title="删除">✕</button>
+        </div>`;
+      }
       const summary = def.summary ? def.summary(b.props) : "";
       return `<div class="outline-item${state.sel === b.id ? " is-active" : ""}${nested ? " is-child" : ""}" data-act="select" data-id="${b.id}">
         <span class="outline-item__icon">${def.icon}</span>
@@ -1028,6 +1035,8 @@ window.WF = window.WF || {};
         <div class="field"><label class="ed-label">${WF.t("pageTitle")}</label><input class="ed-input" data-gset="title" value="${esc((p.global && p.global.title) || "")}"></div>
         <div class="field"><label class="ed-label">${WF.t("pageDesc")}</label><textarea class="ed-textarea" rows="2" data-gset="description">${esc((p.global && p.global.description) || "")}</textarea></div>
         <div class="field"><label class="ed-label">${WF.t("keywords")}</label><input class="ed-input" data-gset="keywords" value="${esc((p.global && p.global.keywords) || "")}" placeholder="${WF.t("keywordsPh")}"></div>
+        <div class="field"><label class="ed-label">${WF.t("canonical")}</label><input class="ed-input" data-gset="canonical" value="${esc((p.global && p.global.canonical) || "")}" placeholder="${WF.t("canonicalPh")}">
+          <div class="ed-hint">${WF.t("canonicalHint")}</div></div>
         <div class="ed-hint" style="margin-bottom:12px">${WF.t("keywordsHint")}</div>
       </div>
       <div class="insp__section">
@@ -1251,6 +1260,12 @@ window.WF = window.WF || {};
       return;
     }
     const def = WF.Blocks[b.type];
+    if (!def) {
+      box.innerHTML = `<div class="insp-empty">⚠️ 未知模块类型:${esc(b.type)}<br>
+        <span class="ed-hint">该模块数据已保留但无法编辑,可能是导入内容来自更新版本或其他工具。</span><br>
+        <button class="ed-btn is-danger" style="margin-top:10px" data-act="del-sel" title="删除模块">✕ 删除该模块</button></div>`;
+      return;
+    }
     let html = `<div class="insp__header"><span class="insp__header-icon">${def.icon}</span><span class="insp__header-name">${WF.tBlock(b.type)}</span>
       <button class="ed-btn is-ghost" data-act="dup-sel" title="复制模块">⧉</button>
       <button class="ed-btn is-ghost is-danger" data-act="del-sel" title="删除模块">✕</button></div>

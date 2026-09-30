@@ -217,6 +217,13 @@ window.WF = window.WF || {};
     return data;
   };
 
+  // 统计未知模块数量并提醒(防静默失败:数据保留在画布占位,不丢内容)
+  function warnUnknown(blocks) {
+    const n = (blocks || []).filter((b) => b && b._unknown).length;
+    if (n && WF.toast) WF.toast(`导入完成,但包含 ${n} 个未知模块(画布中显示为占位,可删除)`, "error");
+    return n;
+  }
+
   // 导入 JSON 成为新项目
   WF.importProject = function (data) {
     if (!data || !Array.isArray(data.blocks) || !WF.Modes[data.mode]) throw new Error("不是有效的 WebsFlow 项目文件");
@@ -228,7 +235,7 @@ window.WF = window.WF || {};
       mode: data.mode,
       theme: data.theme || WF.defaultTheme(),
       global: data.global || {},
-      blocks: (Array.isArray(data.blocks) ? data.blocks : []).map((b) => WF.normalizeBlock(b)),
+      blocks: (Array.isArray(data.blocks) ? data.blocks : []).map((b) => WF.normalizeBlock(b)).filter(Boolean),
       createdAt: Date.now(), updatedAt: Date.now(),
       versions: [],
     };
@@ -245,12 +252,24 @@ window.WF = window.WF || {};
     WF.ensurePages(proj);
     DB.projects[id] = proj;
     persist();
+    warnUnknown(proj.blocks);
     return proj;
   };
 
   WF.normalizeBlock = function (b) {
+    if (!b || typeof b !== "object" || !b.type) return null;
     const def = WF.Blocks[b.type];
-    if (!def) return null;
+    if (!def) {
+      // 防静默失败:未知类型不再丢弃,保留原数据;画布显示占位,导出/SSR 渲染为空
+      return {
+        id: b.id || "b" + Math.random().toString(36).slice(2, 9),
+        type: String(b.type),
+        props: b.props && typeof b.props === "object" ? JSON.parse(JSON.stringify(b.props)) : {},
+        hidden: !!b.hidden,
+        style: Object.assign({ bg: "", padding: "normal", anim: "up" }, b.style || {}),
+        _unknown: true,
+      };
+    }
     const nb = {
       id: b.id || "b" + Math.random().toString(36).slice(2, 9),
       type: b.type,

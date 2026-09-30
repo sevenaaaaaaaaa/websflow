@@ -37,6 +37,16 @@ function buildVisitor(req) {
   };
 }
 
+// 从请求头推导对外基准地址(canonical / og:url 用);反代场景认 x-forwarded-*
+function baseUrlFromReq(req) {
+  if (!req || !req.headers) return "";
+  const host = req.headers["x-forwarded-host"] || req.headers.host || "";
+  if (!host) return "";
+  const proto = String(req.headers["x-forwarded-proto"] || "").split(",")[0].trim() ||
+    ((req.connection && req.connection.encrypted) ? "https" : "http");
+  return proto + "://" + host;
+}
+
 function renderPage(project, slug, req, opts) {
   const wf = loadWF();
   const data = project.data || {};
@@ -64,7 +74,7 @@ function renderPage(project, slug, req, opts) {
   const hit = cache.get(key);
   if (hit && hit.stamp === stamp) return hit.html;
 
-  const html = build(wf, project, data, page, proActive, visitor, opts);
+  const html = build(wf, project, data, page, proActive, visitor, Object.assign({ baseUrl: baseUrlFromReq(req) }, opts || {}));
   cache.set(key, { stamp, html });
   if (cache.size > 400) cache.delete(cache.keys().next().value);
   return html;
@@ -88,6 +98,9 @@ function build(wf, project, data, page, proActive, visitor, opts) {
   const keywords = g.keywords || '';
   const og = g.og || {};
   const twitter = g.twitter || {};
+  // canonical:后台显式配置优先;未配置时托管页指向自身 URL(自引用)
+  const canonical = String(g.canonical || '').trim() ||
+    ((opts && opts.baseUrl) ? opts.baseUrl + multiBase + (page && page.slug ? '/' + page.slug : '') : '');
   const preset = wf.getPreset(theme.preset);
   const isDark = preset.key === 'night';
 
@@ -123,10 +136,12 @@ function build(wf, project, data, page, proActive, visitor, opts) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="${esc(description || title)}">
 ${keywords ? `<meta name="keywords" content="${esc(keywords)}">` : ''}
+${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
 <meta property="og:title" content="${esc(og.title || title)}">
 <meta property="og:description" content="${esc(og.description || description)}">
 <meta property="og:type" content="website">
 ${og.image ? `<meta property="og:image" content="${esc(og.image)}">` : ''}
+${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 <meta property="og:site_name" content="${esc(g.brand || title)}">
 <meta name="twitter:card" content="${esc(twitter.card || 'summary_large_image')}">
 <meta name="twitter:title" content="${esc(og.title || title)}">

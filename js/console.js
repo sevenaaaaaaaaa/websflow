@@ -2605,10 +2605,13 @@ window.WF = window.WF || {};
     }
   }
 
-  async function publishPage(id) {
+  async function publishPage(id, force) {
     try {
-      const data = await WF.apiRequest(`/projects/${id}/publish`, { method: "POST" });
+      const data = await WF.apiRequest(`/projects/${id}/publish`, { method: "POST", body: force ? { force: true } : undefined });
       const url = location.origin + (data.url || ("/webflow/p/" + data.token));
+      if (data.warns && data.warns.length) {
+        WF.toast(t("csPublishWarns", { n: data.warns.length }), "error");
+      }
       const ok = await confirmDialog(t("csPublishReady") + "\n" + url, { title: t("csPublish"), danger: false, okText: t("copyLink") });
       if (ok) {
         try { await navigator.clipboard.writeText(url); WF.toast(t("copied"), "success"); } catch (e) { WF.toast(url); }
@@ -2616,6 +2619,14 @@ window.WF = window.WF || {};
       route();
     } catch (e) {
       if (e.payload && e.payload.quota) return showUpgrade(e.payload);
+      // 质检门禁拦截:列出 BLOCK 项,显式确认后可强制发布
+      if (e.payload && e.payload.blocked && !force) {
+        const errs = (e.payload.errors || []).map((x) => "• " + x.msg).join("\n");
+        const okForce = await confirmDialog(t("csPublishBlocked", { n: (e.payload.errors || []).length }) + "\n" + errs + "\n\n" + t("csPublishForceAsk"),
+          { title: t("csPublish"), danger: true, okText: t("csPublishForce") });
+        if (okForce) return publishPage(id, true);
+        return;
+      }
       WF.toast(e.message, "error");
     }
   }

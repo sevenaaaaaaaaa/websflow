@@ -4,7 +4,7 @@
 
 **让一个人像一支投放团队:出页、上线、看数据、放量,当天完成一次闭环。**
 
-[![Version](https://img.shields.io/badge/version-4.38.0-4f46e5.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-4.40.0-4f46e5.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-2563eb.svg)](LICENSE)
 [![零依赖前端](https://img.shields.io/badge/%E5%89%8D%E7%AB%AF-%E9%9B%B6%E4%BE%9D%E8%B5%96-16a34a.svg)](#快速开始)
 [![Node 18+](https://img.shields.io/badge/Node-18%2B-7c5cff.svg)](docs/DEPLOY.md)
@@ -26,7 +26,7 @@
 
 WebsFlow 把投放的真实工作流——**出页 → 上线 → 数据回流 → 放量**——收进同一个工场:
 
-1. **出页快**:44 个成品模块、10 套行业模板,默认文案即可上线,5 分钟产出一个可投放页面;
+1. **出页快**:44 个成品模块、13 套场景模板,默认文案即可上线,5 分钟产出一个可投放页面;
 2. **上线直**:导出即单文件 HTML 直接挂广告,或一键托管成 `https://你的域名/webflow/p/<token>`;
 3. **数据回流**:每个页面自带埋点与转化看板,哪个来源、哪句文案带来的点击与线索,一目了然;
 4. **千人千面**:块级人群定向,新/老访客、UTM 来源、设备、时段……同一页面,不同人看到不同内容;

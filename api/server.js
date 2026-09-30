@@ -73,7 +73,7 @@ app.use('/static', express.static(path.join(__dirname, '..', 'public')));
 //  /webflow/p/…     → 重写到 /p/…(托管 SSR 页)
 //  同源部署下前端无需任何配置;反向代理部署也可直接复用这条约定。
 // ============================================================
-const SAFE_EDITOR_STATIC = /^\/(index\.html|share\.html|css\/|js\/|assets\/)/;
+const SAFE_EDITOR_STATIC = /^\/(index\.html|share\.html|preview-all\.html|css\/|js\/|assets\/)/;
 app.use((req, res, next) => {
   if (req.url === '/webflow' || req.url === '/webflow/') {
     return res.sendFile(path.join(__dirname, '..', 'index.html'));

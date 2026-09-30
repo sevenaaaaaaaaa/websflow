@@ -534,6 +534,42 @@ window.WF = window.WF || {};
 }
 `,
     },
+
+    slider: {
+      name: "拖动滑块对比",
+      render(p) {
+        const pane = (img, label, cls) => `<div class="b-ba__pane ${cls}${cls === "is-before" ? " b-ba__before" : ""}">
+          <div class="b-ba__paneimg">${imgOrPh(img, label || "图片")}</div>
+          <span class="b-ba__panelabel wb-pill ${cls === "is-after" ? "is-primary" : ""}">${esc(label || "")}</span>
+        </div>`;
+        return `<div class="wb-inner">
+          ${headHTML(p, p.align === "center")}
+          <div class="b-ba__slider" data-wf-ba="1">
+            ${pane(p.afterImage, p.afterLabel || "改造后", "is-after")}
+            ${pane(p.beforeImage, p.beforeLabel || "改造前", "is-before")}
+            <span class="b-ba__handle" aria-hidden="true"></span>
+            <input class="b-ba__range" type="range" min="0" max="100" value="50" aria-label="拖动滑块对比前后" />
+          </div>
+          ${p.note ? `<div class="b-ba__note">${esc(p.note)}</div>` : ""}
+        </div>`;
+      },
+      css: `
+.b-before-after.is-v-slider .b-ba__slider { position: relative; max-width: 960px; margin: 0 auto; aspect-ratio: 16 / 9; border-radius: var(--r-md); overflow: hidden; background: var(--wf-surface); }
+.b-before-after.is-v-slider .b-ba__pane, .b-before-after.is-v-slider .b-ba__paneimg { position: absolute; inset: 0; margin: 0; }
+.b-before-after.is-v-slider .b-ba__paneimg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.b-before-after.is-v-slider .b-ba__pane.is-before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+.b-before-after.is-v-slider .b-ba__pane.is-before .b-ba__paneimg img { filter: saturate(.8) opacity(.95); }
+.b-before-after.is-v-slider .b-ba__panelabel { position: absolute; top: 14px; z-index: 2; font-size: 12px; }
+.b-before-after.is-v-slider .b-ba__pane.is-before .b-ba__panelabel { left: 14px; }
+.b-before-after.is-v-slider .b-ba__pane.is-after .b-ba__panelabel { right: 14px; }
+.b-before-after.is-v-slider .b-ba__handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: #fff; box-shadow: 0 0 12px rgba(15,23,42,.5); z-index: 2; pointer-events: none; }
+.b-before-after.is-v-slider .b-ba__handle::after { content: "◂ ▸"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border-radius: 999px; background: #fff; color: #0f172a; font-size: 11px; display: flex; align-items: center; justify-content: center; letter-spacing: -2px; box-shadow: 0 2px 10px rgba(15,23,42,.35); }
+.b-before-after.is-v-slider .b-ba__range { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 3; margin: 0; -webkit-appearance: none; appearance: none; }
+@media (max-width: 560px) {
+  .b-before-after.is-v-slider .b-ba__slider { aspect-ratio: 4 / 3; }
+}
+`,
+    },
   });
 
   /* ============================ 提示词启动器 ============================ */

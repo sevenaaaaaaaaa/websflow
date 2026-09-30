@@ -436,7 +436,7 @@ img[data-src].loaded { opacity: 1; }
 .b-prompt__kicker { font-size: .8em; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #a5b4fc; margin-bottom: 14px; }
 .b-prompt__text { font-size: 1.12em; line-height: 1.75; white-space: pre-line; }
 .b-prompt__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.b-prompt__chip { padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); font-size: .85em; color: #cbd5e1; }
+.b-prompt__chip { padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); font-size: .85em; color: #cbd5e1; background: transparent; font-family: inherit; white-space: nowrap; appearance: none; -webkit-appearance: none; }
 .b-prompt__btn { margin-top: 22px; background: #fff; color: #0f172a; box-shadow: none; }
 
 /* ============ tool-grid 工具网格 ============ */
@@ -944,8 +944,7 @@ img[data-src].loaded { opacity: 1; }
   height: var(--wb-pill-h); display: inline-flex; align-items: center; padding: 0 12px;
   border-radius: 999px; font-size: 12px; font-weight: 650; line-height: 1;
 }
-.wf-root .b-cluster__icon, .wf-root .b-bento__icon, .wf-root .b-tool__icon, .wf-root .b-feature__icon,
-.wf-root .b-prompt__chip {
+.wf-root .b-cluster__icon, .wf-root .b-bento__icon, .wf-root .b-tool__icon, .wf-root .b-feature__icon {
   width: 42px; height: 42px; border-radius: var(--r-sm); display: inline-flex;
   align-items: center; justify-content: center; font-size: 1.05em; line-height: 1;
   background: var(--wf-primary-soft); color: var(--wf-primary); flex: none;
@@ -1310,4 +1309,32 @@ img[data-src].loaded { opacity: 1; }
   .b-tool__grid, .b-portrait__grid { grid-template-columns: 1fr !important; }
   .b-social__link { width: 100%; justify-content: center; }
 }
+
+/* ============ v4.40:媒体视频同构 / 链接卡 / 提示词输入 / 前后对比滑块 ============ */
+/* 媒体位视频:与同位图片同裁切、同圆角 */
+.wf-root .b-hero__media video, .wf-root .b-split__media video,
+.wf-root .b-gallery__item video, .wf-root .b-bento__img video,
+.wf-root .b-portrait__img video, .wf-root .b-showcase__img video, .wf-root .b-tabs__media video {
+  width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit;
+}
+/* 链接卡:整卡可点,视觉与静态卡一致 */
+.wf-root a.b-blog__entry, .wf-root a.b-tool__entry { display: block; text-decoration: none; color: inherit; height: 100%; }
+.wf-root a.b-tool__entry { display: flex; }
+.wf-root a.b-blog__entry .b-blog__card, .wf-root a.b-tool__entry .b-tool__card { height: 100%; transition: transform .22s var(--wb-ease, ease); }
+.wf-root a.b-tool__entry:hover .b-tool__card { transform: translateY(-2px); }
+/* 提示词启动器:真实输入 + 可点示例词 */
+.b-prompt__form { display: block; }
+.b-prompt__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.b-prompt__input {
+  width: 100%; min-height: 92px; resize: vertical; display: block;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.22);
+  color: #f1f5f9; font: inherit; line-height: 1.75; border-radius: 12px; padding: 14px 16px;
+}
+.b-prompt__input:focus { outline: none; border-color: #a5b4fc; box-shadow: 0 0 0 3px rgba(165,180,252,.25); }
+.b-prompt__input::placeholder { color: rgba(241,245,249,.45); }
+.b-prompt__chips .b-prompt__chip { cursor: pointer; white-space: nowrap; transition: background var(--wb-dur-fast, .16s) var(--wb-ease, ease), color var(--wb-dur-fast, .16s) var(--wb-ease, ease), border-color var(--wb-dur-fast, .16s) var(--wb-ease, ease); }
+.b-prompt__chips .b-prompt__chip:hover { background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.5); }
+.b-prompt__btn[disabled] { opacity: .75; cursor: default; }
+/* 未知模块占位:实线边框区别于普通空图位 */
+.wf-root .b-unknown > .wf-ph, .wf-root .b-unknown .wb-inner > .wf-ph { border-style: solid; border-color: color-mix(in srgb, oklch(55% .2 25) 45%, var(--wf-border)); }
 `;

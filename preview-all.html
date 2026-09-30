@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>WebsFlow · 全模块全变体预览(回归验收页)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ctext x='16' y='22' font-size='16' fill='white' text-anchor='middle' font-family='sans-serif' font-weight='bold'%3EW%3C/text%3E%3C/svg%3E">
+<style>
+  body { margin: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f1f5f9; }
+  .pa-bar { position: sticky; top: 0; z-index: 99; background: #0f172a; color: #e2e8f0; padding: 10px 18px; font-size: 13px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .pa-bar a { color: #a5b4fc; text-decoration: none; margin-right: 10px; white-space: nowrap; }
+  .pa-bar a:hover { color: #fff; }
+  .pa-bar .pa-count { color: #94a3b8; }
+  .pa-section { max-width: 1080px; margin: 26px auto; padding: 0 16px; }
+  .pa-label { font-size: 13px; color: #475569; background: #e2e8f0; border-radius: 8px 8px 0 0; padding: 7px 12px; display: flex; justify-content: space-between; }
+  .pa-label code { background: #cbd5e1; border-radius: 5px; padding: 1px 7px; font-size: 12px; }
+  .pa-frame { background: #fff; border-radius: 0 0 8px 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(15,23,42,.08); }
+  .pa-frame > .wf-root { min-height: 220px; }
+  .pa-error { color: #b91c1c; font: 14px/1.6 monospace; padding: 12px; }
+</style>
+<style id="paRuntime"></style>
+</head>
+<body>
+<div class="pa-bar" id="paBar"></div>
+<div id="paMain"></div>
+<script src="js/schema.js?v=4.40.0"></script>
+<script src="js/themes.js?v=4.40.0"></script>
+<script src="js/runtime-css.js?v=4.40.0"></script>
+<script src="js/render.js?v=4.40.0"></script>
+<script src="js/variants.js?v=4.40.0"></script>
+<script src="js/variants-batch-1.js?v=4.40.0"></script>
+<script src="js/variants-batch-2.js?v=4.40.0"></script>
+<script src="js/variants-batch-3.js?v=4.40.0"></script>
+<script src="js/variants-batch-4.js?v=4.40.0"></script>
+<script src="js/variants-batch-5.js?v=4.40.0"></script>
+<script>
+/* 全模块 × 全变体预览:与正式页共用同一 renderer 与数据格式(所见即所发布)。
+ * 兼作:组件回归验收页 + 内容侧字段字典入口。CLI 版:node scripts/check-render.js */
+(function () {
+  // 运行时样式全量注入(画布/导出同源;全变体页不按需裁剪)
+  var rt = document.getElementById("paRuntime");
+  if (rt) rt.textContent = WF.allRuntimeCSS ? WF.allRuntimeCSS() : (WF.runtimeCSS || "");
+  var filter = (location.hash.match(/type=([\w-]+)/) || [])[1] || "";
+  var main = document.getElementById("paMain");
+  var bar = document.getElementById("paBar");
+  var typeCount = 0, variantCount = 0, errorCount = 0;
+  var nav = ['<span>🧱 WebsFlow 全变体预览</span><span class="pa-count" id="paCount"></span>'];
+  var html = [];
+
+  Object.keys(WF.Blocks).forEach(function (type) {
+    if (filter && type !== filter) return;
+    var def = WF.Blocks[type];
+    typeCount++;
+    nav.push('<a href="#pa-' + type + '" title="' + def.name + '">' + (def.icon || "▫") + " " + def.name + "</a>");
+    var vkeys = (def.variants && def.variants.length) ? def.variants.map(function (v) { return v[0]; }) : [null];
+    vkeys.forEach(function (vk) {
+      variantCount++;
+      var b = WF.newBlock(type);
+      if (vk) b.variant = vk;
+      var vName = vk ? WF.variantLabel(type, vk) : "经典版式";
+      var inner;
+      try {
+        inner = WF.renderProject({ mode: "site", theme: WF.defaultTheme(), global: {}, blocks: [b] }, { context: "live", noAnim: true });
+      } catch (e) {
+        errorCount++;
+        inner = '<div class="pa-error">渲染失败:' + (e && e.message) + "</div>";
+      }
+      html.push('<div class="pa-section" id="pa-' + type + "-" + (vk || "classic") + '">' +
+        '<div class="pa-label"><span>' + (def.icon || "▫") + " " + def.name + " · " + vName + "</span>" +
+        '<code>' + type + (vk ? " · " + vk : "") + "</code></div>" +
+        '<div class="pa-frame">' + inner + "</div></div>");
+    });
+  });
+
+  nav.push('<a href="#paBar" style="margin-left:auto">↑ 顶部</a>');
+  bar.innerHTML = nav.join("");
+  main.innerHTML = html.join("");
+  var c = document.getElementById("paCount");
+  if (c) c.textContent = typeCount + " 模块 · " + variantCount + " 变体 · " + (errorCount ? errorCount + " 个渲染失败" : "0 失败");
+  if (WF.runtimeFn) WF.runtimeFn(document);
+})();
+</script>
+</body>
+</html>

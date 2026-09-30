@@ -21,12 +21,30 @@ window.WF = window.WF || {};
   const nl2br = (s) => esc(s); // 配合 CSS white-space: pre-line,无需替换 <br>
   const delay = (i) => ` style="--wf-delay:${i * 70}ms"`;
   const colsVar = (n) => ` style="--wb-cols:${esc(n || 3)}"`;
-  const imgOrPh = (src, label, attrs, lazy) => {
+  const imgOrPh = (src, label, attrs, lazy, alt) => {
     if (!src) return `<div class="wf-ph" data-label="${esc(label || "图片")}"></div>`;
+    const altAttr = ` alt="${esc(alt != null ? alt : (label || ""))}"`;
     if (lazy) {
-      return `<img data-src="${esc(src)}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" ${attrs || ""} alt="" loading="lazy">`;
+      return `<img data-src="${esc(src)}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" ${attrs || ""}${altAttr} loading="lazy">`;
     }
-    return `<img src="${esc(src)}" ${attrs || ""} alt="">`;
+    return `<img src="${esc(src)}" ${attrs || ""}${altAttr}>`;
+  };
+
+  // 媒体位图片/视频同构:src 为视频地址(mp4/webm/mov/m4v)时输出原生 <video>,
+  // 其余照旧输出 <img> —— 旧图片数据零改动,换 URL 即换形态。
+  const VIDEO_RE = /\.(mp4|webm|mov|m4v)(\?|#|$)/i;
+  WF.isVideoSrc = (src) => VIDEO_RE.test(String(src || ""));
+  WF.mediaHTML = function (src, label, attrs, lazy, opts) {
+    if (!src) return `<div class="wf-ph" data-label="${esc(label || "图片")}"></div>`;
+    if (!VIDEO_RE.test(src)) return imgOrPh(src, label, attrs, lazy, opts && opts.alt);
+    const o = opts || {};
+    const a = [
+      o.poster ? `poster="${esc(o.poster)}"` : "",
+      attrs || "",
+      "autoplay muted loop playsinline",
+      o.controls ? "controls" : "",
+    ].filter(Boolean).join(" ");
+    return `<video src="${esc(src)}" ${a}></video>`;
   };
 
   // 视频链接 → iframe 嵌入地址
@@ -131,7 +149,7 @@ window.WF = window.WF || {};
       </div>`;
       if (variant === "split") {
         const media = p.image
-          ? `<div class="b-hero__media"><img src="${esc(p.image)}" alt=""${(ctx && ctx.lazy) ? ' loading="lazy"' : ""}></div>`
+          ? `<div class="b-hero__media">${WF.mediaHTML(p.image, "产品图", "", false, { poster: p.poster, alt: p.imageAlt || p.title })}</div>`
           : `<div class="b-hero__media"><div class="b-hero__mock" aria-hidden="true">
               <div class="b-hero__mock-bar"><span class="b-hero__mock-dot"></span><span class="b-hero__mock-dot"></span><span class="b-hero__mock-dot"></span><span class="b-hero__mock-url"></span></div>
               <div class="b-hero__mock-body">
@@ -169,9 +187,10 @@ window.WF = window.WF || {};
       </div>`;
     },
 
-    split(p) {
+    split(p, ctx) {
+      const media = WF.mediaHTML(p.image, "图片", 'loading="lazy"', ctx && ctx.lazy, { poster: p.poster, alt: p.imageAlt || p.title });
       return `<div class="wb-inner"><div class="b-split__grid">
-        <div class="b-split__media">${imgOrPh(p.image, "图片", 'loading="lazy"')}</div>
+        <div class="b-split__media">${media}</div>
         <div>
           <h2 class="b-split__title">${esc(p.title)}</h2>
           <p class="b-split__body">${nl2br(p.body)}</p>
@@ -210,7 +229,7 @@ window.WF = window.WF || {};
 
     gallery(p, ctx) {
       const items = (p.items || []).map((it, i) => `<div class="b-gallery__item"${ctx.anim ? delay(i) : ""}>
-        ${imgOrPh(it.image, "图片", 'loading="lazy"')}
+        ${imgOrPh(it.image, "图片", 'loading="lazy"', false, it.alt || it.caption || "图片")}
         ${it.caption ? `<span class="b-gallery__cap">${esc(it.caption)}</span>` : ""}
       </div>`).join("");
       return `<div class="wb-inner">${headHTML(p, p.align === "center")}
@@ -342,12 +361,13 @@ window.WF = window.WF || {};
       const bid = (b && b.id) || ("tabs" + (++wfUidSeq));
       const bar = items.map((it, i) => `<button class="b-tabs__tab${i === 0 ? " is-active" : ""}" data-tab="${i}" type="button" role="tab" id="wf-tab-${esc(bid)}-${i}" aria-selected="${i === 0 ? "true" : "false"}" aria-controls="wf-tabp-${esc(bid)}-${i}" tabindex="${i === 0 ? "0" : "-1"}">${esc(it.tab || "页签 " + (i + 1))}</button>`).join("");
       const panels = items.map((it, i) => `<div class="b-tabs__panel${i === 0 ? " is-active" : ""}" role="tabpanel" id="wf-tabp-${esc(bid)}-${i}" aria-labelledby="wf-tab-${esc(bid)}-${i}">
-        ${it.image ? `<div class="b-tabs__media"><img src="${esc(it.image)}" loading="lazy" alt=""></div>` : ""}
+        ${it.image ? `<div class="b-tabs__media"><img src="${esc(it.image)}" loading="lazy" alt="${esc(it.alt || it.title || it.tab || "")}"></div>` : ""}
         ${it.title ? `<div class="b-tabs__title">${esc(it.title)}</div>` : ""}
         ${it.body ? `<p class="b-tabs__body">${nl2br(it.body)}</p>` : ""}
       </div>`).join("");
+      const autoMs = (!ctx || ctx.context !== "edit") && Number(p.autoplayMs) >= 2000 ? Math.min(Number(p.autoplayMs), 15000) : 0;
       return `<div class="wb-inner">
-        <div class="b-tabs__bar" role="tablist">${bar}</div>${panels}
+        <div class="b-tabs__bar" role="tablist"${autoMs ? ` data-autoplay="${autoMs}"` : ""}>${bar}</div>${panels}
       </div>`;
     },
 
@@ -522,17 +542,26 @@ window.WF = window.WF || {};
     blog(p, ctx) {
       const cols = p.cols || '3';
       const lazy = ctx && ctx.lazy;
+      const resolveHref = (href) => {
+        let h = href || "";
+        if (h.indexOf("page:") === 0) {
+          const slug = h.slice(5);
+          h = (ctx && ctx.multiBase) ? ctx.multiBase + (slug ? "/" + slug : "") : ("#" + slug);
+        }
+        return h;
+      };
       const items = (p.items || []).map(item => {
         const dateStr = item.date ? `<time class="b-blog__date">${esc(item.date)}</time>` : '';
         const cat = item.category ? `<span class="b-blog__cat">${esc(item.category)}</span>` : '';
-        return `<article class="b-blog__card">
-          <div class="b-blog__cover">${imgOrPh(item.image, '文章封面', '', lazy)}</div>
+        const card = `<article class="b-blog__card">
+          <div class="b-blog__cover">${imgOrPh(item.image, '文章封面', '', lazy, item.alt || item.title || '文章封面')}</div>
           <div class="b-blog__body">
             <div class="b-blog__meta">${cat}${dateStr}</div>
             <h3 class="b-blog__title">${esc(item.title || '')}</h3>
             <p class="b-blog__excerpt">${esc(item.excerpt || '')}</p>
           </div>
         </article>`;
+        return item.href ? `<a class="b-blog__entry" href="${esc(resolveHref(item.href))}">${card}</a>` : card;
       }).join('');
       return `<div class="wb-inner">
         ${headHTML(p, p.align === 'center')}
@@ -640,7 +669,7 @@ window.WF = window.WF || {};
 
     bento(p) {
       const cells = (p.items || []).map((it, i) => `<div class="b-bento__cell${it.span === "2" ? " is-wide" : ""}"${delay(i)}>
-        ${it.image ? `<div class="b-bento__img"><img src="${esc(it.image)}" alt=""></div>` : ""}
+        ${it.image ? `<div class="b-bento__img"><img src="${esc(it.image)}" alt="${esc(it.alt || it.title || "")}"></div>` : ""}
         ${it.icon ? `<div class="b-bento__icon">${esc(it.icon)}</div>` : ""}
         <div class="b-bento__t">${esc(it.title || "")}</div>
         ${it.desc ? `<div class="b-bento__d">${nl2br(it.desc)}</div>` : ""}
@@ -683,26 +712,33 @@ window.WF = window.WF || {};
       </div>`;
     },
 
-    prompt(p) {
-      const chips = (p.items || []).map((it) => `<span class="b-prompt__chip">${esc(it.text || "")}</span>`).join("");
+    prompt(p, ctx, b) {
+      const chips = (p.items || []).map((it) => `<button type="button" class="b-prompt__chip">${esc(it.text || "")}</button>`).join("");
+      const inId = "b-prompt__in-" + esc((b && b.id) || "p" + (++wfUidSeq));
       return `<div class="wb-inner">
         <div class="b-prompt__panel">
           ${p.subtitle ? `<div class="b-prompt__kicker">${esc(p.subtitle)}</div>` : ""}
-          <div class="b-prompt__text">${nl2br(p.title || "")}</div>
-          ${chips ? `<div class="b-prompt__chips">${chips}</div>` : ""}
-          ${p.btnText ? `<a class="wf-btn is-primary b-prompt__btn" href="${esc(p.btnLink || "#")}">${esc(p.btnText)}</a>` : ""}
+          <form class="b-prompt__form" data-wf-prompt="1">
+            <label class="b-prompt__sr" for="${inId}">提示词</label>
+            <textarea class="b-prompt__input" id="${inId}" rows="3" placeholder="${esc(p.placeholder || "描述你想要的内容…")}">${esc(p.title || "")}</textarea>
+            ${chips ? `<div class="b-prompt__chips">${chips}</div>` : ""}
+            ${p.btnText ? `<button type="submit" class="wf-btn is-primary b-prompt__btn"${p.goalId ? ` data-goal="${esc(p.goalId)}" data-track-click="${esc(p.goalId)}"` : ""}>${esc(p.btnText)}</button>` : ""}
+          </form>
         </div>
       </div>`;
     },
 
     "tool-grid"(p) {
-      const cards = (p.items || []).map((it, i) => `<div class="b-tool__card"${delay(i)}>
-        ${it.tag ? `<span class="b-tool__tag">${esc(it.tag)}</span>` : ""}
-        ${it.icon ? `<div class="b-tool__icon">${esc(it.icon)}</div>` : ""}
-        <div class="b-tool__t">${esc(it.title || "")}</div>
-        ${it.desc ? `<div class="b-tool__d">${nl2br(it.desc)}</div>` : ""}
-        ${it.rating ? `<div class="b-tool__rating">★ ${esc(it.rating)}</div>` : ""}
-      </div>`).join("");
+      const cards = (p.items || []).map((it, i) => {
+        const card = `<div class="b-tool__card"${delay(i)}>
+          ${it.tag ? `<span class="b-tool__tag">${esc(it.tag)}</span>` : ""}
+          ${it.icon ? `<div class="b-tool__icon">${esc(it.icon)}</div>` : ""}
+          <div class="b-tool__t">${esc(it.title || "")}</div>
+          ${it.desc ? `<div class="b-tool__d">${nl2br(it.desc)}</div>` : ""}
+          ${it.rating ? `<div class="b-tool__rating">★ ${esc(it.rating)}</div>` : ""}
+        </div>`;
+        return it.href ? `<a class="b-tool__entry" href="${esc(it.href)}"${/^https?:/i.test(it.href) ? ' target="_blank" rel="noopener"' : ""}>${card}</a>` : card;
+      }).join("");
       return `<div class="wb-inner">
         ${headHTML(p, p.align === "center")}
         <div class="b-tool__grid" style="--wb-cols:${esc(p.cols || 3)}">${cards}</div>
@@ -725,7 +761,7 @@ window.WF = window.WF || {};
 
     portrait(p, ctx) {
       const cards = (p.items || []).map((it, i) => `<div class="b-portrait__card"${delay(i)}>
-        <div class="b-portrait__img">${imgOrPh(it.image, it.title || "图片", "", ctx && ctx.lazy)}</div>
+        <div class="b-portrait__img">${imgOrPh(it.image, it.title || "图片", "", ctx && ctx.lazy, it.alt || it.title || "图片")}</div>
         <div class="b-portrait__t">${esc(it.title || "")}</div>
         ${it.desc ? `<div class="b-portrait__d">${esc(it.desc)}</div>` : ""}
       </div>`).join("");
@@ -742,7 +778,7 @@ window.WF = window.WF || {};
           <div class="b-showcase__t">${esc(it.title || "")}</div>
           ${it.desc ? `<div class="b-showcase__d">${nl2br(it.desc)}</div>` : ""}
         </div>
-        <div class="b-showcase__img">${imgOrPh(it.image, it.title || "配图", "", ctx && ctx.lazy)}</div>
+        <div class="b-showcase__img">${imgOrPh(it.image, it.title || "配图", "", ctx && ctx.lazy, it.alt || it.title || "配图")}</div>
       </div>`).join("");
       return `<div class="wb-inner">
         ${headHTML(p, p.align === "center")}
@@ -854,7 +890,21 @@ window.WF = window.WF || {};
     const sections = [];
     blocks.forEach((b, i) => {
       const def = WF.Blocks[b.type];
-      if (!def) return;
+      if (!def) {
+        // 防静默失败:未知类型在画布显示占位(可选中/删除),导出与 SSR 渲染为空不白屏
+        console.warn("[WebsFlow] 未知模块类型(已跳过渲染):", b.type);
+        if (edit) {
+          sections.push(
+            `<section class="wf-block b-unknown" data-wf-id="${esc(b.id || "")}">` +
+            `<div class="wf-blocktools">` +
+            `<span class="wf-bt-label">⚠️ ${esc(b.type)}</span>` +
+            `<button data-wf-act="del" title="删除">✕</button>` +
+            `</div>` +
+            `<div class="wb-inner"><div class="wf-ph" data-label="未知模块类型: ${esc(b.type)}(数据已保留,可删除或更换模块)"></div></div></section>`
+          );
+        }
+        return;
+      }
       // 分群:可见性判定 + 个性化内容替换(SSR/导出/画布一致)
       const _eff = (typeof opts.visitor !== "undefined" && !edit && WF.effectiveProps)
         ? WF.effectiveProps(b, opts.visitor, project.segments)
@@ -1029,6 +1079,32 @@ window.WF = window.WF || {};
           bars[next].focus();
         });
       });
+
+      // 自动轮播:编辑画布不输出 data-autoplay;悬停/聚焦暂停,手动切换后重新计时
+      var autoEl = wrap.querySelector("[data-autoplay]");
+      var autoMs = parseInt(autoEl && autoEl.getAttribute("data-autoplay"), 10) || 0;
+      var reduced = false;
+      try { reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
+      if (autoMs >= 2000 && bars.length > 1 && !reduced) {
+        var cur = 0, timer = null, paused = false;
+        bars.some(function (t, j) { if (t.classList.contains("is-active")) { cur = j; return true; } return false; });
+        var play = function () {
+          if (timer) clearInterval(timer);
+          timer = setInterval(function () {
+            if (paused || document.hidden) return;
+            cur = (cur + 1) % bars.length;
+            activate(cur);
+          }, autoMs);
+        };
+        wrap.addEventListener("mouseenter", function () { paused = true; });
+        wrap.addEventListener("mouseleave", function () { paused = false; });
+        wrap.addEventListener("focusin", function () { paused = true; });
+        wrap.addEventListener("focusout", function () { paused = false; });
+        bars.forEach(function (tab2, idx2) {
+          tab2.addEventListener("click", function () { cur = idx2; play(); });
+        });
+        play();
+      }
     });
 
     // 互动问答
@@ -1061,6 +1137,45 @@ window.WF = window.WF || {};
       });
       dot.addEventListener("keydown", function (e) { if (e.key === "Escape") { setOpen(false); } });
       dot.parentElement.addEventListener("click", function (e) { if (e.target === dot.parentElement) setOpen(false); });
+    });
+
+    // 提示词启动器:示例词回填输入框;提交上报 prompt_submit(仅线上托管页,画布与单文件导出不上报)
+    root.querySelectorAll("[data-wf-prompt]").forEach(function (form) {
+      if (form.dataset.wfInit) return; form.dataset.wfInit = "1";
+      var ta = form.querySelector(".b-prompt__input");
+      form.querySelectorAll(".b-prompt__chip").forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          if (ta) { ta.value = chip.textContent.trim(); ta.focus(); }
+        });
+      });
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        try {
+          if (window.__wfProjectId && navigator.sendBeacon && ta && ta.value.trim()) {
+            navigator.sendBeacon("/webflow/api/events", new Blob([JSON.stringify({
+              goal_id: "prompt_submit", type: "cta_click", url: location.href.slice(0, 300),
+              project_id: window.__wfProjectId, seg: (wfMatchedSegs || []).join(","),
+              vid: wfVid, src: wfSrc, ts: Date.now(),
+            })], { type: "application/json" }));
+          }
+        } catch (err) {}
+        var btn = form.querySelector(".b-prompt__btn");
+        if (btn) {
+          var t0 = btn.textContent;
+          btn.textContent = "✓ 已收到"; btn.disabled = true;
+          setTimeout(function () { btn.textContent = t0; btn.disabled = false; }, 1600);
+        }
+      });
+    });
+
+    // 前后对比滑块(变体 slider):拖动联动裁切位置(--pos 设在容器上,把手与裁切层共用)
+    root.querySelectorAll("[data-wf-ba]").forEach(function (sl) {
+      if (sl.dataset.wfInit) return; sl.dataset.wfInit = "1";
+      var range = sl.querySelector(".b-ba__range");
+      if (!range) return;
+      var apply = function () { sl.style.setProperty("--pos", range.value + "%"); };
+      range.addEventListener("input", apply);
+      apply();
     });
 
     // 倒计时

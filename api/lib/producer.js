@@ -769,16 +769,26 @@ async function run(userId, brief, opts) {
     const imgCount = pageA.data.blocks.reduce((n, b) => n + ((b.props.items || []).filter((i) => i.image).length) + (b.props.image ? 1 : 0), 0);
     record('visual', `自动配图 ${imgCount} 处(行业:${brief2.industry || '通用'}) + 版式令牌(预设 ${pageA.data.theme.preset} / 变体已定)`, { images: imgCount, industry: brief2.industry || null });
 
-    // 4) A/B
+    // 4) A/B 假设(先只改内容,不发布)
     const hypB = (storyline.hypotheses || []).find((h) => h.key === 'B') || { statement: 'B 版:承诺更具体 + 信任前置' };
     const pageB = JSON.parse(JSON.stringify(Object.assign({}, pageA)));
     pageB.name = pageA.name.replace('A 版', 'B 版');
     applyHypothesisBlocks(pageB.data.blocks, hypB);
     syncAlias(pageB.data);
+
+    // 5) 质检闸门(发布前:qaGate 自动修复先行,BLOCK>0 不上线)
+    const qaA = qaGate(pageA); syncAlias(pageA.data);
+    const qaB = qaGate(pageB); syncAlias(pageB.data);
+    result.qa = { A: qaA, B: qaB };
+    record('qa', `质检 A ${qaA.ok ? '通过' : '有阻塞'}(${qaA.autofixes.length} 项自动修) · B ${qaB.ok ? '通过' : '有阻塞'}(${qaB.autofixes.length} 项自动修)`, { A: qaA.issues, B: qaB.issues });
+
+    // 门禁:BLOCK=0 才可发布;被拦截的版本不创建云端项目
     const objective = brief2.objective || 'cta_click';
     const baseGoal = 'produce-' + brief2.slug;
     const variants = [];
-    for (const [key, pg] of [['A', pageA], ['B', pageB]]) {
+    const blockedKeys = [];
+    for (const [key, pg, qa] of [['A', pageA, qaA], ['B', pageB, qaB]]) {
+      if (!qa.ok) { blockedKeys.push(key); continue; }
       const goalId = baseGoal + '-' + key;
       stampObjective(pg.data, goalId, objective);
       pg.data.global.title = `${storyline.title || brief2.business}${key === 'B' ? '(B)' : ''}`;
@@ -786,30 +796,20 @@ async function run(userId, brief, opts) {
       db.setPublished(created.id, userId, true);
       variants.push({ key, goalId, cloudId: created.id, token: created.share_token, url: '/webflow/p/' + created.share_token, name: pg.name });
     }
+    if (blockedKeys.length) record('qa.blocked', `${blockedKeys.join(' / ')} 版存在 BLOCK 级问题,未上线(详情见 result.qa)`, { blocked: blockedKeys });
     const usedPatterns = result.newModules.map((m) => m.pattern).filter(Boolean);
     variants.forEach((v) => { v.patterns = usedPatterns; });
-    const runRec = db.addGrowthRun({
-      project_id: variants[0].cloudId, user_id: userId, round: 1,
-      hypothesis: hypB.statement, reason: storyline.angle || '',
-      base_goal: baseGoal, ops: [], variants,
-      stats_before: null, categories: ['produce'], theme: 'produce', agent_context: '生产流水线',
-    });
+    if (variants.length) {
+      const runRec = db.addGrowthRun({
+        project_id: variants[0].cloudId, user_id: userId, round: 1,
+        hypothesis: hypB.statement, reason: storyline.angle || '',
+        base_goal: baseGoal, ops: [], variants,
+        stats_before: null, categories: ['produce'], theme: 'produce', agent_context: '生产流水线',
+      });
+      result.experiment_id = runRec && runRec.id;
+    }
     result.variants = variants;
-    result.experiment_id = runRec && runRec.id;
-    record('variants', `A/B 已上线:A「${hypB.key === 'A' ? '' : '对照'}」/ B「${hypB.statement}」`, { experiment_id: result.experiment_id });
-
-    // 5) 质检闸门
-    const qaA = qaGate(pageA); syncAlias(pageA.data);
-    const qaB = qaGate(pageB); syncAlias(pageB.data);
-    result.qa = { A: qaA, B: qaB };
-    // 把自动修复结果写回项目
-    [['A', pageA, qaA], ['B', pageB, qaB]].forEach(([key, pg, qa]) => {
-      const v = variants.find((x) => x.key === key);
-      if (!v) return;
-      db.updateProject(v.cloudId, userId, { data: pg.data });
-      db.setPublished(v.cloudId, userId, true);
-    });
-    record('qa', `质检 A ${qaA.ok ? '通过' : '有阻塞'}(${qaA.autofixes.length} 项自动修) · B ${qaB.ok ? '通过' : '有阻塞'}(${qaB.autofixes.length} 项自动修)`, { A: qaA.issues, B: qaB.issues });
+    record('variants', variants.length ? `已上线 ${variants.length} 版:${variants.map((v) => v.key).join(' / ')}(假设:${hypB.statement})` : '两版均被质检拦截,未上线', { experiment_id: result.experiment_id || null });
 
     // 6) 交付包
     result.assets = Array.from(new Map(pageA.assetsUsed.map((a) => [a.id, a])).values());
@@ -820,8 +820,11 @@ async function run(userId, brief, opts) {
     const ok = qaA.ok && qaB.ok;
     db.updateProduction(prod.id, { status: ok ? 'done' : 'done_with_issues', steps: JSON.stringify(steps), result: JSON.stringify(result) });
     try {
+      const urlLine = variants.length
+        ? '\n' + variants.map((v) => `${v.key}: ${v.url}`).join('\n')
+        : '\n(质检拦截,无上线版本)';
       require('./notify').notify(userId, 'review', '🏭 生产流水线完成',
-        `${brief2.business || '页面'}:A/B 已上线 + 质检${ok ? '通过' : '有告警'}\nA: ${variants[0].url}\nB: ${variants[1].url}`, '#/console');
+        `${brief2.business || '页面'}:质检${ok ? '通过' : '有告警'}${urlLine}`, '#/console');
     } catch (e) { /* 通知失败不影响交付 */ }
     return Object.assign({ id: prod.id, status: ok ? 'done' : 'done_with_issues' }, result);
   } catch (e) {

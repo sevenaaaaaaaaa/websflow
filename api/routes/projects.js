@@ -8,6 +8,7 @@ const router = express.Router();
 const db = require('../db');
 const { authMiddleware, optionalAuth } = require('../auth');
 const { checkProjectQuota, checkPublishQuota } = require('../lib/quota');
+const { preflight } = require('../lib/preflight');
 
 // 获取用户的项目列表
 router.get('/', authMiddleware, (req, res) => {
@@ -204,18 +205,31 @@ router.get('/:id/versions/:versionId', authMiddleware, (req, res) => {
   }
 });
 
-// 发布到托管 URL(需登录)
+// 发布到托管 URL(需登录;发布前跑质检门禁,BLOCK 级问题默认拦截)
 router.post('/:id/publish', authMiddleware, (req, res) => {
   try {
     const current = db.getProject(req.params.id, req.user.id);
     const quota = checkPublishQuota(req.user.id, current && current.published === 1);
     if (!quota.ok) return res.status(quota.code).json({ error: quota.error, quota: true, upgrade: quota.upgrade });
+    if (!current) return res.status(404).json({ error: '项目不存在或无权操作' });
+    // 质检门禁:error=BLOCK 拦截;force=true 为显式确认后的强制放行(响应中标记 forced)
+    const pf = preflight(current.data);
+    if (!pf.ok && !(req.body && req.body.force)) {
+      return res.status(422).json({
+        error: `质检未通过,发布被拦截(BLOCK=${pf.errors.length};修复后重试,或确认风险后强制发布)`,
+        blocked: true,
+        errors: pf.errors,
+        warns: pf.warns,
+      });
+    }
     const result = db.setPublished(req.params.id, req.user.id, true);
     if (!result) {
       return res.status(404).json({ error: '项目不存在或无权操作' });
     }
     res.json({
-      message: '已发布',
+      message: pf.ok ? '已发布' : `已发布(带 ${pf.errors.length} 项 BLOCK 告警,强制放行)`,
+      forced: !pf.ok,
+      warns: pf.warns,
       token: result.share_token,
       url: '/webflow/p/' + result.share_token,
     });
