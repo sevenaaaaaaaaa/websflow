@@ -1,5 +1,43 @@
 # Changelog
 
+## 4.41.0 · 2026-10-10
+
+**自动化治理批次:任务/Token 可观测 + 工作日窗口 + 日预算熔断 + 晨暮邮件报告 + 邮件通道打通。**
+
+**后台首页新增「自动化与Token」入口(管理员)**
+- 正在跑的任务、最近 20 次任务执行(成功/失败/超时/跳过)、今日预算条
+- 近 24h 每小时 Token 消耗、近 7 天每日消耗、近 7 天消耗大户(按场景/用户)
+- 管理员可单日调额(key 带日期,次日自动恢复默认)、一键发测试报告
+- 接口:`GET /api/metrics/automation`、`POST /api/metrics/automation/budget`、`POST /api/metrics/automation/report-test`
+
+**Token 用量台账(此前只记调用次数,无 token/成本)**
+- 新表 `ai_usage`:每次模型调用记录场景/用户/模型/prompt+completion tokens/成本(元)
+- 单价表 `api/cost-rates.json`(按模型匹配,缺省 deepseek ¥2/M 输入、¥8/M 输出)
+- `lib/ai.js` 四个入口(generate/copilot/chatOnce/patchOps)统一记账
+
+**执行限制:工作日 + 夜间窗口**
+- 周六日/法定节假日不执行非重要自动化任务(`api/holidays.json` 含调休补班)
+- 非重要任务(巡检/增长 Agent/目标编排/体检)只在 00:00-06:00(北京时间)执行,05:30 硬截止保证 6 点前结束
+- 告警/对账/结算/生命周期/日报等重要任务不受窗口限制
+
+**日预算与消耗限制**
+- 每日 Token 预算默认 ¥5(`api/runtime-limits.json` 可调):后台任务超支即熔断跳过,用户主动操作放行
+- 超支当天邮件 + 站内提醒管理员(每天最多一次);单用户后台日耗上限默认 ¥2
+- 消耗大户治理:按场景/用户聚合曝光;后台场景全走预算熔断
+
+**晨/暮邮件报告**
+- 每天 07:30 与 18:30(北京时间)向管理员发邮件(收件人:WebsFlow 管理员 > OpenFlow admin_email 兜底)
+- 内容:过去 12h 任务执行/流量/转化/CVR/Token,当日任务与预算余量,失败任务明细,近 7 天消耗大户
+- 新增 `api/lib/daily-report.js`,由调度器窗口内去重发送
+
+**邮件通道打通(复用 OpenFlow SMTP)**
+- `mailer.js` 新增第三优先级:OpenFlow `mail-channels.json` 的 smtp 段(本机 127.0.0.1:25 无认证中继)
+- 内置零依赖 Node SMTP 客户端(无认证中继 / AUTH LOGIN / 465 TLS)
+
+**告警噪声治理(曾触发 1122 次的「CVR 过低巡检」)**
+- 根因:无流量时段 CVR 恒为 0%,`< 1%` 规则永远命中,5 分钟冷却形同虚设
+- 修复:CVR 规则加最小样本量门槛(窗口内曝光 < 30 不评估)
+
 ## 4.40.0 · 2026-09-30
 
 **对照《Composite Page 组件手册》与《Blog 页面 PRD》的能力补齐(第一批):发布门禁 + 共享媒体结构 + 全变体回归夹具。**

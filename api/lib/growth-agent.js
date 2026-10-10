@@ -364,6 +364,8 @@ async function defaultPlanner({ project, stats, round, lessonsText, recent, obje
     blocks: blocksOf(data).slice(0, 60),
     stats,
     lessons: lessonsText || '',
+    scene: 'growth',
+    auto: true,
   });
   // 防重复:与本项目最近 2 个假设过于相似时,要求换角度再想一次
   const prev = (recent || []).filter((r) => r.hypothesis).slice(0, 2).map((r) => r.hypothesis);
@@ -375,6 +377,8 @@ async function defaultPlanner({ project, stats, round, lessonsText, recent, obje
       blocks: blocksOf(data).slice(0, 60),
       stats,
       lessons: lessonsText || '',
+      scene: 'growth',
+      auto: true,
     });
     if (retry.ops && retry.ops.length) return Object.assign(retry, { retried: true, similarity: +sim.toFixed(2) });
   }

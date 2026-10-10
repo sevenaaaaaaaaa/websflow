@@ -675,6 +675,43 @@ async function initDatabase() {
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     )
   `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS ai_usage (
+      id TEXT PRIMARY KEY,
+      ts DATETIME DEFAULT CURRENT_TIMESTAMP,
+      user_id TEXT,
+      scene TEXT NOT NULL DEFAULT 'chat',
+      kind TEXT NOT NULL DEFAULT 'chat',
+      model TEXT,
+      prompt_tokens INTEGER DEFAULT 0,
+      completion_tokens INTEGER DEFAULT 0,
+      cost_cny REAL DEFAULT 0,
+      meta TEXT
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS task_runs (
+      id TEXT PRIMARY KEY,
+      kind TEXT NOT NULL,
+      name TEXT NOT NULL,
+      ref TEXT,
+      user_id TEXT,
+      status TEXT DEFAULT 'running',
+      started_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      finished_at DATETIME,
+      note TEXT
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS ops_config (
+      key TEXT PRIMARY KEY,
+      value TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
   
   // 索引:按实际查询路径补齐(此前一个索引都没有,聚合查询全表扫描)
   const INDEXES = [
@@ -692,6 +729,10 @@ async function initDatabase() {
     'CREATE INDEX IF NOT EXISTS idx_notify_user_read ON notifications(user_id, read)',
     'CREATE INDEX IF NOT EXISTS idx_sched_user ON scheduled_tasks(user_id)',
     'CREATE INDEX IF NOT EXISTS idx_growth_runs_proj ON growth_runs(project_id, status)',
+    'CREATE INDEX IF NOT EXISTS idx_aiusage_time ON ai_usage(ts)',
+    'CREATE INDEX IF NOT EXISTS idx_aiusage_scene ON ai_usage(scene, ts)',
+    'CREATE INDEX IF NOT EXISTS idx_taskruns_status ON task_runs(status, started_at)',
+    'CREATE INDEX IF NOT EXISTS idx_taskruns_time ON task_runs(started_at)',
     'CREATE INDEX IF NOT EXISTS idx_growth_props_proj ON growth_proposals(project_id, status)',
     'CREATE INDEX IF NOT EXISTS idx_growth_props_user ON growth_proposals(user_id, status)',
     'CREATE INDEX IF NOT EXISTS idx_preview_exp ON preview_pages(expires_at)',
@@ -1450,6 +1491,145 @@ function getUsage(userId) {
 
 function logAiCall(userId) {
   run("INSERT INTO orders (id, kind, buyer_id, amount) VALUES (?, 'ai', ?, 0)", [uuidv4(), userId]);
+}
+
+// ---------- Token 用量台账 / 任务运行台账 / 运营开关 ----------
+function addAiUsage(o) {
+  run('INSERT INTO ai_usage (id, user_id, scene, kind, model, prompt_tokens, completion_tokens, cost_cny, meta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [uuidv4(), o.user_id || null, o.scene || 'chat', o.kind || 'chat', o.model || null,
+      o.prompt_tokens || 0, o.completion_tokens || 0, o.cost_cny || 0, o.meta || null]);
+}
+
+// 汇总:某时间(UTC,含日期串)以来的调用数/token/成本
+function aiUsageSummary(sinceIso, userId) {
+  const p = [sinceIso];
+  let w = '';
+  if (userId) { w = ' AND user_id = ?'; p.push(userId); }
+  return queryOne(
+    `SELECT COUNT(*) AS n,
+            COALESCE(SUM(prompt_tokens), 0) AS pt,
+            COALESCE(SUM(completion_tokens), 0) AS ct,
+            COALESCE(SUM(cost_cny), 0) AS cost
+       FROM ai_usage WHERE ts >= ?${w}`, p) || { n: 0, pt: 0, ct: 0, cost: 0 };
+}
+
+// 按小时(北京时间桶)聚合,近 N 小时
+function aiUsageHourly(hours) {
+  return query(
+    `SELECT strftime('%m-%d %H:00', ts, '+8 hours') AS bucket,
+            COUNT(*) AS n,
+            SUM(prompt_tokens) AS pt,
+            SUM(completion_tokens) AS ct,
+            ROUND(SUM(cost_cny), 4) AS cost
+       FROM ai_usage
+      WHERE ts >= datetime('now', '-${Math.max(1, Number(hours) || 24)} hours')
+      GROUP BY bucket ORDER BY bucket ASC`);
+}
+
+// 按天(北京时间)聚合,近 N 天
+function aiUsageDaily(days) {
+  return query(
+    `SELECT strftime('%m-%d', ts, '+8 hours') AS bucket,
+            COUNT(*) AS n,
+            SUM(prompt_tokens) AS pt,
+            SUM(completion_tokens) AS ct,
+            ROUND(SUM(cost_cny), 4) AS cost
+       FROM ai_usage
+      WHERE ts >= datetime('now', '-${Math.max(1, Number(days) || 14)} days')
+      GROUP BY bucket ORDER BY bucket ASC`);
+}
+
+// 消耗大户:按 scene / user_id / model 维度聚合
+function aiUsageTop(dim, sinceIso, limit) {
+  const dims = { scene: 'scene', user_id: 'user_id', model: 'model' };
+  const col = dims[dim] || 'scene';
+  const rows = query(
+    `SELECT ${col} AS key,
+            COUNT(*) AS n,
+            SUM(prompt_tokens) AS pt,
+            SUM(completion_tokens) AS ct,
+            ROUND(SUM(cost_cny), 4) AS cost
+       FROM ai_usage WHERE ts >= ?
+      GROUP BY ${col}
+      ORDER BY cost DESC LIMIT ${Math.max(1, Number(limit) || 8)}`,
+    [sinceIso]);
+  if (dim === 'user_id') {
+    return rows.map((r) => {
+      const u = r.key ? findUserById(r.key) : null;
+      return Object.assign(r, { label: u ? (u.display_name || u.username) : (r.key || '(系统/匿名)') });
+    });
+  }
+  return rows.map((r) => Object.assign(r, { label: r.key || '(未知)' }));
+}
+
+// 任务运行台账
+function addTaskRun(kind, name, ref, userId) {
+  const id = uuidv4();
+  run('INSERT INTO task_runs (id, kind, name, ref, user_id) VALUES (?, ?, ?, ?, ?)', [id, kind, name, ref, userId]);
+  return id;
+}
+
+function finishTaskRun(id, status, note) {
+  run("UPDATE task_runs SET status = ?, finished_at = datetime('now'), note = ? WHERE id = ? AND status = 'running'",
+    [status, note || null, id]);
+}
+
+function recentTaskRuns(limit) {
+  return query(`SELECT * FROM task_runs ORDER BY started_at DESC LIMIT ${Math.max(1, Number(limit) || 30)}`);
+}
+
+// 挂起超过 maxMinutes 的 running 视为超时,然后返回仍在跑的
+function runningTaskRuns(maxMinutes) {
+  const mins = Math.max(5, Number(maxMinutes) || 30);
+  run(`UPDATE task_runs SET status = 'timeout', finished_at = datetime('now'), note = '超过 ${mins} 分钟无结束信号'
+        WHERE status = 'running' AND started_at < datetime('now', '-${mins} minutes')`);
+  return query("SELECT * FROM task_runs WHERE status = 'running' ORDER BY started_at ASC");
+}
+
+function taskRunsSince(sinceIso) {
+  return query('SELECT * FROM task_runs WHERE started_at >= ? ORDER BY started_at DESC', [sinceIso]);
+}
+
+// 运营开关/单日覆盖值(预算、报告去重标记等)
+function opsGet(key) {
+  const r = queryOne('SELECT value FROM ops_config WHERE key = ?', [key]);
+  return r ? r.value : null;
+}
+
+function opsSet(key, value) {
+  run(`INSERT INTO ops_config (key, value, updated_at) VALUES (?, ?, datetime('now'))
+        ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = datetime('now')`,
+    [key, value]);
+}
+
+function opsListKeys(prefix) {
+  return query('SELECT key, value FROM ops_config WHERE key LIKE ?', [prefix + '%']);
+}
+
+function opsDel(key) { run('DELETE FROM ops_config WHERE key = ?', [key]); }
+
+// 清理历史日期的覆盖值(保留今天)
+function opsPruneStale(prefix) {
+  const today = require('./lib/workday').bj().date;
+  opsListKeys(prefix).forEach((r) => {
+    const d = r.key.slice(prefix.length);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d) && d !== today) opsDel(r.key);
+  });
+}
+
+// 某时间以来事件/线索计数(报告用)
+function countEventsSince(sinceIso) {
+  const row = queryOne(
+    `SELECT SUM(CASE WHEN type = 'page_view' THEN 1 ELSE 0 END) AS views,
+            SUM(CASE WHEN type = 'cta_click' THEN 1 ELSE 0 END) AS clicks
+       FROM events WHERE created_at >= ?`, [sinceIso]) || {};
+  const views = row.views || 0, clicks = row.clicks || 0;
+  return { views, clicks, cvr: views ? Math.round(clicks / views * 1000) / 10 : 0 };
+}
+
+function countLeadsSince(sinceIso) {
+  const row = queryOne('SELECT COUNT(*) AS n FROM leads WHERE created_at >= ?', [sinceIso]);
+  return row ? row.n : 0;
 }
 
 function createCode(code, kind, value, note) {
@@ -3077,6 +3257,23 @@ module.exports = {
   launchFunnel,
   countPublishedSince,
   addSelfCheck,
+  // Token 台账 / 任务台账 / 运营开关
+  addAiUsage,
+  aiUsageSummary,
+  aiUsageHourly,
+  aiUsageDaily,
+  aiUsageTop,
+  addTaskRun,
+  finishTaskRun,
+  recentTaskRuns,
+  runningTaskRuns,
+  taskRunsSince,
+  opsGet,
+  opsSet,
+  opsDel,
+  opsPruneStale,
+  countEventsSince,
+  countLeadsSince,
   listSelfChecks,
   addProduction,
   getProduction,

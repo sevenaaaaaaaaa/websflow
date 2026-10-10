@@ -10,5 +10,3 @@ api/notify-config.json
 api/mail-config.json
 data/
 *.bak*
-api/*-config.json
-.sync.conf

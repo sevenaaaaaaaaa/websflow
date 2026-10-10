@@ -1,0 +1,6 @@
+{
+  "_comment": "AI Token 单价表(元 / 百万 token)。按模型名匹配,未命中走 default。请管理员按供应商最新报价维护。",
+  "default": { "input_per_m_cny": 2.0, "output_per_m_cny": 8.0 },
+  "deepseek-chat": { "input_per_m_cny": 2.0, "output_per_m_cny": 8.0 },
+  "deepseek-reasoner": { "input_per_m_cny": 4.0, "output_per_m_cny": 16.0 }
+}

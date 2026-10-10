@@ -11,6 +11,29 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { loadWF, FRONT } = require('./wf');
+const usage = require('./usage');
+const budget = require('./budget');
+
+// ---------- 场景上下文(后台调度在跑后台任务时设置,决定预算熔断行为) ----------
+let sceneContext = 'chat';
+function setScene(s) { sceneContext = String(s || 'chat'); }
+
+// 调用前预算检查:后台(非重要)场景在预算耗尽/夜间外直接熔断
+function gateBefore(userId, scene, model, messagesChars, maxTokens) {
+  const sc = scene || sceneContext;
+  const est = usage.estimateBefore(model, messagesChars, maxTokens);
+  const r = budget.check({ scene: sc, userId, estCny: est });
+  if (!r.allowed) throw new Error('任务已按预算/窗口限制跳过:' + r.reason);
+}
+
+// 调用后记账(usage 字段来自供应商响应)
+function trackAfter(userId, scene, kind, model, data) {
+  const u = (data && data.usage) || {};
+  usage.record({
+    userId, scene: scene || sceneContext, kind, model,
+    promptTokens: u.prompt_tokens || 0, completionTokens: u.completion_tokens || 0,
+  });
+}
 
 // ---------- 供应商配置 ----------
 const CONFIG_PATHS = [
@@ -161,13 +184,16 @@ async function generatePage(userId, prompt, mode) {
   if (!WF.Modes[mode]) throw new Error('未知形态:' + mode);
   const provider = loadProvider();
   if (!provider.api_key) throw new Error('未配置 AI 供应商密钥');
+  const scene = 'page-gen';
+  const msgs = buildMessages(prompt, mode);
+  gateBefore(userId, scene, provider.model, JSON.stringify(msgs).length, 4000);
 
   const res = await httpsPostJSON(
     provider.api_url + '/chat/completions',
     { Authorization: 'Bearer ' + provider.api_key },
     {
       model: provider.model,
-      messages: buildMessages(prompt, mode),
+      messages: msgs,
       temperature: 0.8,
       max_tokens: 4000,
       response_format: { type: 'json_object' },
@@ -183,6 +209,7 @@ async function generatePage(userId, prompt, mode) {
   const data = JSON.parse(res.text);
   const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
   if (!content) throw new Error('AI 返回为空');
+  trackAfter(userId, scene, 'generate', provider.model, data);
 
   const result = validateAndNormalize(content, mode);
   if (!result.blocks.length) throw new Error('AI 未生成有效模块,请换个描述再试');
@@ -228,13 +255,16 @@ async function copilot(userId, message, mode, blocks, selectedId) {
   if (!WF.Modes[mode]) throw new Error('未知形态:' + mode);
   const provider = loadProvider();
   if (!provider.api_key) throw new Error('未配置 AI 供应商密钥');
+  const scene = 'copilot';
+  const msgs = buildCopilotMessages(message, mode, blocks, selectedId);
+  gateBefore(userId, scene, provider.model, JSON.stringify(msgs).length, 1500);
 
   const res = await httpsPostJSON(
     provider.api_url + '/chat/completions',
     { Authorization: 'Bearer ' + provider.api_key },
     {
       model: provider.model,
-      messages: buildCopilotMessages(message, mode, blocks, selectedId),
+      messages: msgs,
       temperature: 0.7,
       max_tokens: 1500,
       response_format: { type: 'json_object' },
@@ -244,6 +274,7 @@ async function copilot(userId, message, mode, blocks, selectedId) {
   const data = JSON.parse(res.text);
   const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
   if (!content) throw new Error('AI 返回为空');
+  trackAfter(userId, scene, 'copilot', provider.model, data);
 
   const out = JSON.parse(content);
   const allowed = new Set(Object.keys(WF.Blocks).filter((t) => WF.Blocks[t].modes.includes(mode)));
@@ -276,11 +307,12 @@ async function copilot(userId, message, mode, blocks, selectedId) {
   return result;
 }
 
-// 单轮对话(供定时巡检等使用)
+// 单轮对话(供定时巡检等使用;opts.scene 决定预算场景,后台场景会熔断)
 async function chatOnce(messages, opts) {
   opts = opts || {};
   const provider = loadProvider();
   if (!provider.api_key) throw new Error('未配置 AI 供应商密钥');
+  gateBefore(opts.userId, opts.scene, provider.model, JSON.stringify(messages).length, opts.maxTokens || 1200);
   const res = await httpsPostJSON(
     provider.api_url + '/chat/completions',
     { Authorization: 'Bearer ' + provider.api_key },
@@ -288,6 +320,7 @@ async function chatOnce(messages, opts) {
   );
   if (res.status !== 200) throw new Error('AI 接口错误(HTTP ' + res.status + ')');
   const data = JSON.parse(res.text);
+  trackAfter(opts.userId, opts.scene, 'chat', provider.model, data);
   return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 }
 
@@ -356,23 +389,27 @@ async function patchOps(userId, opts) {
   if (!WF.Modes[mode]) throw new Error("未知形态:" + mode);
   const provider = loadProvider();
   if (!provider.api_key) throw new Error("未配置 AI 供应商密钥");
+  const scene = (opts && opts.scene) || (opts && opts.auto ? 'patch-auto' : 'patch');
   const brief = buildSchemaBrief(mode);
   const sys = PATCH_SYS(mode, pageBrief(WF, opts.blocks), brief.lines, opts.stats ? statsText(opts.stats) : "", opts.lessons || "");
+  const msgs = [
+    { role: "system", content: sys },
+    { role: "user", content: String((opts && opts.instruction) || "").slice(0, 900) || "帮我提升这个页面的转化率" },
+  ];
+  gateBefore(userId, scene, provider.model, JSON.stringify(msgs).length, 1600);
   const res = await httpsPostJSON(
     provider.api_url + "/chat/completions",
     { Authorization: "Bearer " + provider.api_key },
     {
       model: provider.model,
-      messages: [
-        { role: "system", content: sys },
-        { role: "user", content: String((opts && opts.instruction) || "").slice(0, 900) || "帮我提升这个页面的转化率" },
-      ],
+      messages: msgs,
       temperature: 0.6,
       max_tokens: 1600,
       response_format: { type: "json_object" },
     }
   );
   const data = JSON.parse(res.text);
+  trackAfter(userId, scene, "patch", provider.model, data);
   const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
   if (!content) throw new Error("AI 返回为空");
   let parsed;
@@ -391,4 +428,4 @@ async function patchOps(userId, opts) {
   };
 }
 
-module.exports = { generatePage, copilot, chatOnce, loadProvider, buildSchemaBrief, patchOps };
+module.exports = { generatePage, copilot, chatOnce, loadProvider, buildSchemaBrief, patchOps, setScene };

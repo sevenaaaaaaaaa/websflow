@@ -4,7 +4,7 @@
  * 说明:进程内 setInterval(30 分钟)检查到期任务(>20h 未跑)
  * ============================================================ */
 const db = require('./../db');
-const { chatOnce } = require('./ai');
+const { chatOnce, setScene } = require('./ai');
 const { notify } = require('./notify');
 const { generateSettlements, lastMonthPeriod } = require('./settlement');
 const reconcile = require('./reconcile');
@@ -12,6 +12,9 @@ const weeklyReport = require('./weekly-report');
 const alerts = require('./alerts');
 const growthAgent = require('./growth-agent');
 const selfcheck = require('./selfcheck');
+const workday = require('./workday');
+const runner = require('./runner');
+const dailyReport = require('./daily-report');
 
 const INSPECT_PROMPT = (summary) => `你是投放落地页巡检员。以下是一个正在投放的落地的模块清单与关键文案:
 ${summary}
@@ -33,7 +36,7 @@ async function runInspect(task) {
   const reply = await chatOnce([
     { role: 'system', content: '你只输出中文改进建议清单,不要 JSON,不要客套。' },
     { role: 'user', content: INSPECT_PROMPT(summary) },
-  ], { temperature: 0.5, maxTokens: 900 });
+  ], { temperature: 0.5, maxTokens: 900, scene: 'inspect', userId: task.user_id });
   return reply;
 }
 
@@ -71,12 +74,15 @@ async function pruneTick() {
 }
 
 let lastGoalAt = 0;
-// 目标驱动编排:每 30 分钟评估一次(内部按目标自身状态决定是否动作)
+// 目标驱动编排:每 30 分钟评估一次(内部按目标自身状态决定是否动作;夜间窗口内才被调度)
 async function goalTick() {
   if (Date.now() - lastGoalAt < 25 * 60 * 1000) return;
   lastGoalAt = Date.now();
   try {
-    const out = require('./orchestrator').tickAll ? await require('./orchestrator').tickAll() : [];
+    const out = await runner.run('goal-orchestrator', '目标编排评估', {}, async () => {
+      const orch = require('./orchestrator');
+      return orch.tickAll ? await orch.tickAll() : [];
+    });
     const active = out.filter((x) => ['start_round', 'propose', 'met', 'expired'].includes(x.action));
     if (active.length) console.log('[goal] 编排:', active.map((x) => `${x.action}(${x.value}→${x.target})`).join(', '));
   } catch (e) { console.error('目标编排失败:', e.message); }
@@ -162,6 +168,7 @@ function planLifecycle() {
 
 async function tick() {
   try {
+    // ---- 重要任务:每天都在(告警/对账/结算/生命周期/周报/报告) ----
     planLifecycle();
     await settlementTick();
     await reconcileTick();
@@ -169,24 +176,47 @@ async function tick() {
     await weeklyTick();
     await pruneTick();
     await probeTick();
-    await goalTick();
-    // 增长 Agent:自主跑轮(每 30 分钟检查,内部按冷却/观察期自我节流)
+    // 晨(07:30)/暮(18:30)管理员邮件报告,窗口内去重发送(休息日也发)
+    try { await dailyReport.maybeSend(); } catch (e) { console.error('日报发送失败:', e.message); }
+
+    // ---- 非重要(耗 Token)任务:仅工作日 + 夜间窗口(默认 00:00-06:00),6 点前必须结束 ----
+    const bg = workday.backgroundAllowed();
+    if (!bg.allowed) {
+      console.log(`[scheduler] 后台任务跳过:${bg.reason}`);
+      return;
+    }
+    setScene('orchestrator');
+
+    // 每日体检:窗口内执行(内部按天去重),登记台账
     try {
-      const g = await growthAgent.tickAll();
+      const done = await runner.run('selfcheck', '每日系统体检', {}, () => dailySelfCheck());
+      if (done && done.length) console.log('[selfcheck] 完成:', JSON.stringify(done).slice(0, 200));
+    } catch (e) { if (!/预算|窗口/.test(e.message)) console.error('每日体检失败:', e.message); }
+
+    await goalTick();
+    // 增长 Agent:自主跑轮(仅夜间窗口内,内部按冷却/观察期自我节流)
+    try {
+      const g = await runner.run('growth-agent', '增长 Agent 巡轮', {}, () => growthAgent.tickAll());
       const moved = g.filter((x) => x.phase || x.skip === 'insufficient-traffic' || x.skip === 'max-rounds');
       if (moved.length) console.log('[growth] 推进:', moved.map((x) => `${x.project_id.slice(0, 8)} ${x.phase || x.skip}`).join(', '));
-    } catch (e) { console.error('增长 Agent 调度失败:', e.message); }
+    } catch (e) {
+      if (!/预算|窗口/.test(e.message)) console.error('增长 Agent 调度失败:', e.message);
+      else console.log('[growth] 已按限制跳过:', e.message);
+    }
 
+    // 用户定时巡检:每条任务登记台账;临近 6 点截止就停止起新任务
     const due = db.getDueScheduledTasks(20);
     for (const t of due) {
+      if (!workday.backgroundAllowed().allowed) { console.log('[scheduler] 临近窗口截止,停止起跑新巡检'); break; }
+      const runId = runner.start('inspect', `巡检:${t.name}`, { ref: t.id, userId: t.user_id });
       try {
         const result = await runInspect(t);
-    try { await dailySelfCheck(); } catch (e) { /* 每日一次,失败不阻塞 */ }
-    // ↑ 每个 tick(30 分钟)调用,内部按天去重
+        runner.finish(runId, 'succeeded');
         db.updateScheduledRun(t.id, result);
         notify(t.user_id, 'review', `每日巡检完成:${t.name}`, String(result).slice(0, 300), '#/console');
       } catch (e) {
-        db.updateScheduledRun(t.id, '巡检失败:' + e.message);
+        runner.finish(runId, /预算|窗口/.test(e.message) ? 'skipped' : 'failed', e.message);
+        db.updateScheduledRun(t.id, (/预算|窗口/.test(e.message) ? '已按限制跳过:' : '巡检失败:') + e.message);
       }
     }
   } catch (e) {

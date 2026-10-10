@@ -370,6 +370,7 @@ window.WF = window.WF || {};
     let launch = null;
     try { launch = await WF.apiRequest("/metrics/launch"); } catch (e) { launch = null; }
     setTimeout(() => { renderSelfCheck().catch(() => {}); }, 60);
+    setTimeout(() => { loadAutomation().catch(() => {}); }, 120);
     const shared = projects.filter((p) => p.is_public).length;
     const main = $("#csMain");
     const daily = stats.daily || [];
@@ -423,6 +424,16 @@ window.WF = window.WF || {};
           </div>
           <details data-lazy="ops"><summary class="cs-side__hint" style="cursor:pointer">${esc(t("csExpandLoad"))}</summary>
             <div id="opsBox" style="margin-top:6px"><div class="cs-side__hint">–</div></div></details>
+        </div>
+        <div class="cs-card">
+          <div class="cs-card__head">
+            <div class="cs-card__title">🤖 自动化与Token</div>
+            <span class="copilot__tabs">
+              <button class="ed-btn" data-cs-act="auto-refresh">刷新</button>
+              <button class="ed-btn" data-cs-act="auto-report">发测试报告</button>
+            </span>
+          </div>
+          <div id="autoBox"><div class="cs-side__hint">⏳</div></div>
         </div>` : ""}
         <div class="cs-card">
           <div class="cs-card__head"><div class="cs-card__title">🩺 ${esc(t("csSelfCheck"))}
@@ -867,6 +878,89 @@ window.WF = window.WF || {};
       loadOps();
     } catch (e) {
       WF.toast(e.message, "error");
+    }
+  }
+
+  // ---------- 自动化与Token(管理员) ----------
+  async function loadAutomation() {
+    const box = $("#autoBox");
+    if (!box) return;
+    const me = WF.apiGetStoredUser() || {};
+    if (!me.is_admin) return;
+    try {
+      const d = await WF.apiRequest("/metrics/automation");
+      const b = d.budget || {};
+      const bar = (v, max, color) => `<span class="cs-rank__track" style="flex:1"><span class="cs-rank__fill" style="width:${max ? Math.min(100, Math.round(v / max * 100)) : 0}%;background:${color || "var(--ed-primary)"}"></span></span>`;
+      const statusDot = d.workday.background.allowed ? "🟢 执行窗口内" : "🔴 窗口外(仅夜间 0-6 点跑后台任务)";
+      const running = (d.running || []).map((r) => `
+        <div class="cs-rank">
+          <span class="cs-rank__name" style="width:auto;flex:1">▶ ${esc(r.kind)} · ${esc(r.name)}</span>
+          <span class="cs-side__hint">${esc(String(r.started_at || "").slice(11, 16))} 起</span>
+        </div>`).join("") || `<div class="cs-side__hint">当前没有正在跑的任务</div>`;
+      const recent = (d.recent || []).slice(0, 8).map((r) => {
+        const dot = r.status === "succeeded" ? "✅" : r.status === "failed" ? "❌" : r.status === "timeout" ? "⏱" : r.status === "skipped" ? "⏭" : "▶";
+        return `<div class="cs-rank">
+          <span style="width:16px">${dot}</span>
+          <span class="cs-rank__name" style="width:auto;flex:1">${esc(r.kind)} · ${esc(r.name)}</span>
+          <span class="cs-side__hint">${esc(String(r.started_at || "").slice(5, 16))}${r.note ? " · " + esc(String(r.note).slice(0, 26)) : ""}</span>
+        </div>`;
+      }).join("");
+      const maxHour = Math.max(0.0001, ...(d.hourly || []).map((h) => +h.cost || 0));
+      const hourly = (d.hourly || []).slice(-12).map((h) => `
+        <div class="cs-rank" title="${esc(h.bucket)} · ${h.n} 次调用 · ${(h.pt + h.ct).toLocaleString()} tokens">
+          <span class="cs-rank__name" style="width:64px">${esc(String(h.bucket).slice(6))}</span>
+          ${bar(+h.cost, maxHour)}
+          <span class="cs-rank__n">¥${(+h.cost).toFixed(2)}</span>
+        </div>`).join("") || `<div class="cs-side__hint">${esc(t("csNoData"))}</div>`;
+      const daily = (d.daily || []).slice(-7).map((x) => `
+        <div class="cs-rank">
+          <span class="cs-rank__name" style="width:48px">${esc(x.bucket)}</span>
+          <span class="cs-side__hint" style="flex:1">${x.n} 次 · ${(x.pt + x.ct).toLocaleString()} tokens</span>
+          <span class="cs-rank__n">¥${(+x.cost).toFixed(2)}</span>
+        </div>`).join("");
+      const topScenes = (d.top_scenes || []).slice(0, 5).map((s) => `
+        <div class="cs-rank">
+          <span class="cs-badge cs-badge--muted">${esc(s.label)}</span>
+          <span class="cs-side__hint" style="flex:1">${s.n} 次调用</span>
+          <span class="cs-rank__n">¥${(+s.cost).toFixed(2)}</span>
+        </div>`).join("");
+      const topUsers = (d.top_users || []).slice(0, 5).map((u) => `
+        <div class="cs-rank">
+          <span class="cs-badge cs-badge--muted">${esc(u.label)}</span>
+          <span class="cs-side__hint" style="flex:1">${u.n} 次调用</span>
+          <span class="cs-rank__n">¥${(+u.cost).toFixed(2)}</span>
+        </div>`).join("");
+      box.innerHTML = `
+        <div class="cs-rank" style="align-items:center">
+          <span class="cs-side__hint" style="width:auto">今日 Token</span>
+          ${bar(b.spent_cny || 0, b.limit_cny || 5, (b.pct || 0) >= 100 ? "var(--ed-danger)" : "var(--ed-primary)")}
+          <b>¥${(b.spent_cny || 0).toFixed(2)}</b><span class="cs-side__hint">/ ¥${b.limit_cny || 5}${b.override_applied ? " · 已单日调额" : ""}</span>
+        </div>
+        <div class="cs-side__hint">${statusDot} · 今天是${d.workday.is_workday ? "工作日" : "休息日(" + esc(d.workday.weekday) + ")"} · 正在跑 ${(d.running || []).length} 个任务</div>
+        <div class="cs-rank" style="align-items:center;flex-wrap:wrap">
+          <span class="cs-side__hint">单日调额 ¥</span>
+          <input class="ed-input" id="autoBudget" style="width:72px;padding:4px 8px" placeholder="${b.limit_cny || 5}" inputmode="decimal">
+          <button class="ed-btn" id="autoBudgetBtn">调额(次日恢复)</button>
+        </div>
+        <div class="cs-side__sub" style="margin-top:10px">过去 12h 流量:曝光 ${d.traffic12h.views} · 点击 ${d.traffic12h.clicks} · CVR ${d.traffic12h.cvr}% · 线索 ${d.leads12h}</div>
+        <div class="cs-side__sub" style="margin-top:8px">⏱ 正在执行</div>${running}
+        <div class="cs-side__sub" style="margin-top:8px">📋 最近任务</div>${recent}
+        <div class="cs-side__sub" style="margin-top:8px">每小时消耗(近 12h)</div>${hourly}
+        ${daily ? `<div class="cs-side__sub" style="margin-top:8px">每日消耗(近 7 天)</div>${daily}` : ""}
+        ${topScenes ? `<div class="cs-side__sub" style="margin-top:8px">🔥 消耗大户 · 场景(近 7 天)</div>${topScenes}` : ""}
+        ${topUsers ? `<div class="cs-side__sub" style="margin-top:8px">👤 消耗大户 · 用户(近 7 天)</div>${topUsers}` : ""}`;
+      const bb = $("#autoBudgetBtn");
+      if (bb) bb.onclick = async () => {
+        const v = parseFloat(($("#autoBudget") || {}).value || "");
+        if (!Number.isFinite(v) || v < 0) return WF.toast("请输入有效金额", "error");
+        try {
+          const r = await WF.apiRequest("/metrics/automation/budget", { method: "POST", body: { limit_cny: v } });
+          WF.toast(r.message, "success");
+          loadAutomation();
+        } catch (e) { WF.toast(e.message, "error"); }
+      };
+    } catch (e) {
+      box.innerHTML = `<div class="cs-side__hint">${esc(e.message)}</div>`;
     }
   }
 
@@ -2433,6 +2527,13 @@ window.WF = window.WF || {};
     if (act === "plugin-submit") return submitPlugin();
     if (act === "del-plugin") return deletePlugin(el.dataset.id, el.dataset.name);
     if (act === "task-approve") return reviewTask(el.dataset.id, "approved");
+    if (act === "auto-refresh") return loadAutomation();
+    if (act === "auto-report") {
+      WF.toast("正在生成并发送测试报告…");
+      return WF.apiRequest("/metrics/automation/report-test", { method: "POST", body: {} })
+        .then((r) => { WF.toast(r.message, "success"); loadAutomation(); })
+        .catch((e) => WF.toast(e.message, "error"));
+    }
     if (act === "task-reject") return reviewTask(el.dataset.id, "rejected");
     if (act === "task-feature") return reviewTask(el.dataset.id, "approved", el.dataset.featured === "1" ? 0 : 1);
     if (act === "del-task") return deleteTask(el.dataset.id, el.dataset.name);

@@ -1,0 +1,9 @@
+{
+  "_comment": "后台自动化运行限制(供 api/lib/workday.js 读取)。缺省值见各项;需要覆盖时在服务器上创建本文件。",
+  "daily_budget_cny": 5,
+  "user_daily_cap_cny": 2,
+  "background_workday_only": true,
+  "background_start_hour": 0,
+  "background_end_hour": 6,
+  "background_deadline_hour": 5.5
+}

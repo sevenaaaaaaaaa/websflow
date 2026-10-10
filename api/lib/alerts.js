@@ -7,11 +7,17 @@ const db = require('../db');
 const { notify, pushLark } = require('./notify');
 const openflow = require('./openflow');
 
+// 最小样本量:窗口内曝光不足时 CVR 毫无统计意义(无流量时段恒为 0%,会无限误报)
+// —— 这是"CV; 过低巡检"告警曾触发 1100+ 次的根因
+const MIN_VIEWS_FOR_CVR = 30;
+
 function metricOf(stats, rule) {
   const w = stats.windows || {};
   const win = rule.window_minutes <= 5 ? (w.m5 || w.m1 || {}) : (rule.window_minutes <= 15 ? (w.m15 || w.m5 || {}) : (w.m15 || {}));
   if (rule.metric === 'views') return win.views || 0;
   if (rule.metric === 'clicks') return win.clicks || 0;
+  // cvr:样本不足时返回 null → 一律视为未触发
+  if ((win.views || 0) < MIN_VIEWS_FOR_CVR) return null;
   return win.cvr || 0;   // cvr:百分比
 }
 
@@ -29,6 +35,7 @@ function cooldownOk(rule) {
 function evaluate(rule) {
   const stats = db.getRealtimeMetrics(rule.project_id, Math.max(rule.window_minutes, 30));
   const value = metricOf(stats, rule);
+  if (value == null) return { fired: false, value: null, skipped: '样本不足' };
   const hit = breached(value, rule);
   if (!hit || !cooldownOk(rule)) return { fired: false, value, hit };
   fire(rule, value, stats);

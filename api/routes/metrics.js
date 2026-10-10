@@ -1,13 +1,20 @@
 /* ============================================================
  * WebsFlow · 增长看板指标 (metrics.js)
- * GET /api/metrics/launch  出页时长 + 案例墙 + 周发布
+ * GET  /api/metrics/launch                出页时长 + 案例墙 + 周发布
+ * GET  /api/metrics/automation            自动化任务/Token 用量总览(管理员)
+ * POST /api/metrics/automation/budget     单日调额(管理员,次日自动失效)
+ * POST /api/metrics/automation/report-test 立即发送一封日报(管理员)
  * ============================================================ */
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
 const db = require('../db');
-const { authMiddleware } = require('../auth');
+const { authMiddleware, adminOnly } = require('../auth');
+const workday = require('../lib/workday');
+const budget = require('../lib/budget');
+const runner = require('../lib/runner');
+const dailyReport = require('../lib/daily-report');
 
 const CASES_PATH = path.join(__dirname, '..', '..', 'deliverables', 'cases.json');
 const TARGET_MINUTES = 10;
@@ -78,6 +85,52 @@ router.get('/launch', authMiddleware, (req, res) => {
     cases: loadCases(),
     live: liveCases,
   });
+});
+
+// ---------- 自动化任务与 Token 用量(管理员) ----------
+router.get('/automation', authMiddleware, adminOnly, (req, res) => {
+  try {
+    const since7d = workday.nHoursAgoUtcIso(7 * 24);
+    const wd = workday.info();
+    res.json({
+      workday: wd,
+      running: runner.runningSnapshot(),
+      recent: runner.recent(20),
+      budget: budget.overview(),
+      hourly: db.aiUsageHourly(24),
+      daily: db.aiUsageDaily(14),
+      traffic12h: db.countEventsSince(workday.nHoursAgoUtcIso(12)),
+      leads12h: db.countLeadsSince(workday.nHoursAgoUtcIso(12)),
+      top_scenes: db.aiUsageTop('scene', since7d, 8),
+      top_users: db.aiUsageTop('user_id', since7d, 8),
+    });
+  } catch (e) {
+    console.error('自动化总览失败:', e);
+    res.status(500).json({ error: '获取自动化总览失败' });
+  }
+});
+
+// 管理员单日调额:key 带日期,次日自动失效回到默认
+router.post('/automation/budget', authMiddleware, adminOnly, (req, res) => {
+  try {
+    const limit = Number((req.body || {}).limit_cny);
+    if (!Number.isFinite(limit) || limit < 0) return res.status(400).json({ error: '请输入有效的预算金额(元)' });
+    const applied = budget.setOverrideToday(limit);
+    res.json({ message: `今日预算已调整为 ¥${applied},次日自动恢复默认 ¥${workday.runtimeCfg().daily_budget_cny}`, limit_cny: applied });
+  } catch (e) {
+    res.status(500).json({ error: '调整预算失败' });
+  }
+});
+
+// 立即发送一封日报(测试/补发)
+router.post('/automation/report-test', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    const r = await dailyReport.send('instant');
+    res.json({ message: r.skipped ? `已生成报告,但邮件通道未配置(站内通知已发,收件人 ${r.to.join(', ')})` : `报告已发送给 ${r.sent} 位管理员`, data: { today: r.data.today } });
+  } catch (e) {
+    console.error('测试报告失败:', e);
+    res.status(500).json({ error: '发送报告失败:' + e.message });
+  }
 });
 
 module.exports = router;
