@@ -15,6 +15,7 @@ const BACKGROUND_SCENES = new Set(['inspect', 'growth', 'orchestrator', 'selfche
 
 function overrideKey(date) { return `budget:override:${date || workday.bj().date}`; }
 function alertedKey(date) { return `budget:alerted:${date || workday.bj().date}`; }
+function callsAlertedKey(date) { return `budget:calls-alerted:${date || workday.bj().date}`; }
 
 // 当日有效预算:单日覆盖 > 默认
 function limitCny(date) {
@@ -22,6 +23,9 @@ function limitCny(date) {
   if (o != null && Number(o) > 0) return Number(o);
   return Number(workday.runtimeCfg().daily_budget_cny) || 5;
 }
+
+// 当日后台调用次数上限(次数与钱是两条独立熔断线:钱不够是余额问题,次数多是"傻傻空转"问题)
+function callsCap() { return Math.max(0, Number(workday.runtimeCfg().background_daily_calls) || 0); }
 
 // 管理员单日调额(写入今天,key 带日期,次日自然失效)
 function setOverrideToday(limitCny) {
@@ -65,7 +69,27 @@ function check(o) {
       return Object.assign({ allowed: false, reason: `该用户今日后台消耗已达上限(¥${mine.cost.toFixed(2)}/¥${cap})` }, base);
     }
   }
+
+  // 后台每日调用次数上限:防止"每次只花几分钱却一直空转"的慢性消耗
+  const callCap = callsCap();
+  if (isBackground(scene) && callCap > 0 && today.calls >= callCap) {
+    alertCallsOnce(today, callCap);
+    return Object.assign({ allowed: false, reason: `今日后台 AI 调用次数已达上限(${today.calls}/${callCap} 次),明日自动恢复` }, base);
+  }
   return Object.assign({ allowed: true }, base);
+}
+
+// 次数触顶邮件 + 站内提醒(每天一次,与金额告警独立)
+function alertCallsOnce(today, cap) {
+  const key = callsAlertedKey();
+  if (db.opsGet(key)) return;
+  db.opsSet(key, new Date().toISOString());
+  const txt = `今日后台 AI 调用已达 ${cap} 次上限(实际 ${today.calls} 次),剩余后台任务将熔断跳过,明日 0 点自动恢复。` +
+    `若属正常业务量,可在 runtime-limits.json 调高 background_daily_calls。`;
+  notifyAdmins('review', '🔁 后台调用次数触顶', txt, '#/console');
+  adminEmails().forEach((to) => {
+    mailer.send(to, `[WebsFlow] 后台调用次数触顶 ${today.calls}/${cap}`, txt).catch(() => {});
+  });
 }
 
 // 超预算邮件 + 站内提醒(每天一次)
@@ -109,6 +133,7 @@ function overview() {
   return {
     spent_cny: Math.round(today.cost * 100) / 100,
     calls: today.calls,
+    calls_cap: callsCap() || null,
     tokens: today.tokens,
     limit_cny: limit,
     remaining_cny: Math.max(0, Math.round((limit - today.cost) * 100) / 100),

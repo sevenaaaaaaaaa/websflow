@@ -40,6 +40,26 @@ async function runInspect(task) {
   return reply;
 }
 
+// 巡检退避:连续失败 ≥3 次 → 24h 内不再重试(如 AI 余额不足,别每个 tick 傻傻重烧)
+const INSPECT_BK = (id) => `inspect:backoff:${id}`;
+function inspectBackedOff(id) {
+  try {
+    const raw = db.opsGet(INSPECT_BK(id));
+    if (!raw) return false;
+    const b = JSON.parse(raw);
+    if (Date.now() - b.first >= 24 * 3600 * 1000) { db.opsDel(INSPECT_BK(id)); return false; }
+    return true;
+  } catch (e) { return false; }
+}
+function inspectRecordFail(id, msg) {
+  try {
+    const prev = JSON.parse(db.opsGet(INSPECT_BK(id)) || 'null');
+    const n = (prev && prev.n ? prev.n : 0) + 1;
+    if (n >= 3) db.opsSet(INSPECT_BK(id), JSON.stringify({ n, first: prev && prev.first ? prev.first : Date.now(), lastErr: String(msg).slice(0, 120) }));
+  } catch (e) {}
+}
+function inspectRecordOk(id) { try { db.opsDel(INSPECT_BK(id)); } catch (e) {} }
+
 // 套餐生命周期:到期前 7/3/1 天提醒 + 到期自动降级(每 6 小时检查一次)
 let lastWeeklyAt = 0;
 
@@ -179,6 +199,19 @@ async function tick() {
     // 晨(07:30)/暮(18:30)管理员邮件报告,窗口内去重发送(休息日也发)
     try { await dailyReport.maybeSend(); } catch (e) { console.error('日报发送失败:', e.message); }
 
+    // ---- 收敛与评估(零 AI 消耗):全天运行,不占夜间窗口 ----
+    // 1) 收敛孤儿轮:配置已删/评估无人认领、挂起超 72h 的 running 轮强制结束,防止永久堆积
+    try {
+      const stale = await growthAgent.concludeStaleRuns();
+      if (stale.concluded) console.log(`[growth] 孤儿轮清理:收敛 ${stale.concluded}/${stale.scanned}`);
+    } catch (e) { console.error('孤儿轮清理失败:', e.message); }
+    // 2) 只评估进行中的实验(判断是否已出结果),不提假设、不起新轮 —— 白天也能正常收官
+    try {
+      const g = await growthAgent.tickAll(null, { evaluateOnly: true });
+      const waiting = g.filter((x) => x.phase === 'waiting');
+      if (waiting.length) console.log(`[growth] 评估模式:${waiting.length} 个实验进行中(零 AI)`);
+    } catch (e) { console.error('增长评估失败:', e.message); }
+
     // ---- 非重要(耗 Token)任务:仅工作日 + 夜间窗口(默认 00:00-06:00),6 点前必须结束 ----
     const bg = workday.backgroundAllowed();
     if (!bg.allowed) {
@@ -208,15 +241,18 @@ async function tick() {
     const due = db.getDueScheduledTasks(20);
     for (const t of due) {
       if (!workday.backgroundAllowed().allowed) { console.log('[scheduler] 临近窗口截止,停止起跑新巡检'); break; }
+      if (inspectBackedOff(t.id)) { console.log(`[scheduler] 巡检退避中,跳过:${t.name}`); continue; }
       const runId = runner.start('inspect', `巡检:${t.name}`, { ref: t.id, userId: t.user_id });
       try {
         const result = await runInspect(t);
         runner.finish(runId, 'succeeded');
         db.updateScheduledRun(t.id, result);
+        inspectRecordOk(t.id);
         notify(t.user_id, 'review', `每日巡检完成:${t.name}`, String(result).slice(0, 300), '#/console');
       } catch (e) {
         runner.finish(runId, /预算|窗口/.test(e.message) ? 'skipped' : 'failed', e.message);
         db.updateScheduledRun(t.id, (/预算|窗口/.test(e.message) ? '已按限制跳过:' : '巡检失败:') + e.message);
+        inspectRecordFail(t.id, e.message);   // 累计 3 次失败 → 24h 退避
       }
     }
   } catch (e) {

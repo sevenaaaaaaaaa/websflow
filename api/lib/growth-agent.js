@@ -275,7 +275,10 @@ async function evaluateRound(cfg, run) {
 
 // ---------- 主流程:推进一个项目 ----------
 // planner: async ({project, stats, cfg}) => {ops, hypothesis, goal, reply}
-async function tickProject(cfg, deps) {
+// opts.evaluateOnly=true 时只做「风险闸门 + 评估进行中的轮」(零 AI 消耗),
+// 不提假设/不起轮 —— 供白天(窗口外)收敛已有实验用,起新轮仍锁在夜间窗口内。
+async function tickProject(cfg, deps, opts) {
+  const evaluateOnly = !!(opts && opts.evaluateOnly);
   const planner = (deps && deps.planner) || defaultPlanner;
   const projectId = cfg.project_id;
   const project = db.getProject(projectId, cfg.user_id);
@@ -301,6 +304,22 @@ async function tickProject(cfg, deps) {
     const ev = await evaluateRound(cfg, active);
     if (!ev.closed) return { phase: 'waiting', round: active.round, ageH: ev.ageH, stats: { va: ev.st.va, vb: ev.st.vb } };
   }
+  // 评估模式到此为止:收敛完已有实验即返回,不进入"起新轮"的 AI 消耗环节
+  if (evaluateOnly) return { phase: 'evaluated-only', evaluated: !!active };
+
+  // 1.5) planner 失败退避:AI 持续报错(如余额不足 402)时,不要每个 tick 傻傻重试
+  const bkKey = `growth:backoff:${projectId}`;
+  try {
+    const bkRaw = db.opsGet(bkKey);
+    if (bkRaw) {
+      const bk = JSON.parse(bkRaw);
+      const ageH = (Date.now() - bk.first) / 3600e3;
+      if (bk.n >= 2 && ageH < 24) {
+        return { skip: 'planner-backoff', waitH: Math.ceil(24 - ageH), lastErr: String(bk.lastErr || '').slice(0, 80) };
+      }
+      if (ageH >= 24) db.opsDel(bkKey);   // 退避窗口过了,给一次新的机会
+    }
+  } catch (e) { /* 计数损坏不影响主流程 */ }
 
   // 2) 是否可以开新一轮
   const runs = db.listGrowthRuns(projectId, 200);
@@ -337,8 +356,17 @@ async function tickProject(cfg, deps) {
   try {
     plan = await planner({ project, stats, cfg, round: finished.length + 1, lessonsText, recent: projectRuns, objective: cfg.objective || 'cta_click' });
   } catch (e) {
+    // 记录连续失败,达到阈值触发退避(24h 内不再尝试起新轮)
+    try {
+      const bkKey = `growth:backoff:${projectId}`;
+      const prev = JSON.parse(db.opsGet(bkKey) || 'null');
+      const n = (prev && prev.n ? prev.n : 0) + 1;
+      db.opsSet(bkKey, JSON.stringify({ n, first: prev && prev.first ? prev.first : Date.now(), lastErr: e.message }));
+    } catch (e2) { /* 忽略 */ }
     return { skip: 'planner-failed', error: e.message };
   }
+  // planner 成功:清除失败退避计数
+  try { db.opsDel(`growth:backoff:${projectId}`); } catch (e) {}
   const ops = (plan && plan.ops) || [];
   if (!ops.length) return { skip: 'no-usable-ops' };
 
@@ -386,12 +414,39 @@ async function defaultPlanner({ project, stats, round, lessonsText, recent, obje
 }
 
 // 调度入口:遍历所有启用的配置
-async function tickAll(deps) {
+// 全局清理:把"孤儿轮"(项目配置已删/评估不再触达,却永久挂 running)强制收敛。
+// 不依赖项目配置存在、零 AI 消耗,超时上限默认 72h(最小 24h)。
+async function concludeStaleRuns(opts) {
+  const hours = Math.max(24, Number((opts && opts.hours) || 72));
+  const stale = db.listStaleRunningRuns(hours);
+  const concluded = [];
+  for (const r of stale) {
+    try {
+      db.concludeGrowthRun(r.id, 'concluded',
+        `超时自动收敛:轮次挂起超过 ${hours} 小时(启动于 ${r.started_at})`, 'timeout');
+      // 通知项目主人,避免"实验永远跑着"的错觉
+      try {
+        const proj = db.getProject(r.project_id);
+        if (proj && proj.user_id) {
+          notify.notify(proj.user_id, 'growth',
+            `增长实验已超时收敛`,
+            `第 ${r.round} 轮挂起超过 ${hours} 小时(项目配置可能已删除),已自动结束,不再占用运行位。`,
+            `/console#/project/${r.project_id}`);
+        }
+      } catch (e) { /* 通知失败不影响收敛 */ }
+      concluded.push({ id: r.id, project_id: r.project_id, round: r.round });
+    } catch (e) { /* 单条失败继续 */ }
+  }
+  if (concluded.length) console.log(`[growth-agent] 收敛超时孤儿轮 ${concluded.length}/${stale.length} 个(>${hours}h)`);
+  return { scanned: stale.length, concluded };
+}
+
+async function tickAll(deps, opts) {
   const cfgs = db.listGrowthConfigs(true);
   const out = [];
   for (const cfg of cfgs) {
     try {
-      const r = await tickProject(cfg, deps);
+      const r = await tickProject(cfg, deps, opts);
       db.touchGrowthTick(cfg.project_id);
       if (r && !r.skip) out.push({ project_id: cfg.project_id, ...r });
     } catch (e) {
@@ -429,4 +484,4 @@ function rejectProposal(proposalId, userId, reason) {
   return { ok: true, status: 'rejected' };
 }
 
-module.exports = { tickProject, tickAll, defaultPlanner, approveProposal, rejectProposal, startRound, createProposal, checkGuards, evaluateRound, stampGoal, stampObjective, countsFor, toStatsCounts, checkGuards, OBJECTIVES, blocksOf, MIN_SAMPLE };
+module.exports = { tickProject, tickAll, concludeStaleRuns, defaultPlanner, approveProposal, rejectProposal, startRound, createProposal, checkGuards, evaluateRound, stampGoal, stampObjective, countsFor, toStatsCounts, checkGuards, OBJECTIVES, blocksOf, MIN_SAMPLE };

@@ -3101,6 +3101,14 @@ function getActiveGrowthRun(projectId) {
   const r = queryOne("SELECT * FROM growth_runs WHERE project_id = ? AND status = 'running' ORDER BY started_at DESC LIMIT 1", [projectId]);
   return r ? getGrowthRun(r.id) : null;
 }
+
+// 全局超时轮次(跨项目、不看配置是否存在):用于收敛"配置已删/已停"的孤儿轮,
+// 防止 running 轮永久堆积、评估永远无人认领
+function listStaleRunningRuns(hours) {
+  const h = Math.max(24, Number(hours) || 72);
+  return query(`SELECT * FROM growth_runs WHERE status = 'running' AND started_at < datetime('now', '-${h} hours') LIMIT 500`)
+    .map(hydrateRun);
+}
 function concludeGrowthRun(id, status, result, decision) {
   run("UPDATE growth_runs SET status=?, result=?, decision=?, concluded_at=datetime('now') WHERE id=?",
     [status, JSON.stringify(result || {}), decision || null, id]);
@@ -3320,6 +3328,7 @@ module.exports = {
   listGrowthRuns,
   listGrowthRunsForUser,
   getActiveGrowthRun,
+  listStaleRunningRuns,
   concludeGrowthRun,
   createLayoutPreset,
   getLayoutPresets,
