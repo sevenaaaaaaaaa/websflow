@@ -203,7 +203,7 @@ async function tick() {
     // 1) 收敛孤儿轮:配置已删/评估无人认领、挂起超 72h 的 running 轮强制结束,防止永久堆积
     try {
       const stale = await growthAgent.concludeStaleRuns();
-      if (stale.concluded) console.log(`[growth] 孤儿轮清理:收敛 ${stale.concluded}/${stale.scanned}`);
+      if (stale.concluded && stale.concluded.length) console.log(`[growth] 孤儿轮清理:收敛 ${stale.concluded.length}/${stale.scanned} 个(id:${stale.concluded.slice(0, 5).map((x) => x.id.slice(0, 8)).join(',')}${stale.concluded.length > 5 ? '…' : ''})`);
     } catch (e) { console.error('孤儿轮清理失败:', e.message); }
     // 2) 只评估进行中的实验(判断是否已出结果),不提假设、不起新轮 —— 白天也能正常收官
     try {
