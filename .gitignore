@@ -21,3 +21,7 @@ data/
 *.key
 *.sqlite
 *.sqlite3
+
+# Tool-usage workspace (scripts/batches/data made while *using* WebsFlow).
+# Never on GitHub; scripts/sync.sh pushes it to the server at /www/ops/websflow/ (outside the web root).
+/ops/

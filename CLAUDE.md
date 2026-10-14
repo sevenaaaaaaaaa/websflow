@@ -71,6 +71,18 @@ bash scripts/sync.sh from-server        # 服务器 → 本地
 - 其他形态：`Dockerfile` + `docker-compose.yml`（`docker compose up -d --build`，端口 3001，数据卷 `/data`），详见 `docs/DEPLOY.md`
 - `scripts/kiwi-snapshot.sh`：KiwiVM（搬瓦工）快照工具，凭据在 `~/.kiwivm.env`
 
+## 开发工具 vs 使用工具（硬性规则）
+
+WebsFlow 既是在开发的产品，也是每天在用的工具。两类产物必须分开：
+
+| 类别 | 例子 | 放哪 | GitHub | 服务器 |
+|---|---|---|---|---|
+| 开发工具（产品代码） | `api/`、`js/`、`css/`、`mcp/`、`scripts/` 等 | 原目录 | ✅ | ✅（Web 根 `/www/wwwroot/websflow`） |
+| 使用工具的产物 | 运营/SEO 批处理脚本、批次文件、一次性修复脚本、导出数据 | **`ops/`** | ❌ | ✅ 仅 `/www/ops/websflow/`（Web 根之外，只增不删） |
+
+- `/ops/` 已 gitignore，且被排除在 Web 根 rsync 之外；`scripts/sync.sh` 单独用 `rsync --update` 把它送到 `/www/ops/websflow/`（先预演、确认后写入，`--dry-run` 只预览）。
+- 拿不准时按第二类处理（放 `ops/`，不进 GitHub），再问用户。
+
 ## 注意事项
 
 - 环境变量（仅名称）：`PORT`、`JWT_SECRET`（生产必改）、`WF_DB_PATH`、`WF_DB_DRIVER`、`WEBSFLOW_ADMINS`、`WEBSFLOW_AI_KEY`、`WEBSFLOW_LARK_WEBHOOK`、`WF_RAW_EVENT_DAYS`、`WF_LLM_TIMEOUT_MS`、`WF_JOURNAL_COMPACT_MS`、`WF_JOURNAL_COMPACT_WRITES`

@@ -12,6 +12,7 @@
 #   bash scripts/sync.sh diff                只看差异,不动任何东西
 #   bash scripts/sync.sh from-server         服务器 → 本地(服务器是代码真源)
 #
+# ops/(gitignored)若非空,另行 rsync --update 到服务器 $OPS_PATH(默认 /www/ops/websflow,Web 根之外,不删远端)
 # 主机配置读自 .sync.conf(gitignored,模板见 .sync.conf.example);缺省值见下方。
 #
 # 安全约定(硬性):
@@ -35,7 +36,9 @@ HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:3001/api/health}"
 EXCL=(--exclude=.git --exclude=.gitignore --exclude=node_modules --exclude=.DS_Store
       --exclude=.preview --exclude=data --exclude='*.db' --exclude='*.db.journal'
       --exclude='*-config.json' --exclude='*.log' --exclude='*.bak*' --exclude=.sync.conf
-      --exclude=CLAUDE.md --exclude=AGENTS.md --exclude='.sync.conf.example' --exclude='.env*' --exclude=.gitleaksignore)
+      --exclude=CLAUDE.md --exclude=AGENTS.md --exclude='.sync.conf.example' --exclude='.env*' --exclude=.gitleaksignore
+      --exclude=/ops/)   # ops/ = tool-usage workspace, synced separately outside the web root (see do_ops)
+OPS_PATH="${OPS_PATH:-/www/ops/websflow}"        # 服务器上 ops/ 的落点(Web 根之外)
 
 SSH=(ssh -o ConnectTimeout=15 "$SERVER")
 RSH=(rsync -azc -e ssh)   # -c:按 checksum 判断;ssh 选项交给下面的 SSH 数组(openrsync 不认 -e 里带选项)
@@ -95,7 +98,7 @@ do_github() {  # $1 = 提交信息
   if [ ! -d .git ]; then say "· 本地还不是 git 仓库,跳过 GitHub"; return 0; fi
   if ! git remote get-url origin >/dev/null 2>&1; then say "· 未配置 origin,跳过 GitHub"; return 0; fi
   local br; br="$(git rev-parse --abbrev-ref HEAD)"
-  if [ "$br" != "main" ]; then say "✗ 当前分支是 $br,不是 main;GitHub 轨只推 main,已中止"; return 1; fi
+  if [ "$br" != "main" ]; then say "✗ 当前分支 ${br}，部署只允许从 main 进行；功能分支请先合并"; return 1; fi
   git add -A
   if git diff --cached --quiet; then say "· GitHub:没有改动"; return 0; fi
   say "=== gitleaks 扫描暂存区 ==="
@@ -121,6 +124,23 @@ do_server() {
   if needs_restart "$prev"; then restart_node; else
     say "· 本次未触及 api/ 代码,无需重启(如改了前端 js/css,浏览器带 ?v= 版本号即时生效)"
   fi
+}
+
+# ops/:使用工具的产物(批处理脚本/批次/导出),gitignored,只进服务器 $OPS_PATH(Web 根之外)
+#   --update + 不带 --delete:服务器上更新的版本不被覆盖,远端文件绝不删除;ops/ 为空时静默跳过
+do_ops() {
+  [ -d ops ] && [ -n "$(find ops -mindepth 1 ! -name .DS_Store -print -quit)" ] || return 0
+  local ops_rsh=("${RSH[@]}" --update --exclude=.DS_Store --rsync-path="mkdir -p $OPS_PATH && rsync")
+  local raw out
+  raw="$("${ops_rsh[@]}" -n --itemize-changes ops/ "$SERVER:$OPS_PATH/")" || { say "✗ ops/ 预演失败(连不上 $SERVER?)"; return 1; }
+  out="$(printf '%s\n' "$raw" | awk '$1 ~ /^[<>]f/ {print "  " $2}')"
+  if [ -z "$out" ]; then say "· ops/:服务器已是最新"; return 0; fi
+  say "=== 预演:ops/ → $SERVER:$OPS_PATH(--update,只增不删) ==="
+  printf '%s\n' "$out" | head -40
+  if [ "$DRY_RUN" = 1 ]; then say "· --dry-run:ops/ 未写入"; return 0; fi
+  if ! confirm "写入 $SERVER:$OPS_PATH ?"; then say "· 已跳过 ops/"; return 0; fi
+  "${ops_rsh[@]}" ops/ "$SERVER:$OPS_PATH/"
+  say "✓ ops/ 已同步到 $OPS_PATH"
 }
 
 DRY_RUN=0; SERVER_ONLY=0; MSG=""; MODE=""
@@ -167,10 +187,13 @@ case "$MODE" in
 
   deploy)
     do_server
+    do_ops
     ;;
 
   *)
     if [ "$DRY_RUN" = 1 ]; then
+      br="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+      [ "$br" = main ] || say "⚠ 当前分支 ${br}，非 main:dry-run 仅预演,正式部署只允许从 main 进行"
       say "=== --dry-run:待提交改动 ==="
       git --no-pager status -s | head -30
       say "=== gitleaks 扫描工作区改动 ==="
@@ -180,5 +203,6 @@ case "$MODE" in
       do_github "$MSG"
     fi
     do_server
+    do_ops
     ;;
 esac
