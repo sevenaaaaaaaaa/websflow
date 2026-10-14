@@ -10,3 +10,14 @@ api/notify-config.json
 api/mail-config.json
 data/
 *.bak*
+
+# 本地部署主机配置(模板见 .sync.conf.example)
+.sync.conf
+# 本地密钥 / 环境文件
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.sqlite
+*.sqlite3
