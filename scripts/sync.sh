@@ -100,12 +100,18 @@ do_github() {  # $1 = 提交信息
   local br; br="$(git rev-parse --abbrev-ref HEAD)"
   if [ "$br" != "main" ]; then say "✗ 当前分支 ${br}，部署只允许从 main 进行；功能分支请先合并"; return 1; fi
   git add -A
-  if git diff --cached --quiet; then say "· GitHub:没有改动"; return 0; fi
-  say "=== gitleaks 扫描暂存区 ==="
-  leak_scan staged
-  say "=== 将要提交 ==="
-  git --no-pager diff --cached --stat | tail -12
-  git commit -q -m "$1"
+  if git diff --cached --quiet; then
+    say "· GitHub:没有新改动"
+  else
+    say "=== gitleaks 扫描暂存区 ==="
+    leak_scan staged
+    say "=== 将要提交 ==="
+    git --no-pager diff --cached --stat | tail -12
+    git commit -q -m "$1"
+  fi
+  # Push whenever local main is ahead — commits made earlier (or by other tools) must not be left behind.
+  git fetch -q origin main 2>/dev/null || true
+  if [ -z "$(git rev-list origin/main..HEAD 2>/dev/null)" ]; then say "· GitHub:已是最新"; return 0; fi
   if git push -q origin main; then
     say "✓ 已推送 GitHub(main)"
   else
