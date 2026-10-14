@@ -186,6 +186,12 @@ case "$MODE" in
     ;;
 
   deploy)
+    # --server-only also ships code to production: main only (dry-run: warn only)
+    br="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+    if [ "$br" != main ]; then
+      if [ "$DRY_RUN" = 1 ]; then say "⚠ 当前分支 ${br}，非 main：dry-run 仅预演，正式部署只允许从 main 进行"
+      else say "✗ 当前分支 ${br}，部署只允许从 main 进行；功能分支请先合并"; exit 1; fi
+    fi
     do_server
     do_ops
     ;;
