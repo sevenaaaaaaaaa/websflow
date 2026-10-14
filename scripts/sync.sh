@@ -34,7 +34,8 @@ HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:3001/api/health}"
 # 运行时文件 + 噪音:任何方向都不动
 EXCL=(--exclude=.git --exclude=.gitignore --exclude=node_modules --exclude=.DS_Store
       --exclude=.preview --exclude=data --exclude='*.db' --exclude='*.db.journal'
-      --exclude='*-config.json' --exclude='*.log' --exclude='*.bak*' --exclude=.sync.conf)
+      --exclude='*-config.json' --exclude='*.log' --exclude='*.bak*' --exclude=.sync.conf
+      --exclude=CLAUDE.md --exclude=AGENTS.md --exclude='.sync.conf.example' --exclude='.env*' --exclude=.gitleaksignore)
 
 SSH=(ssh -o ConnectTimeout=15 "$SERVER")
 RSH=(rsync -azc -e ssh)   # -c:按 checksum 判断;ssh 选项交给下面的 SSH 数组(openrsync 不认 -e 里带选项)
